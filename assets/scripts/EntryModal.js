@@ -84,6 +84,7 @@ export class EntryModal {
                 input = document.createElement('textarea');
                 if (field.label === 'Notes') {
                     input.className = 'notes-field';
+                    inputCell.className = 'notes-cell';
                 }
             } else {
                 input = document.createElement('input');
@@ -94,24 +95,30 @@ export class EntryModal {
             inputCell.appendChild(input);
             tr.appendChild(inputCell);
 
-            const dashCell = document.createElement('td');
-            dashCell.className = 'separator';
-            dashCell.textContent = field.noComment ? '' : '-';
-            tr.appendChild(dashCell);
+            // For Notes field, only create 3 cells; for others, create 5
+            if (field.label !== 'Notes') {
+                const dashCell = document.createElement('td');
+                dashCell.className = 'separator';
+                dashCell.textContent = field.noComment ? '' : '-';
+                tr.appendChild(dashCell);
 
-            const commentCell = document.createElement('td');
-            if (!field.noComment) {
-                const commentInput = document.createElement('textarea');
-                commentInput.className = 'comment-input';
-                commentInput.name = field.label + '_comment';
-                commentCell.appendChild(commentInput);
+                const commentCell = document.createElement('td');
+                if (!field.noComment) {
+                    const commentInput = document.createElement('textarea');
+                    commentInput.className = 'comment-input';
+                    commentInput.name = field.label + '_comment';
+                    commentCell.appendChild(commentInput);
+                } else {
+                    commentCell.className = 'empty-cell';
+                }
+                tr.appendChild(commentCell);
+
+                formData[field.label] = { input, comment: !field.noComment };
             } else {
-                commentCell.className = 'empty-cell';
+                formData[field.label] = { input, comment: false };
             }
-            tr.appendChild(commentCell);
 
             table.appendChild(tr);
-            formData[field.label] = { input, comment: !field.noComment };
         });
 
         modal.appendChild(table);
@@ -279,6 +286,7 @@ export class EntryModal {
                 input = document.createElement('textarea');
                 if (field.label === 'Notes') {
                     input.className = 'notes-field';
+                    inputCell.className = 'notes-cell';
                 }
             } else {
                 input = document.createElement('input');
@@ -289,21 +297,24 @@ export class EntryModal {
             inputCell.appendChild(input);
             tr.appendChild(inputCell);
 
-            const dashCell = document.createElement('td');
-            dashCell.className = 'separator';
-            dashCell.textContent = !field.noComment ? '-' : '';
-            tr.appendChild(dashCell);
+            // For Notes field, only create 3 cells; for others, create 5
+            if (field.label !== 'Notes') {
+                const dashCell = document.createElement('td');
+                dashCell.className = 'separator';
+                dashCell.textContent = !field.noComment ? '-' : '';
+                tr.appendChild(dashCell);
 
-            const commentCell = document.createElement('td');
-            if (!field.noComment) {
-                const commentInput = document.createElement('textarea');
-                commentInput.className = 'comment-input';
-                commentInput.name = field.label + '_comment';
-                commentCell.appendChild(commentInput);
-            } else {
-                commentCell.className = 'empty-cell';
+                const commentCell = document.createElement('td');
+                if (!field.noComment) {
+                    const commentInput = document.createElement('textarea');
+                    commentInput.className = 'comment-input';
+                    commentInput.name = field.label + '_comment';
+                    commentCell.appendChild(commentInput);
+                } else {
+                    commentCell.className = 'empty-cell';
+                }
+                tr.appendChild(commentCell);
             }
-            tr.appendChild(commentCell);
 
             table.appendChild(tr);
             formData[field.label] = input;
@@ -799,11 +810,71 @@ export class EntryModal {
     async appendAndSave(content, overlay) {
         try {
             const currentText = this.editor.textarea.value;
-            const newText = currentText + (currentText ? '\n' : '') + content;
 
-            // Calculate positions for highlighting
-            const startPosition = currentText.length + (currentText ? 1 : 0);
-            const endPosition = newText.length;
+            // Extract date from content (format: YYYY-MM-DD: ...)
+            const dateMatch = content.match(/^(\d{4}-\d{2}-\d{2})/);
+            const newDate = dateMatch ? dateMatch[1] : null;
+
+            let newText;
+            let startPosition;
+            let endPosition;
+
+            if (!newDate) {
+                // Fallback to appending if date parsing fails
+                newText = currentText + (currentText ? '\n\n' : '') + content;
+                startPosition = currentText.length + (currentText ? 2 : 0);
+                endPosition = newText.length;
+            } else {
+                // Find the chronological position to insert
+                const lines = currentText.split('\n');
+                let insertIndex = -1;
+                let emptyLineOffset = 0;
+
+                // Find where this entry should go by date
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    const lineDateMatch = line.match(/^(\d{4}-\d{2}-\d{2})/);
+
+                    if (lineDateMatch) {
+                        const lineDate = lineDateMatch[1];
+                        if (newDate > lineDate) {
+                            // New entry is newer, keep looking
+                            insertIndex = i;
+                        } else if (newDate < lineDate) {
+                            // New entry is older, insert before this entry
+                            break;
+                        }
+                    }
+                }
+
+                let resultText;
+                if (insertIndex === -1) {
+                    // Prepend at the beginning
+                    resultText = content + (currentText ? '\n\n' + currentText : '');
+                    startPosition = 0;
+                } else {
+                    // Insert after the entry at insertIndex
+                    // Find the end of that entry (next empty line or entry)
+                    let endOfEntry = insertIndex + 1;
+                    while (endOfEntry < lines.length && lines[endOfEntry].trim() !== '' && !lines[endOfEntry].match(/^\d{4}-\d{2}-\d{2}/)) {
+                        endOfEntry++;
+                    }
+
+                    // Skip empty lines between entries
+                    while (endOfEntry < lines.length && lines[endOfEntry].trim() === '') {
+                        endOfEntry++;
+                    }
+
+                    const beforeLines = lines.slice(0, endOfEntry);
+                    const afterLines = lines.slice(endOfEntry);
+
+                    resultText = beforeLines.join('\n') + (beforeLines.length > 0 ? '\n\n' : '') + content + (afterLines.length > 0 ? '\n\n' + afterLines.join('\n') : '');
+                    startPosition = beforeLines.join('\n').length + (beforeLines.length > 0 ? 2 : 0);
+                }
+
+                newText = resultText;
+                endPosition = startPosition + content.length;
+            }
 
             this.editor.textarea.value = newText;
 

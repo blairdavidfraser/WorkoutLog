@@ -1,0 +1,81 @@
+{
+    "name": "Workout Log",
+    "short_name": "Workout Log",
+    "description": "Track your daily workouts, cardio, strength training, and health metrics",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#ffffff",
+    "theme_color": "#d32f2f",
+    "icons": [
+        {
+            "src": "assets/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "assets/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "assets/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "form_factor": "narrow"
+        }
+    ],
+    "categories": [
+        "fitness",
+        "health"
+    ],
+    "shortcuts": [
+        {
+            "name": "Add Daily Log",
+            "short_name": "Daily Log",
+            "description": "Quick access to add a daily log entry",
+            "url": "/?action=daily",
+            "icons": [
+                {
+                    "src": "assets/icons/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Add Cardio Entry",
+            "short_name": "Cardio",
+            "description": "Quick access to add a cardio entry",
+            "url": "/?action=cardio",
+            "icons": [
+                {
+                    "src": "assets/icons/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Add Strength Entry",
+            "short_name": "Strength",
+            "description": "Quick access to add a strength entry",
+            "url": "/?action=strength",
+            "icons": [
+                {
+                    "src": "assets/icons/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}

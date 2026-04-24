@@ -1056,7 +1056,7 @@ Leg extension : 3x10 @ 120 lb
 Weighted hip hinge: 3x10 @ 30 lb
 Pain: 0
 
-2025-12-30: Meditation | Duration: 20:00
+2025-12-30 PM - Meditation | Duration: 20:00
 
 2025-12-31: Daily
 Weight: 190 | Waist: 34 
@@ -1177,7 +1177,7 @@ Notes: All six felt like quality work.  Not all out, but hard and smooth.
 
 2026-01-06: Yoga | Duration: 45:00 
 
-2026-01-06: Meditation | Duration: 10:00
+2026-01-06 PM: Meditation | Duration: 10:00
 
 2026-01-07: Daily
 Weight: 191 | Waist: 34.5 
@@ -1282,8 +1282,11 @@ Pain: 0 -- Some back pain, but general, not related to any exercise today.
 Breakfast: 2 eggs, small toast with honey, grapefruit 
 Lunch: 1/2 cup lentils, can sardines, toast
 Dinner: Sushi plate, small cheesecake dessert
-AM Snacks: 1/2 cup cottage cheese post workout. Kind granola bar.
-PM Snacks: 4 cheese and crackers. ~15 mixed nuts. 8 cheese and crackers
+AM Snacks: 1/2 cup cottage cheese post workout 
+AM Snacks: Kind granola bar
+PM Snacks: 4 cheese and crackers
+PM Snacks: ~15 mixed nuts
+PM Snacks: 8 cheese and crackers
 Alcohol: 1 negroni
 Notes: Breakfast before workout.
 
@@ -1305,7 +1308,10 @@ Breakfast: One egg and cheese on bun
 Lunch: cheese on toast, tomatoes 
 Dinner: Tofu, chickpea, coconut milk curry with rice
 AM Snacks: Kind granola bar
-PM Snacks: Protein shake post workout. Chocolate brownie. Half cup fermented coleslaw. 10 nuts
+PM Snacks: Protein shake post workout
+PM Snacks: Chocolate brownie
+PM Snacks: Half cup fermented coleslaw 
+PM Snacks: 10 nuts
 Notes: Breakfast before workout.
 
 2026-01-12: Daily
@@ -2094,7 +2100,7 @@ Avg HR: 138
 Pain: 2
 Notes: Pushed a bit more. Balance improving. 
 
-2026-02-25: Row
+2026-02-25 PM: Row
 RPE: 3 | Distance: 10.020 | Duration: 1:04:05
 Avg HR: 135
 Pain: 3
@@ -2629,7 +2635,7 @@ Pain: 1 -- Back stiffness not soreness.
 
 2026-04-04: Erg
 RPE: 8 | Distance: 9.722 | Duration: 59:00 | Power: 195
-Avg HR: 134 -- With 15:20 Zone 5
+Avg HR: 134 (15:20 Zone 5)
 Pain: 1
 Details: 10:00 warm up progression zone 1. Pyramid Intervals w/ 1:00 rest (1:00@241w, 2:00@243w, 3:00@241w, 4:00@237w, 5:00@234w, 4:00@231w, 3:00@243w, 2:00@,257w 1:00@310w). 15:00 cool down regression zone 1. 
 Notes: Accidentally joined a hard session with group - got it done fine. Will subtract one hard session from next week. 
@@ -2844,7 +2850,7 @@ Chest supported row: 4x5 @ 90 lb
 Glute bridge machine: 4x5 @ 180 lb
 Single leg press: 5x5 @ 90 lb
 Suitcase carry (steps): 3x50 @ 50 lb
-Bench press: 2x5 @ 175 lb
+Bench press: 2x5 @ 175 lb -- New maximum
 Pain: 0
 Notes: Deeper on single leg press, greater range at same weight.
 
@@ -2858,7 +2864,7 @@ Pain: 1
 2026-04-20: Erg
 RPE: 2 | Distance: 5.917 | Duration: 30:00 | Power: 99
 Avg HR: 122
-Pain: 1 — Could feel asymmetry, slight pain on RHS.
+Pain: 1 —- Could feel asymmetry, slight pain on RHS.
 Notes: Focus on slide control
 
 2026-04-21: Daily
@@ -2878,14 +2884,14 @@ Pain: 1
 2026-04-22: Cycle
 RPE: 7 | Distance: 24.17 | Duration: 58:38 | Power: 125
 Avg HR: 141
-Pain: 1 — mild back discomfort 
+Pain: 1 -— mild back discomfort 
 
 2026-04-23: Daily
 Weight: 189 | Waist: 34.5 
 Sleep: 7:06:00 
 RHR: 58 | HRV: 68
 Energy: 2
-Pain: 2 — stiffness from cycle
+Pain: 2 —- stiffness from cycle
 
 2026-04-23: Strength
 RPE: 6 | Focus: Upper Body
@@ -2895,5 +2901,18 @@ Bench press: 3x6 @ 165 lb
 Chest supported row: 3x8 @ 75 lb
 Dumbbell overhead press: 3x8 @ 40 lb
 Cable crunch: 0x0 @ 0 lb — skipped for time
-Pain: 1 — back stiffness did not affect these exercises. 
+Pain: 1 -— back stiffness did not affect these exercises. 
 
+2026-04-24: Daily
+Weight: 188 | Waist: 34.5
+Sleep: 6:44:00
+RHR: 58 | HRV: 45
+Energy: 2
+Pain: 1 -- Back stiffness
+Notes: Rolled ankle at rowing practice.
+
+2026-04-24: Row
+RPE: 4 | Distance: 8.736 | Duration: 43:06
+Avg HR: 119
+Pain: 1
+Notes: Technical row in John Carmichael with Mat, Tristan, Lucas. Fast and well set.

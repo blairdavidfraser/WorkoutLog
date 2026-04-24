@@ -593,7 +593,7 @@ canvas {
 
 .form-table tr {
   display: grid;
-  grid-template-columns: 80px 20px 2fr 20px 1fr;
+  grid-template-columns: 80px 20px 1fr 20px 2fr;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
   align-items: start;
@@ -643,10 +643,13 @@ canvas {
 }
 
 .form-table textarea.notes-field {
-  grid-column: 3 / 6;
   min-height: 80px;
   height: auto;
   resize: vertical;
+}
+
+.form-table td.notes-cell {
+  grid-column: 3 / 6;
 }
 
 .form-table .empty-cell {
