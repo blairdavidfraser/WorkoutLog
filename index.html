@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Coach - Workout Tracker</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Navigation -->
+    <nav class="app-nav">
+      <div class="nav-brand">💪 Fitness Coach</div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-view="dashboard">Dashboard</button>
+        <button class="nav-tab" data-view="viewer">View Log</button>
+        <button class="nav-tab" data-view="editor">Edit Log</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <!-- Dashboard View -->
+      <section id="dashboard" class="view active">
+        <div class="dashboard-container">
+          <div class="time-period-selector">
+            <button class="period-btn" data-period="10">10 Days</button>
+            <button class="period-btn" data-period="30">30 Days</button>
+            <button class="period-btn" data-period="365">1 Year</button>
+          </div>
+          <div class="graphs-container">
+            <div class="graph-card">
+              <h3>Weight Trend</h3>
+              <canvas id="weight-chart"></canvas>
+            </div>
+            <div class="graph-card">
+              <h3>Waist Trend</h3>
+              <canvas id="waist-chart"></canvas>
+            </div>
+            <div class="graph-card">
+              <h3>RPE by Activity</h3>
+              <canvas id="rpe-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Viewer View -->
+      <section id="viewer" class="view">
+        <div class="viewer-container">
+          <div class="viewer-header">
+            <h2>Workout Log Viewer</h2>
+            <button id="back-btn" class="back-btn" style="display: none;">← Back</button>
+          </div>
+          <div id="viewer-content" class="viewer-content">
+            <!-- Log entries will be rendered here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Editor View -->
+      <section id="editor" class="view">
+        <div class="editor-container">
+          <div class="editor-header">
+            <h2>Edit Workout Log</h2>
+            <div class="search-bar">
+              <input 
+                type="text" 
+                id="editor-search" 
+                class="search-input" 
+                list="tag-suggestions"
+                placeholder="Search or select a tag..."
+              >
+              <datalist id="tag-suggestions">
+              </datalist>
+            </div>
+          </div>
+          <textarea 
+            id="log-textarea" 
+            class="log-textarea"
+            placeholder="Workout log will appear here..."
+          ></textarea>
+          <div class="editor-actions">
+            <button id="select-all-btn" class="btn btn-secondary">Select All</button>
+            <button id="save-btn" class="btn btn-primary">Save</button>
+            <button id="cancel-btn" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="assets/scripts/app.js"></script>
+</body>
+</html>

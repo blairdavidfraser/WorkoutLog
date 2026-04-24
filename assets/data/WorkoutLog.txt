@@ -1,0 +1,2904 @@
+Refactor log
+
+# Workout Log
+#
+# Format: 
+#   - Any line starting with # is textual content, and not data.
+#   - Each entry is a block of text with no newlines. 
+#   - The first line gives the date in YYYY-MM-DD format, followed by ':', followed by the type of entry.
+#   - All subsequent lines take the form: "<Tag>: <Value> -- <Comment>".
+#   - Tag/Value lines can be separated by a newline or by the '|' character. Consider a '|' to be the same as a newline.
+#   - The value of <Tag> is the string up from the line start to before the ':', trimmed on both ends of any whitespace.
+#   - The value of <Value> is the string from after the ':' to before the '--' trimmed on both ends of any whitespace.
+#   - The value of the <Comment> is the string from after the '--' to the end of the line, or before the next '|', trimmed of any whitespace.
+#
+# While the tags are freeform and can take any value, there are certain common tags that will appear repeatedly under each log entry type and are described here.
+#
+# Global Tags
+# These tags could appear on any entry type.
+#   - "Notes" which is freeform text giving additional context to the entry.
+#   - "Pain" which is a number from 1-5 with 5 being most painful.
+#   - "RPE" which is a number from 1-10 representing perceived effort of a workout.
+#   - "Watts" which is a number representing measured watts on a workout, where available.
+# 
+# Log Type = Daily
+# This represents just daily data about the body not associated with any workout. All tags are optional, but would generally include:
+#   - "Weight" which is a number representing body weight in pounds.
+#   - "Waist" which is a number representing waist circumference in inches.
+#   - "RHR" which is a number representing resting heart rate in bpm.
+#   - "HRV" which is a number representing heart rate variablility in ms.
+#   - "Sleep" which is a duration in HH:MM:SS representing the duration of sleep the previous night.
+#   - "Energy" which is a number from 1 to 5 representing perceived energy level in AM.
+#   - "Pain" which is a number from 1 to 5 representing any perceived pain in AM.
+#   - "Illness" which is freeform describing any illness on that day.
+# For example:
+#   2025-11-01: Daily
+#   Weight: 190 | Waist: 35.5 | RHR: 44 | HRV: 55
+#   Sleep: 6:00:00
+#   Energy: 3
+#   Pain: 3 -- back tired but not sore
+#
+# Global Workout Tags
+# These tags could appear on any workout type.
+#   - "RPE" which is a number from 1 to 10 representing the perceived effort of the workout.
+#   - "Avg HR" which is a number representing the average heart rate in bpm for the workout.
+#   - "Max HR" which is a number representing the maximum heart rate in bpm for the workout.
+#   - "Duration" which is a duration in HH:MM:SS representing the duration of the workout.
+#   - "Details" which is a freeform field giving additional data describing the workout.  For example: a list of wattage per interval, or pace per interval.
+#
+# Log Type = Run | Row | Erg | Cycle | Swim 
+# This represents a workout of the given modality. Erg means dry-land rowing on a rowing machine while Row means on-water rowing.
+#   - "RPE" is mandatory on a workout of these types.
+#   - "Duration" is mandatory on a workout of these types.
+#   - "Distance" which is a distance in kilometers is mandatory on a workout of these types.
+# For example:
+#   2026-04-18: Run
+#   RPE: 5 | Distance: 11.61 | Duration: 1:04:12 
+#   Avg HR: 146 | Max HR: 167
+#   Pain: 2 -- Niggles in right foot
+#   Notes: Higher HR than Z2, but that’s because I’ve not been focusing on running and am out of run-shape. Perceived effort was low.
+# For example:
+#   2026-04-18: Rowing
+#   RPE: 5 | Distance: 11.61 | Duration: 1:04:12 
+#   Avg HR: 146 | Max HR: 167
+#   Pain: 2 -- Niggles in right elbow
+#   Notes: Easy technical row.
+#
+# Log Type = Strength
+Weight: 20 |", meaning 3 sets of 5 reps at 20 pounds.
+#   - "Focus" is a string representing the workout type. For example: Abs, Force Production, Upper Body
+#   - "RPE" is mandatory on a strength workout.
+#   - Other tags include, but are not limited to: 
+#     - "Cable pallof press"
+#     - "Bench press"
+#     - "Leg press"
+#     - "Single leg press"
+#     - "Dumbbell shoulder press"
+#     - "Glute bridge machine"
+#     - "Assisted pull-up"
+#     - "Chest supported row"
+#     - "Back extension"
+#
+# Log Type = Nutrition
+# This represents a log of what was eaten during the day. Tags represent the name of meals or snacks and values are what was eaten.
+#
+# Log Type = Measurements
+# This represents a log of body measurements. Tags are body measurements and the value is the measurement in inches.
+#
+# Log Type = Data
+# This represents auxiliary measurements. For example, results of a DEXA scan.
+#
+# Shorthand:
+# These are non-standard formats in which some assumptions are made
+#  - "2025-11-05: Cycle Commute | Duration: 50:00" is shorthand for a cycle workout of 50:00 at RPE 3.
+#  - "2025-11-04: Yoga | Duration: 30:00" is shorthand for a yoga workout of 30:00 at RPE 1.
+
+
+2025-11-04: Daily
+Weight: 188 | Waist: 35 
+Sleep: 6:08:00 -- Slept well 
+Energy: 4
+Pain: 3 -- Back stiff overnight, but loosens up after workout. 
+
+2025-11-04: Swim
+RPE: 4 | Distance: 2 | Duration: 41:34
+Avg HR: 138
+Pain: 0
+Notes: Easy-ish - with a focus on rotation and glide.
+
+2025-11-04: Strength | Focus: Abs | RPE: 8 | Duration: 30:00
+Notes: Core Workout for Runners Video
+
+2025-11-05: Daily
+Weight: 187 | Waist: 35 
+Sleep: 7:50:00 -- Slept well 
+Energy: 4
+Pain: 3 -- Back stiff this AM before run. 
+
+2025-11-05: Yoga | Duration: 10:00
+Notes: As run warmup
+
+2025-11-05: Run
+RPE: 8 | Distance: 5.72 | Duration: 30:00:20
+Avg HR: 158
+Pain: 1
+Notes: Pace not extremely fast, and paused a couple of times.  In spite of that, a lot of time in Zone 5. I don’t feel that I’m out of shape given lots of other cardio activities have stood in for running since Feb.  However, I do feel that I’ve lost running fitness.
+
+2025-11-05: Cycle Commute | Duration: 50:00
+
+2025-11-05: Yoga | Duration: 45:00
+
+2025-11-06: Daily
+Weight: 188 | Waist: 35 
+Sleep: 7:06:00 -- Woke up at 3, couldn’t get back to sleep for a while 
+Energy: 3
+Pain: 3 -- Back stiff this AM.  Better after swim. 
+
+2025-11-06: Swim
+RPE: 2 | Distance: 2 | Duration: 44:29
+Avg HR: 133
+Pain: 1
+Notes: Easy.  Focus on rotation and glide first half; high elbow second half. 
+
+2025-11-06: Cycle Commute | Duration: 55:00
+
+2025-11-07: Daily
+Weight: 189 | Waist: 35.5 
+Sleep: 7:30:00 -- Woke up several times.
+Energy: 3
+Pain: 3 -- Back stiffness again upon waking.
+
+2025-11-07: Rowing
+RPE: 5 | Distance: 8.85 | Duration: 1:19:00
+Avg HR: 18
+Pain: 1
+Notes: Costal boats.  Wavy and windy.  More effort due to conditions.  Lots of square blade drills, started to come together. 
+
+2025-11-07: Strength | Focus: Abs | RPE: 8 | Duration: 30:00
+Notes: Core Workout for Runners Video
+
+2025-11-08: Daily
+Weight: 188 | Waist: 35.5 
+Sleep: 6:15:00
+Energy: 3
+Pain: 3 
+
+2025-11-08: Rowing
+RPE: 4 | Distance: 9.5 | Duration: 1:20:00
+Avg HR: 130
+Pain: 2
+Notes: First row in a true 1x racing shell.  Bit choppy on parts of the lake and it felt tippy, but stayed upright.  Gained confidence in the flat water. 
+
+2025-11-09: Daily
+Weight: 188 | Waist: 35 
+Sleep: 5:40:00
+Energy: 3
+Pain: 4 -- Aborting run for today.  Stood for 2 hours at a party last night, which is causing my back to act up.
+
+2025-11-09: Yoga | Duration: 45:00
+
+2025-11-10: Daily
+Weight: 186 | Waist: 35 
+Sleep: 8:02:00
+Energy: 3
+Pain: 4 -- Sharp sensation in back.  Low intensity, but feels like nerve pinch. 
+
+2025-11-10: Spin
+RPE: 4 | Distance: 18.4 | Duration: 40:00
+Avg HR: 132
+Pain: 1
+Notes: Keiser m3i machine. Gear 13 @ 75-80 rpm. Spinning/bilking does not aggravate back. 
+
+2025-11-10: Cycle Commute | Duration: 1:03:00 | Notes: Snowy & -5C
+
+2025-11-10: Yoga | Duration: 45:00
+
+2025-11-11: Daily
+Weight: 185 | Waist: 35 
+Sleep: 5:14:00
+Energy: 2
+Pain: 3 -- Stiffness in morning. 
+
+2025-11-11: Strength
+RPE: 3 | Focus: Full-Body
+Warm Up: light row, cat-cow, hip-hinge, banded reverse clams
+Glute bridge machine: 3x15 @ 90 lb
+Leg press: 3x10 @ 160 lb -- too easy
+Calf Press: 3x10 @ 160 lb -- too easy
+Hamstring curls: 3x10 @ 70 lb -- too easy
+Assisted pull-ups: 3x10 @ 60 lb
+Seated cable row: 3x10 @ 90 lb
+Cable Pallof press (each side): 3x10 @ 50 lb
+Back extension: 3x15 @ 0 lb
+Bird-dog: 2x30 @ 0 lb
+Pain: 1
+Notes: Back extension revealed back tightness.
+
+2025-11-11: Swim
+RPE: 7 | Distance: 1.5 | Duration: 29:52
+Avg HR: 144
+Pain: 0
+Notes: Tempo.  Somewhat tired, perhaps lack of sleep.
+
+2025-11-12: Daily
+Weight: 188 | Waist: 35.5 
+Sleep: 7:20:00
+Energy: 2
+Pain: 3 -- Stiff back in morning, loosened somewhat after erg.  Achy body - feel a cold coming on. 
+
+2025-11-12: Erg
+RPE: 4 | Distance: 9.853 | Duration: 45:00 | Power: 136
+Avg HR: 136
+Pain: 2 -- Rower’s elbow. 
+Notes: Pure some 2, focus on body angle. 
+
+2025-11-12: Cycle Commute | Duration: 55:00
+
+2025-11-13: Daily
+Weight: 189 | Waist: 35 
+Sleep: 7:13:00
+Energy: 4
+Pain: 2 -- Back good.  DOMS in arms, likely from weight day.  Stopped taking creatine couple weeks back - going to start again today.  Cold-like symptoms gone.
+
+2025-11-13: Swim
+RPE: 8 | Distance: 1.025 | Duration: 31:17
+Details: 200m WU, 12 x 50 m @ (38s, 40s, 40s, 39s, 38s, 35s, 36s, 39s, 40s, 38s, 35s, 37s) with 1:00 rest, 200 m CD, 140 bpm average, 9:00 in Zone 4+
+Pain: 0
+Notes: Intervals felt fast.  First 25 m always felt fast.  Second felt effortful after the flip turn. 
+
+2025-11-13: Cycle Commute | Duration: 58:00
+
+2025-11-13: Strength | Focus: Abs | RPE: 6 | Duration: 30:00
+Notes: MadFit 30’ Slow Abs Video
+
+2025-11-14: Daily
+Weight: 186 | Waist: 35 
+Sleep: 7:15:00
+Energy: 4
+Pain: 1 -- Back good.  Still DOMS in arms.  Running today instead of erg due to arm DOMS and rower’s elbow.
+
+2025-11-14: Run
+RPE: 4 | Distance: 6 | Duration: 31:50
+Avg HR: 152
+Pain: 1 -- Only back tiredness at end
+Notes: Felt easier than HR would indicate. 
+
+2025-11-14: Yoga | Duration: 45:00
+
+2025-11-15: Daily
+Weight: 188 | Waist: 34.75 
+Sleep: 4:02:00
+Energy: 2
+Pain: 1 -- Back a bit stiff during weights, but loosened for rowing.  Out late, little sleep. 
+
+2025-11-15: Strength
+RPE: 3 | Focus: Legs
+Warm Up: light row, cat-cow, hip-hinge
+Cable Pallof press (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x15 @ 90 lb
+Leg press: 3x10 @ 200 lb
+Calf Press: 3x10 @ 200 lb
+Hamstring curls: 3x10 @ 100 lb
+Pain: 2
+Notes: Back tenderness on glute machine and hamstring curls.  Care taken. 
+
+2025-11-15: Rowing
+RPE: 3 | Distance: 9.2 | Duration: 1:10:00
+Avg HR: 134
+Pain: 2
+Notes: Costal 4x. Easy rowing, back fine, but elbow pain. Last row of season so time to rest it now. 
+
+2025-11-16: Daily
+Weight: 188 | Waist: 35.5 
+Sleep: 6:15:00
+Energy: 2
+Pain: 3 -- Back a bit stiff. Rowers elbow still present. Cancelling erg for today and will deload over this week - keeping most workouts but several will be at lower intensity. 
+
+2025-11-16: Strength | Focus: Abs | RPE: 6 | Duration: 30:00
+Notes: Core Workout for Runners Video
+
+2025-11-16: Yoga | Duration: 45:00
+
+2025-11-17: Daily
+Weight: 188 | Waist: 35 
+Sleep: 6:15:00
+Energy: 3
+Pain: 2 -- Back sore in middle of night.  Improved once moving. 
+
+2025-11-17: Strength
+RPE: 5 | Focus: Stability
+Warm Up: light row, cat-cow, hip-hinge
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Seated cable row: 3x10 @ 90 lb
+Suitcase carry (steps): 3x40 @ 50 lb 
+Russian twists: 3x10 @ 14 lb 
+Copenhagen plank (each side): 3x10 @ 30s 
+Pain: 2
+Notes: Back not too painful but tender - had to keep core very engaged. 
+
+2025-11-17: Cycle Commute | Duration: 59:00
+
+2025-11-17: Yoga | Duration: 45:00
+
+2025-11-18: Daily
+Weight: 186 | Waist: 35 
+Sleep: 7:56:00
+Energy: 4
+Pain: 2 -- Back sore in middle of night.  Improved once moving, but still feels movement restricted. Still some elbow pain. 
+
+2025-11-18: Swim
+RPE: 3 | Distance: 1.250 | Duration: 29:37
+Avg HR: 133
+Pain: 1
+Notes: Focus on kick with slow arm stroke. 
+
+2025-11-19: Daily
+Weight: 186 | Waist: 34.75 
+Sleep: 6:42:00
+Energy: 4
+Pain: 2 -- Back stiff on awakening and mobility (forward bend) low.  Maybe shouldn’t run, but I’m gonna.  Then I’ll do no running until an easy 5km on Sunday (no Saturday shakeout). 
+
+2025-11-19: Run
+RPE: 5 | Distance: 8.04 | Duration: 43:57
+Avg HR: 156
+Pain: 2 -- In last 2km
+Notes: Pain not bad when running first 6 km. Last 2 km had some dull pain, but not major.  Some pain after and mobility (forward bend) feels difficult. 
+
+2025-11-19: Cycle Commute | Duration: 59:00
+
+2025-11-19: Yoga | Duration: 45:00
+
+2025-11-20: Daily
+Weight: 188 | Waist: 34.75 
+Sleep: 7:20:00
+Energy: 4
+Pain: 2 -- Back still sore and low mobility (forward bend especially on right leans).  Elbow painful but only when used for pulling weight. 
+
+2025-11-20: Spin
+RPE: 8 | Distance: 22 | Duration: 42:00 
+Avg HR: 142
+Pain: 0
+Notes: Keiser m3i machine. Gear 13/16 @ 75-90 rpm. WU, 5m Z2, 5m Z4, 2.5m Z5, 2.5m Z2, 5m Z4, 2.5m Z5, 2.5m Z2, 5m Z4, 2.5m Z5, 5m Z2, CD
+
+2025-11-20: Cycle Commute | Duration: 58:00
+
+2025-11-21: Daily
+Weight: 187 | Waist: 35 
+Sleep: 7:11:00
+Energy: 4
+Pain: 2 -- Back stiff but not sore.  Skipped last evening’s core exercises.  Elbow pain low today.
+
+2025-11-21: Strength
+RPE: 5 | Focus: Upper Body
+Warm Up: light row, cat-cow, hip-hinge
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Lat prayer: 3x10 @ 50 lb
+Bench press: 3x10 @ 115 lb
+Dumbbell overhead press: 3x10 @ 30 lb
+Hammer curls: 1x10 @ 25 lb
+Tricep cable extension: 3x10 @ 90 lb
+Chest supported row: 3x10 @ 110 lb
+Pain: 0
+Notes: For overhead press, I had an older shoulder injury that isn’t bugging me, but this makes it sore - so aborted.  Curls did not feel good for the elbow, so aborted after one set.  The chest supported row were done with now elbow bend, so lats only; felt fine, but didn’t feel effective.
+
+2025-11-22: Daily
+Weight: 189 | Waist: 35 
+Sleep: 7:31:00
+Energy: 4
+Pain: 1 -- No back pain, just tiredness.  Low level elbow and shoulder pain too. 
+
+2025-11-22: Yoga | Duration: 45:00
+
+2025-11-23: Daily
+Weight: 189 | Waist: 34.75 
+Sleep: 5:58:00
+Energy: 3
+Pain: 1 -- Mild low back stiffness.  Elbow and shoulder fine. 
+
+2025-11-23: Yoga | Duration: 45:00
+
+2025-11-23: Run
+RPE: 3 | Distance: 5.15 | Duration: 32:45
+Avg HR: 138
+Pain: 2 
+Notes: Not a race, ran easy in a costume with friends.  Lots of standing before had back aggravated before even starting.  Loosened up with some running and no pain after race and some seated rest. 
+
+2025-11-24: Daily
+Weight: 190 | Waist: 34.5 
+Sleep: 8:03:00
+Energy: 3
+Pain: 3 -- Back very stiff.  Planning a weight room legs day with no cardio (except cycle commute). 
+
+2025-11-24: Strength
+RPE: 6 | Focus: Legs
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x15 @ 110 lb
+Leg press : 3x10 @ 200 lb
+Calf Press: 3x15 @ 200 lb
+Hamstring curls: 3x10 @ 110 lb
+Pain: 2
+Notes: Residual stiffness in back from yesterday. Quick workout, late getting out of house. 
+
+2025-11-24: Cycle Commute | Duration: 59:00 
+
+2025-11-24: Yoga | Duration: 45:00
+
+2025-11-25: Daily
+Weight: 187 | Waist: 35 
+Sleep: 7:20:00
+Energy: 4
+Pain: 3 -- Back stiff again, but otherwise fine.  Back loosened with exercise.
+
+2025-11-25: Erg
+RPE: 3 | Distance: 9.703 | Duration: 45:00 | Power: 130
+Avg HR: 135
+Pain: 1 
+Notes: Kept this to pure Zone 2.  Focus on grip.  When I slip into the bad pattern of a death grip on handle, elbow hurts.  So using pain as a cue to loosen grip on handle. 
+
+2025-11-26: Daily
+Weight: 185 | Waist: 34.75 
+Sleep: 6:19:00
+Energy: 4
+Pain: 3 -- Back quite stiff upon awakening.  Did some stretching before run.
+
+2025-11-26: Run
+RPE: 8 | Distance: 5.79 | Duration: 38:35
+Avg HR: 155 -- with 15:20 @ 160+bpm (Z5) 
+Pain: 2
+Details: WU, 6 x 500 m @ (1:50,2:00,2:02,2:06,2:06,2:06), CD.  
+Notes: Set out to do 10 x 500 m if my back felt good, but haven’t done speedwork in a long time.  Six felt like enough, so took long way home to finish up.  Back didn’t hurt during run, but we’ll see later in the day how the effort settles in.
+
+2025-11-26: Pain Check-in
+Pain: 2 -- During the day no real pain but moving in certain ways made it feel like there was a risk.  Not sore, but it felt weak.  On evening, had a party with lots of standing.  The standing aggravated somewhat. 
+
+2025-11-26: Cycle Commute | Duration: 59:00 
+
+2025-11-27: Daily
+Weight: 187 | Waist: 34 
+Sleep: 5:20:00
+Energy: 2
+Pain: 3 -- Back very stiff during sleep.  Muscle soreness, not nerve. 
+
+2025-11-27: Yoga | Duration: 45:00
+Pain: 2 -- Could do all the moves, but very stiff like DOMS in low back. 
+
+2025-11-27: Cycle Commute | Duration: 59:00
+
+2025-11-27: Strength | Focus: Abs | RPE: 8 | Duration: 30:00
+Notes: Core Workout for Runners Video
+Pain: 2 -- Back stiffness. Most core movements not affected. 
+
+2025-11-28: Daily
+Weight: 187 | Waist: 34.75 
+Sleep: 6:47:00
+Energy: 4
+Pain: 1 -- Back stiffness but lower level than previously this week. Still feels like DOMS.
+
+2025-11-28: Strength
+RPE: 5 | Focus: Upper Body
+Warm Up: light row, cat-cow, hip-hinge
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Assisted pull-ups: 3x10 @ 60 lb
+Bench press: 3x10 @ 115 lb
+Dumbbell overhead press: 3x10 @ 0 lb
+Dumbbell curls: 3x10 @ 22.5 lb
+Tricep cable extension: 3x10 @ 90 lb
+Chest supported row: 3x10 @ 55 lb
+Pain: 2
+Notes: Elbow pain low level today.  Did non-modified routine but kept curls very light.  Shoulder still sore in dumbbell press with weight, so just did motion with no weight. 
+
+2025-11-29: Daily
+Weight: 187 | Waist: 35 
+Sleep: 6:40:00
+Energy: 4
+Pain: 2 -- Stiffness on awaking, but loosened after yoga. 
+
+2025-11-29: Yoga | Duration: 30:00 | Notes: Pre-run warmup
+
+2025-11-29: Run
+RPE: 5 | Distance: 10 | Duration: 57:26
+Avg HR: 140
+Pain: 1
+Notes: There was a spot around 7 km where I had a slight back twinge, but it went away and I finished fine. No pain after, but I can tell there will be stiffness as a result, so no running for a few days. 
+
+2025-11-30: Daily
+Weight: 187 | Waist: 34.5 
+Sleep: 7:07:00
+RHR: 54 | HRV: 65
+Energy: 4
+Pain: 4 -- Back DOMS upon awaking (before any yoga or stretching).
+
+2025-11-30: Yoga | Duration: 30:00
+Pain: 2 -- Not pain but DOMS in back and reduced flexibility.  Yoga felt good, but stiff. 
+
+2025-11-30: Strength | Focus: Abs | RPE: 4 | Duration: 30:00
+Notes: MadFit 30’ Slow Abs Video
+
+2025-12-01: Daily
+Weight: 187 | Waist: 34.5 
+Sleep: 7:31:00
+RHR: 53 | HRV: 62
+Energy: 4
+Pain: 4 -- Back DOMS again in AM.
+
+2025-12-01: Strength
+RPE: 4 | Focus: Legs
+Warm Up: light row, cat-cow, hip-hinge
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x10 @ 110 lb
+Leg press : 3x10 @ 200 lb
+Calf Press: 3x15 @ 200 lb
+Hamstring curls: 3x10 @ 80 lb
+Pain: 1
+Notes: plenty of stiffness, but only mild pain.  Took it easier on hamstring curls and glute bridges. 
+
+2025-12-01: Cycle Commute | Duration: 1:05:00
+
+2025-12-02: Daily
+Weight: 189 | Waist: 34.5 
+Sleep: 7:17:00
+RHR: 59 | HRV: 52
+Energy: 4
+Pain: 3 -- Back stiff on awakening, better after movement. 
+Notes: Dropped the ball on diet yesterday, ate lots of snacks at work and home.  Weight up. 
+
+2025-12-02: Strength
+RPE: 4 | Focus: Stability
+Warm Up: light row, cat-cow, hip-hinge
+Copenhagen plank (each side): 3 @ 30s 
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Seated cable row: 3x10 @ 90 lb
+Suitcase carry (steps): 3x40 @ 50 lb
+Russian twists: 3x10 @ 14 lb 
+Weighted hip hinge: 3x10 @ 20 lb 
+Pain: 1 -- No elbow pain.  Back stiff, but loosened by end. 
+
+2025-12-02: Cycle Commute | Duration: 1:05:00
+
+2025-12-02: Yoga | Duration: 45:00 
+
+2025-12-03: Daily
+Weight: 188 | Waist: 34.5 
+Sleep: 6:45:00
+RHR: 59 | HRV: 57
+Energy: 4
+Pain: 2 -- Back less stiff this AM. 
+
+2025-12-03: Swim
+RPE: 8 | Distance: 2 | Duration: 38:22
+Avg HR: 152
+Pain: 0
+Notes: Focus on not sinking legs, which I haven’t been paying attention to on recent swims.  Not a 2000 m PR, but good among recent attempts. 
+
+2025-12-03: Cycle Commute | Duration: 1:05:00
+
+2025-12-04: Daily
+Weight: 187 | Waist: 34.5 
+Sleep: 7:06:00
+RHR: 58 | HRV: 58
+Energy: 4
+Pain: 1 -- Slight back stiffness.
+
+2025-12-04: Erg
+RPE: 4 | Distance: 9.529 | Duration: 45:00 | Power: 128
+Avg HR: 131
+Pain: 2 -- Some low back pain past half way, but low level.  Zero on the elbow pain.
+Notes: Kept this to pure Z2.  Focus on keeping catch position through leg drive (delaying hip swing).
+
+2025-12-04: Cycle Commute | Duration: 1:05:00
+
+2025-12-05: Daily
+Weight: 186 | Waist: 34.5 
+Sleep: 6:50:00
+RHR: 64 | HRV: 55
+Energy: 3
+Pain: 1 -- Slight back stiffness.
+
+2025-12-05: Yoga | Duration: 20:00
+
+2025-12-05: Run
+RPE: 6 | Distance: 7.19 | Duration: 41:09
+Avg HR: 147
+Pain: 1
+Notes: No pain on run, but stiffness after about 5 km.  Conquered Fallingbrook hill (800 m with 30 m elevation).  Shortened run after hill as tiredness in back appeared.
+
+2025-12-06: Daily
+Weight: 188 | Waist: 34 
+Sleep: 7:24:00
+RHR: 59 | HRV: 39
+Energy: 2
+Pain: 3 -- Back stiff on waking.  Sick with cold today so will cancel or modify workouts. 
+
+2025-12-07: Daily
+Weight: 188 | Waist: 34.25 
+Sleep: 8:25:00
+RHR: 67 | HRV: 48
+Energy: 2
+Pain: 4 -- Back stiffness from sleeping and lying down.  Still sick: runny nose, headache, cough, sore throat, tiredness. 
+
+2025-12-08: Daily
+Weight: 187 | Waist: 34 
+Sleep: 8:25:00
+RHR: 63 | HRV: 52
+Energy: 3
+Pain: 4 -- Back stiff on awakening.  Eased with yoga. Cold is winding down - residual occasional cough. 
+
+2025-12-08: Yoga | Duration: 30:00
+
+2025-12-08: Swim
+RPE: 3 | Distance: 1.5 | Duration: 35:08
+Avg HR: 135
+Pain: 0
+Notes: Very easy today due to cold recovery. 
+
+2025-12-08: Cycle Commute | Duration: 1:05:00
+
+2025-12-08: Daily
+Weight: 185 | Waist: 34 
+Sleep: 6:11:00
+RHR: 64 | HRV: 43
+Energy: 4
+Pain: 1 -- Slight back stiffness on awakening. 
+
+2025-12-09: Yoga | Duration: 20:00
+
+2025-12-09: Run
+RPE: 8 | Distance: 8.36 | Duration: 42:20
+Avg HR: 163
+Pain: 1
+Notes: only minor niggles on run, no pain after.  Conquered Fallingbrook hill again. Starting to feel “running fitness”: not gasping for air at higher paces, no stitches in side, etc.  Like it used to feel. 
+
+2025-12-09: Cycle Commute | Duration: 1:05:00
+
+2025-12-10: Daily
+Weight: 186 | Waist: 34 
+Sleep: 7:08:00
+RHR: 61 | HRV: 44
+Energy: 4
+Pain: 1 -- Light stiffness in back before rowing. 
+
+2025-12-10: Erg
+RPE: 4 | Distance: 9.926 | Duration: 45:00 | Power: 134
+Avg HR: 131
+Pain: 1 -- Low back stiffness at start, but passed. 
+Notes: 40:00 in Z2 followed by 1km fast finish.  Fast finish at average 270 w, 1:49.0 pace, 160-170 bpm. 
+
+2025-12-10 Cycle Commute | Duration: 65:00
+
+2025-12-10: Strength | Focus: Abs | RPE: 7 | Duration: 30:00
+Notes: Core Workout for Runners Video
+
+2025-12-11: Daily
+Weight: 186 | Waist: 34.5 
+Sleep: 6:32:00
+RHR: 62 | HRV: 43
+Energy: 3
+Pain: 1 -- Stiffness in back overnight. 
+
+2025-12-11: Strength
+RPE: 6 | Focus: Legs
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x10 @ 110 lb
+Leg press: 3x8 @ 220 lb -- RPE: 8
+Calf Press: 3x15 @ 220 lb
+Hamstring curls: 3x10 @ 80 lb
+Leg extension : 3x10 @ 120 lb
+Pain: 2
+Notes: only minor back pain on hamstring curls. 
+
+2025-12-11: Cycle Commute | Duration: 65:00
+
+2025-12-11: Sports Massage | Duration: 45:00 | Notes: Back, Hip Flexors, Legs
+
+2025-12-12: Daily
+Weight: 188 | Waist: 34.5 
+Sleep: 7:17:00
+RHR: 56 | HRV: 55
+Energy: 4
+Pain: 1 -- Stiffness in back overnight. 
+
+2025-12-12: Yoga | Duration: 45:00
+
+2025-12-12: Strength
+RPE: 4 | Focus: Core Stability
+Copenhagen plank (each side): 3 @ 30s
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Seated cable row: 3x10 @ 90 lb
+Suitcase carry (steps): 3x40 @ 50 lb
+Russian twists: 3x10 @ 14 lb
+Weighted hip hinge: 3x10 @ 22.5 lb
+Pain: 0
+Notes: Very little rest between sets - trying to fit into lunch break.
+
+2025-12-12: Swim
+RPE: 6 | Duration: 29:44 | Distance: 1500 m
+Avg HR: 142
+Pain: 0
+Notes: More intense than planned, but trying to fit into lunch break.
+
+2025-12-13: Daily
+Weight: 185 | Waist: 34.5 
+Sleep: 5:55:00
+RHR: 59 | HRV: 39
+Energy: 3
+Pain: 1 -- Stiffness in back overnight. Bad sleep, will try to nap. 
+
+2025-12-13: Run
+RPE: 6 | Distance: 9.90 | Duration: 50:03
+Avg HR: 152
+Pain: 1
+Notes: Pushed for km 9 (4:39 pace).  Rest was probably a grey-zone run, but not fatiguing given tomorrow is a weights only day. 
+
+2025-12-13: Yoga | Duration: 45:00 
+
+2025-12-14: Daily
+Weight: 187 | Waist: 34.5 
+Sleep: 7:26:00
+RHR: 56 | HRV: 40
+Energy: 2
+Pain: 1 -- Light stiffness in back.  Quads DOMS yesterday and today.
+
+2025-12-14: Strength
+RPE: 8 | Focus: Upper Body
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Assisted pull-ups: 3x8 @ 45 lb
+Bench press: 3x6 @ 135 lb
+Chest fly machine: 3x8 @ 120 lb
+Shoulder press machine: 3x10 @ 50 lb
+Dumbbell curls: 3x10 @ 25 lb
+Tricep cable extension : 3x10 @ 100 lb
+Chest supported row: 3x8 @ 55 lb
+Pain: 0
+Notes: Light weight on shoulder press.  Mild shoulder pain near full contraction. 
+
+2025-12-14: Yoga | Duration: 45:00 
+
+2025-12-15: Daily
+Weight: 187 | Waist: 34.5 
+Sleep: 7:28:00
+RHR: 52 | HRV: 77
+Energy: 3
+Pain: 1 -- Some stiffness in back before exercise.
+
+2025-12-15: Run
+RPE: 8 | Distance: 7.72 | Duration: 52:20
+Avg HR: 151 -- With 17:09 @ 160+bpm (Z5) 
+Pain: 1 -- Only stiffness after
+Details: WU, 8 x 500 m @ (1:58,1:57,2:03,2:00,2:02,2:03,2:03,2:02), CD.
+Notes: Temp -9°C. 
+
+2025-12-15: Cycle Commute | Duration: 65:00
+
+2025-12-15: Yoga | Duration: 45:00 
+
+2025-12-16: Daily
+Weight: 187 | Waist: 34.5 
+Sleep: 5:41:00
+RHR: 59 | HRV: 61
+Energy: 2
+Pain: 1 -- DOMS in legs and calves.
+
+2025-12-16: Erg
+RPE: 4 | Distance: 9.697 | Duration: 45:00 | Power: 130
+Pain: 1 -- Back tired, but not sore.
+Notes: All Z2 work.
+
+2025-12-16: Cycle Commute | Duration: 65:00
+
+2025-12-16: Strength | Focus: Abs | RPE: 5 | Duration: 30:00
+Notes: MadFit 30’ Slow Abs Video
+
+2025-12-17: Daily
+Weight: 184.5 | Waist: 34 
+Sleep: 6:44:00
+RHR: 60 | HRV: 54
+Energy: 2
+Pain: 2 -- Back stiff.
+
+2025-12-17: Strength
+RPE: 5 | Focus: Legs
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x10 @ 90 lb
+Leg press : 3x8 @ 200 lb
+Calf Press: 3x15 @ 200 lb
+Hamstring curls: 3x10 @ 80 lb
+Pain: 2
+Notes: stiffness in back, no pain. 
+
+2025-12-17: Run
+RPE: 3 | Distance: 8.06 | Duration: 50:15
+Avg HR: 138
+Pain: 2 -- Back got stiff near end. 
+Notes: Run club social Kringlewood run. 
+
+2025-12-17: Cycle Commute | Duration: 65:00
+
+2025-12-18: Daily
+Weight: 185.5 | Waist: 34.5 
+Sleep: 7:00:00
+RHR: 61 | HRV: 53
+Energy: 2
+Pain: 2 -- Back stiff from run.  Loosened with yoga. 
+
+2025-12-18: Yoga | Duration: 45:00 
+
+2025-12-18: Cycle Commute | Duration: 65:00
+
+2025-12-19: Daily
+Weight: 184.5 | Waist: 34.5 
+Sleep: 6:26:00
+RHR: 60 | HRV: 71
+Energy: 2
+Pain: 1 -- Back stiff overnight.  
+
+2025-12-19: Swim
+RPE: 8 | Distance: 2 | Duration: 38:39
+Avg HR: 148
+Pain: 0
+Notes: Decently hard effort. 
+
+2025-12-20: Daily
+Weight: 186 | Waist: 34.5 
+Sleep: 8:06:00
+RHR: 57 | HRV: 51
+Energy: 4
+Pain: 1 -- Back stiff overnight.  AM yoga helps. 
+
+2025-12-20: Yoga | Duration: 30:00
+
+2025-12-20: Run
+RPE: 4 | Distance: 10.04 | Duration: 53:09
+Avg HR: 151
+Pain: 1 -- Back tight but no pain. 
+Notes: Run club social run. 
+
+2025-12-21: Daily
+Weight: 188 | Waist: 34.5 
+Sleep: 7:27:00
+RHR: 52 | HRV: 52
+Energy: 4
+Pain: 1 -- Back stiffness low but present. 
+
+2025-12-21: Strength
+RPE: 8 | Focus: Upper Body
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Assisted pull-ups: 3x8 @ 405 lb
+Bench press: 3x8 @ 135 lb
+Chest fly machine: 3x10 @ 120 lb
+Shoulder press machine: 3x10 @ 60 lb
+Dumbbell curls : 3x10 @ 25 lb
+Tricep cable extension : 3x10 @ 100 lb
+Chest supported row: 3x10 @ 55 lb
+Pain: 0
+Notes: Light weight on shoulder press still - shoulder ok.  Tricep extension needs to increase. 
+
+2025-12-21: Mesurements
+Biceps (L/R): 14”/13.75”
+Neck: 16”
+Chest: 42”
+Waist: 34.5”
+Thighs (L/R): 23”/22.5”
+Calves (L/R): 15”/14.75”
+
+2025-12-22: Daily
+Weight: 186.5 | Waist: 34.5 
+Sleep: 7:29:00
+RHR: 56 | HRV: 83
+Energy: 4
+Pain: 1 -- Back stiff overnight.  Loosens with yoga. 
+
+2025-12-22: Yoga | Duration: 30:00
+
+2025-12-22: Run
+RPE: 8 | Distance: 8.39 | Duration: 1:03:08
+Avg HR: 152 -- With 20:54 @ 160+bpm (Z5) 
+Pain: 1 -- Only stiffness after
+Details: WU, 8 x 500 m @ (1:45,1:53,1:57,1:56,1:58,1:56,2:04,2:00), CD. 
+Notes: First six felt good.  Last two were a slog. 
+
+2025-12-23: Daily
+Weight: 188 | Waist: 34.5 
+Sleep: 5:57:00
+RHR: 60 | HRV: 31
+Energy: 3
+Pain: 1 -- Back stiff overnight.  
+
+2025-12-23: Erg
+RPE: 3 | Distance: 9.742 | Duration: 45:00 | Power: 132
+Avg HR: 129
+Pain: 2 -- Back tired at end, but not nerve pain sore.
+Notes: All Z2 work.
+
+2025-12-24: Daily
+Weight: 187 | Waist: 34 
+Sleep: 5:42:00
+RHR: 56 | HRV: 47
+Energy: 2
+Pain: 1 -- Back stiff overnight.  Sleep bad, will take nap in afternoon. 
+
+2025-12-24: Strength
+RPE: 4 | Focus: Legs
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x8 @ 140 lb
+Leg press : 3x10 @ 200 lb
+Calf Press: 3x15 @ 200 lb
+Hamstring curls: 3x10 @ 90 lb
+Pain: 1
+Notes: Some intensity on glutes and leg press, but short session today. 
+
+2025-12-25: Daily
+Weight: 189 | Waist: 34.5 
+Sleep: 6:39:00
+RHR: 55 | HRV: 43
+Energy: 2
+Pain: 1 -- Stiffness in AM but stretched it out. 
+
+2025-12-25: Strength | RPE: 7 | Focus: Abs | Duration: 30:00
+Notes: Core Workout for Runners Video
+
+2025-12-25: Erg
+RPE: 4 | Distance: 9.825 | Duration: 45:00 | Power: 135
+Avg HR: 134
+Pain: 1 -- Back stiff at start, fine once going.
+Notes: All zone 2 except last 1:00 fast finish.  Finish peaked at 452 watts.
+
+2025-12-25: Walk
+RPE: 2 | Distance: 5 | Duration: 1:33:35
+Notes: family walk with kids and dog.   Big 1:30:00 nap this afternoon. 
+
+2025-12-25: Yoga | Duration: 45:00 
+
+2025-12-26: Daily
+Weight: 190 | Waist: 34.25 
+Sleep: 6:28:00
+RHR: 53 | HRV: 36
+Energy: 2
+Pain: 1 -- Stiffness in AM.  Planning a big nap in afternoon. 
+
+2025-12-26: Strength
+RPE: 6 | Focus: Upper Body
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Assisted pull-ups: 3x8 @ 50 lb
+Bench press: 3x8 @ 135 lb
+Shoulder press machine: 3x10 @ 70 lb
+Machine curls: 3x10 @ 90 lb
+Tricep cable extension : 3x10 @ 120 lb
+Chest supported row: 3x10 @ 55 lb
+Pain: 0
+
+2025-12-27: Daily
+Weight: 189 | Waist: 34.25 
+Sleep: 6:54:00
+RHR: 54 | HRV: 66
+Energy: 4
+Pain: 1 -- Stiffness in AM. 
+
+2025-12-27: Swim
+RPE: 4 | Distance: 2 | Duration: 46:55
+Avg HR: 149
+Pain: 0
+Notes: Easy, lots of pauses.  Focus on catch. 
+
+2025-12-28: Daily
+Weight: 189 | Waist: 34.25 
+Sleep: 7:06:00
+RHR: 55 | HRV: 123
+Energy: 4
+Pain: 1 -- Stiffness in AM. 
+
+2025-12-28: Strength
+RPE: 5 | Focus: Stability
+Warm Up: light row, cat-cow, hip-hinge
+Cable Pallof press (each side): 3x10 @ 55 lb
+Back extension: 3x15 @ 0 lb
+Cable chops (each side): 3x10 @ 50 lb
+Cable lifts (each side): 3x10 @ 50 lb
+Seated cable row: 3x10 @ 90 lb
+Suitcase carry (steps): 3x40 @ 50 lb
+Russian twists: 3x10 @ 14 lb
+Copenhagen plank (each side): 3x30s
+Pain: 1
+Notes: Stiffness on Russian twists today. 
+
+2025-12-29: Daily
+Weight: 185.8 | Waist: 34.75 
+Sleep: 7:02:00
+RHR: 54 | HRV: 68
+Energy: 4
+Pain: 1 -- Stiffness in AM.  Weight taken after run.
+
+2025-12-29: Yoga | Duration: 45:00 
+
+2025-12-29: Run
+RPE: 4 | Distance: 17.33 | Duration: 1:49:29
+Avg HR: 153 
+Pain: 1 -- Only on last km
+Notes: Slow and easy due to icy and slushy conditions.  Very windy, rained on for a bit.  Lots of walk breaks.
+
+2025-12-30: Daily
+Weight: 188.4 | Waist: 34.25 
+Sleep: 7:41:00
+RHR: 59 | HRV: 33
+Energy: 3
+Pain: 2 -- Back stiffness.  Will swap today’s erg with tomorrow’s leg day (no hamstring curls). 
+
+2025-12-30: Yoga | Duration: 45:00 
+
+2025-12-30: Strength
+RPE: 3 | Focus: Legs
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x15 @ 110 lb
+Leg press : 3x10 @ 200 lb
+Calf Press: 3x15 @ 200 lb
+Leg extension : 3x10 @ 120 lb
+Weighted hip hinge: 3x10 @ 30 lb
+Pain: 0
+
+2025-12-30 PM - Meditation | Duration: 20:00
+
+2025-12-31: Daily
+Weight: 190 | Waist: 34 
+Sleep: 7:41:00
+RHR: 58 | HRV: 56
+Energy: 4
+Pain: 2 -- Some back stiffness. 
+
+2025-12-31: Strength
+RPE: 3 | Focus: Upper Body
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x8 @ 135 lb
+Machine overhead press: 3x10 @ 70 lb
+Dumbbell curls: 3x10 @ 30 lb
+Tricep cable extension : 3x10 @ 110 lb
+Pain: 0
+
+2026-01-01: Daily
+Weight: 192.5 | Waist: 34.25 
+Sleep: 6:39:00
+RHR: 58 | HRV: 32
+Energy: 2
+Pain: 2 -- New Year’s Eve.  Lots of eating and lots of drinking.  Got to bed late.  Lots of standing at party aggregated back. 
+
+2026-01-01: Yoga | Duration: 45:00 
+
+2026-01-02: Daily
+Weight: 192 | Waist: 34.5 
+Sleep: 7:19:00
+RHR: 55 | HRV: 55
+Energy: 4
+Pain: 2 -- Back stiff in bed. 
+
+2026-01-02: Erg
+RPE: 8 | Distance: 12.324 | Duration: 50:00 | Power: 135
+Avg HR: 150
+Pain: 2 -- Back mildly sore/tired by end.  Gone within 15 minutes after. 
+Details: 3x15:00 @ Power/Pace = (212w/1:58.1, 208w/1:58.8w, 210w/1:58.5w) w/ 25 rate cap
+
+2026-01-03: Daily
+Weight: 190 | Waist: 34 
+Sleep: 6:31:00
+RHR: 57 | HRV: 51
+Energy: 4
+Pain: 2 -- Back a bit stiffer today.
+
+2026-01-03: Yoga | Duration: 30:00
+
+2026-01-03: Run
+RPE: 3 | Distance: 10.11 | Duration: 58:26
+Avg HR: 144 
+Pain: 1
+Notes: Social run.  Non fatiguing pace, felt easy. 
+
+2026-01-03: Yoga | Duration: 45:00 
+
+2026-01-03: Meditation | Duration: 5:00
+
+2026-01-04: Daily
+Weight: 191.5 | Waist: 34.5 
+Sleep: 8:00:00
+RHR: 58 | HRV: 39 
+Energy: 3
+Pain: 2 -- AM stiffness again.
+
+2026-01-04: Erg
+RPE: 2 | Distance: 4.165 | Duration: 20:00 | Power: 134
+Avg HR: 129
+Pain: 1 -- Mild back stiffness - less so when focused on good back form.
+Notes: Very easy warmup before gym. 
+
+2026-01-04: Strength
+RPE: 4 | Focus: Stability
+Warm Up: light row, cat-cow, hip-hinge
+Cable Pallof press (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Cable chops (each side): 3x10 @ 50 lb
+Cable lifts (each side): 3x10 @ 50 lb
+Seated cable row: 3x10 @ 90 lb
+Suitcase carry (steps): 3x40 @ 50 lb
+Copenhagen plank (each side): 3x30s
+Pain: 1 -- Back sensitive not sore.  Not when core engaged.  
+
+2026-01-04: Meditation | Duration: 10:00
+
+2026-01-05: Daily
+Weight: 191.5 | Waist: 34.5 
+Sleep: 6:23:00
+RHR: 59 | HRV: 82 
+Energy: 3
+Pain: 2 -- AM stiffness again.
+
+2026-01-05: Erg
+RPE: 3 | Distance: 9.371 | Duration: 45:00 | Power: 117
+Avg HR: 133
+Pain: 1
+Notes: Very easy and focused on technique (18 spm)
+
+2026-01-05: Cycle Commute | Duration: 1:10:00
+
+2026-01-06: Daily
+Weight: 190.2 | Waist: 34.5 
+Sleep: 7:26:00
+RHR: 62 | HRV: 42 
+Energy: 3
+Pain: 1 -- Low AM stiffness in back.
+
+2026-01-06: Run
+RPE: 7 | Distance: 7.58 | Duration: 39:57
+Avg HR: 150 -- With 13:58 @ 160+bpm (Z5) 
+Pain: 1 -- Spine tight immediately after, but dissipated quickly.
+Details: WU, 6 x 500 m @ (1:55,2:03,2:02,2:01,2:02,2:04), CD. 
+Notes: All six felt like quality work.  Not all out, but hard and smooth. 
+
+2026-01-06: Cycle Commute | Duration: 1:10:00
+
+2026-01-06: Yoga | Duration: 45:00 
+
+2026-01-06 PM: Meditation | Duration: 10:00
+
+2026-01-07: Daily
+Weight: 191 | Waist: 34.5 
+Sleep: 7:17:00
+RHR: 59 | HRV: 57 
+Energy: 4
+Pain: 2 -- AM stiffness again.
+
+2026-01-07: Erg
+RPE: 3 | Distance: 9.951 | Duration: 45:00 | Power: 140
+Avg HR: 133
+Pain: 1
+Notes: 18 spm. Zone 2 ceiling (136 bpm). Notable: Zone 2 row at 18 rpm and average watts 140 - that’s higher wattage than equivalent ergs back in Nov and Dec.
+
+2026-01-07: Cycle Commute | Duration: 1:10:00
+
+2026-01-07: Nutrition 
+Breakfast: 1/2 cup of leftover shrimp (protein), 1/2 cup of leftover rice, Slice of cheese, some berries. 
+Lunch: 3 pieces of sushi (protein), 3 pieces sashimi, miso soup. 
+Dinner: 2 slices of veggie pizza
+AM Snacks:  Half fist of chocolate covered nuts. Half fist of nuts, seeds and dried fruit
+PM Snacks:  Half fist of chocolate covered nuts. 6 cheese and crackers, 10 potato chips. Plant protein shake
+Notes: No fuelling before workout. Breakfast immediately after. 
+
+2026-01-07: Strength | Focus: Abs | RPE: 4 | Duration: 30:00
+Notes: MadFit 30’ Slow Abs Video
+
+2026-01-08: Daily
+Weight: 189 | Waist: 34.25 
+Sleep: 6:35:00
+RHR: 55 | HRV: 71
+Energy: 3
+Pain: 1 -- Stiffness in AM. 
+
+2026-01-08: Strength
+RPE: 3 | Focus: Legs
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x10 @ 110 lb
+Leg press : 3x10 @ 210 lb
+Calf Press: 3x15 @ 210 lb
+Hamstring curls: 3x10 @ 100 lb
+Weighted hip hinge: 3x10 @ 30 lb
+Pain: 0
+
+2026-01-08: Cycle Commute | Duration: 1:10:00
+
+2026-01-08: Nutrition
+Breakfast: 2 eggs, 3/4 cup mashed potatoes 
+Lunch: 2 bean tacos each with 1/2 cup black bean filling
+Dinner: 80g halloumi cheese, 1/2 cup rice, 1/2 cup lentils and carrots
+AM Snacks: Protein shake post workout. Half fist of chocolate covered nuts. 1/4 cup cottage cheese and cauliflower 
+PM Snacks: 1/2 cup yogurt. 10 cheese and crackers. A Turkish delight 
+Notes: Breakfast before workout.
+
+2026-01-09: Daily
+Weight: 188.4 | Waist: 34 
+Sleep: 6:42:00
+RHR: 59 | HRV: 57
+Energy: 3
+Pain: 2 -- Stiffness in AM. 
+
+2026-01-09: Erg
+RPE: 4 | Distance: 10.140 | Duration: 50:59 | Power: 143
+Avg HR: 132
+Pain: 2 -- Some back stiffness at beginning and after.  No major pain. 
+Details: 3x15:00 with 2:00 rest. Pyramid of 5:00 blocks of increasing stroke rate from 14 up to 20 and back down. 
+Notes: Coached session. Technique drills in first and last 5:00. 
+
+2026-01-09: Cycle Commute | Duration: 1:10:00
+
+2026-01-09: Nutrition 
+Breakfast: 1 cup yogurt and seeds (chia, hemp, pumpkin)
+Lunch: Mushroom panini sandwich
+Dinner: Restaurant small salmon fillet on cup of mashed potatoes and some veg. 
+AM Snacks: Protein shake post workout. Fist of chocolate covered nuts
+PM Snacks: Core Power protein milkshake. Half fist of pumpkin seeds and raisins. Six cheese and crackers
+Alcohol: 1 pint beer
+Notes: Breakfast before workout.
+
+2026-01-10: Daily
+Weight: 190 | Waist: 34 
+Sleep: 7:15:00
+RHR: 55 | HRV: 31
+Energy: 3
+Pain: 3 -- Back had some pain overnight.  Not the dull stiffness of usual, but a sharper character of pain.  Swap today’s run for tomorrow’s gym session.
+
+2026-01-10: Strength
+RPE: 5 | Focus: Upper Body
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x8 @ 145 lb
+Machine overhead press: 3x10 @ 80 lb
+Dumbbell curls: 3x10 @ 30 lb
+Tricep cable extension : 3x10 @ 115 lb
+Chest supported row: 3x10 @ 55 lb
+Pain: 0 -- Some back pain, but general, not related to any exercise today. 
+
+2026-01-10: Nutrition
+Breakfast: 2 eggs, small toast with honey, grapefruit 
+Lunch: 1/2 cup lentils, can sardines, toast
+Dinner: Sushi plate, small cheesecake dessert
+AM Snacks: 1/2 cup cottage cheese post workout 
+AM Snacks: Kind granola bar
+PM Snacks: 4 cheese and crackers
+PM Snacks: ~15 mixed nuts
+PM Snacks: 8 cheese and crackers
+Alcohol: 1 negroni
+Notes: Breakfast before workout.
+
+2026-01-11: Daily
+Weight: 190.2 | Waist: 34 
+Sleep: 6:23:00
+RHR: 58 | HRV: 50
+Energy: 3
+Pain: 3 -- No back pain overnight, but in AM the character of the pain is still sharp not dull.
+
+2026-01-11: Spin
+RPE: 7 | Distance: 22.76 | Duration: 42:29 | Power: 187
+Avg HR: 141
+Pain: 0 -- Cycling cause no back pain. 
+Details: 3 x 5:00 hard. 
+
+2026-01-11: Nutrition
+Breakfast: One egg and cheese on bun
+Lunch: cheese on toast, tomatoes 
+Dinner: Tofu, chickpea, coconut milk curry with rice
+AM Snacks: Kind granola bar
+PM Snacks: Protein shake post workout
+PM Snacks: Chocolate brownie
+PM Snacks: Half cup fermented coleslaw 
+PM Snacks: 10 nuts
+Notes: Breakfast before workout.
+
+2026-01-12: Daily
+Weight: 190.5 | Waist: 34.25 
+Sleep: 7:31:00
+RHR: 58 | HRV: 70
+Energy: 4
+Pain: 1 -- Back pain much better on awakening.  Character is tired and sensitive, not sharp. 
+
+2026-01-12: Yoga | Duration: 20:00
+
+2026-01-12: Cycle Commute | Duration: 1:10:00
+
+2026-01-12: Nutrition
+Breakfast: 1 cup cottage cheese, bread, banana
+Lunch: Salmon fillet, kale salad
+Dinner: Pasta with cheese and 
+AM Snacks: Clementine
+PM Snacks: Big cookie. Half cup trail mix. 8 cheese and crackers
+Notes: No workout today (except commute) to protect back recovery, so lower calorie needs. 
+
+2026-01-13: Daily
+Weight: 190.6 | Waist: 34 
+Sleep: 6:58:00
+RHR: 57 | HRV: 77
+Energy: 4
+Pain: 2 -- Character is tired and sensitive, not sharp. 
+
+2026-01-13: Strength
+RPE: 4 | Focus: Core Stability
+Copenhagen plank (each side): 3 @ 30s
+Cable Pallof press (each side): 3x10 @ 60 lb
+Cable chops (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Seated cable row: 3x10 @ 90 lb
+Suitcase carry (steps): 3x40 @ 50 lb
+Weighted hip hinge: 3x10 @ 22.5 lb
+Cable crunch: 3x10 @ 130 lb
+Pain: 2
+Notes: Cable crunch can go up. 
+
+2026-01-13: Cycle Commute | Duration: 1:10:00
+
+2026-01-13: Yoga | Duration: 30:00
+
+2026-01-13: Meditate | Duration: 20:00
+
+2026-01-13: Nutrition
+Breakfast: 3/4 cup cottage cheese, bread with peanut butter
+Lunch: 2 bean tacos each with 1/2 cup black bean filling
+Dinner: Fillet of cod, small potato, brussels sprout slaw salad
+AM Snacks: Protein shake after workout. 1/2 cup chocolate nuts
+PM Snacks: 1/2 cup chocolate nuts. 1/2 cup trail mix. 6 cheese and crackers
+Notes: Breakfast before workout
+
+2026-01-14: Daily
+Weight: 189.6 | Waist: 34.25 
+Sleep: 7:03:00
+RHR: 59 | HRV: 44
+Energy: 4
+Pain: 2 -- Character is tired and sensitive, not sharp. 
+
+2026-01-14: Erg
+RPE: 4 | Distance: 9.909 | Duration: 50:59 | Power: 138
+Avg HR: 135
+Pain: 2 -- Stiffness before, not during.
+Notes: Swapped in erg for running due to back.  Will run tomorrow.  A little more trouble controlling HR than last Z2 Erg session.  Wattage lower, HR higher.
+
+2026-01-14: Cycle Commute | Duration: 1:10:00
+
+2026-01-14: Meditate | Duration: 10:00
+
+2026-01-14: Nutrition
+Breakfast: Banana, Fillet of fish with one egg on a bun. 
+Lunch: Spinach salad, mango salad, small salmon fillet, cookie
+Dinner: 2 slices of pizza
+AM Snacks: 1/2 cup seeds, nuts and raisins mix
+PM Snacks: 1/2 cup seeds, nuts and raisins mix. 8 cheese and crackers. Serving of potato chips 
+Notes: Banana before workout, breakfast after.
+
+2026-01-15: Daily
+Weight: 188 | Waist: 34 
+Sleep: 7:10:00
+RHR: 59 | HRV: 122
+Energy: 4
+Pain: 1 -- Morning stiffness. 
+
+2026-01-15: Run
+RPE: 6 | Distance: 6.55 | Duration: 41:52
+Avg HR: 151 
+Pain: 1 -- Only after run done. 
+Notes: Blizzard.  Deep unploughed snow.  Feels like -22.  Windy blowing snow.  Running was the wrong decision today. 
+
+2026-01-15: Nutrition
+Breakfast: Clementine, Fillet of fish with one egg on a bun. 
+Lunch: 1.5 cup cream of mushroom soup with bread
+Dinner: fish fillet, chickpea salad, baked potato
+AM Snacks: 1/2 cup chocolate covered nuts
+PM Snacks: 1/2 yogurt. 3 cheese slices. Slice of bread
+Notes: Clementine and honey before workout, breakfast after.
+
+2026-01-16: Daily
+Weight: 188 | Waist: 34 
+Sleep: 6:33:00
+RHR: 59 | HRV: 56
+Energy: 4
+Pain: 1 -- Morning stiffness. Yesterday had some back discomfort from run, but just stiffness remains today.
+
+2026-01-16: Strength
+RPE: 6 | Focus: Legs
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 3x10 @ 110 lb
+Leg press : 3x10 @ 220 lb
+Calf Press: 3x15 @ 220 lb
+Hamstring curls: 3x10 @ 100 lb
+Weighted hip hinge: 3x10 @ 30 lb
+Pain: 0
+Notes: 
+
+2026-01-16: Nutrition
+Breakfast: 2 eggs, 1/2 cup cottage cheese, tomato, sauerkraut 
+Lunch: Chickpea salad, Tofu chickpea curry with small slice bread.
+Dinner: Spaghetti with shrimp
+AM Snacks: Banana before workout. Clementine and carrot
+PM Snacks: 1/2 cup cottage cheese. Small baklava
+Alcohol: 100 mL “taster” beer
+Notes: Breakfast after workout.  Quite hungry by noon. 
+
+2026-01-17: Daily
+Weight: 189.4 | Waist: 34 
+Sleep: 6:45:00
+RHR: 59 | HRV: 44
+Energy: 3
+Pain: 3 -- Mostly stiffness but had to stand for an hour this AM and that caused a sharper character. 
+
+2026-01-17: Strength
+RPE: 5 | Focus: Upper Body
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x8 @ 150 lb
+Dumbbell overhead press: 3x10 @ 30 lb
+Dumbbell curls: 3x10 @ 30 lb
+Tricep cable extension : 3x10 @ 120 lb
+Chest supported row: 3x10 @ 55 lb
+Cable crunch: 3x10 @ 130 lb
+Pain: 3
+
+2026-01-17: Nutrition
+Breakfast: 2 eggs, 1/2 cup yogurt with 1/3 cup peanut butter and spoon honey
+Lunch: Small slice veggie pizza, tin of sardines
+Dinner: Salmon fillet with salad and do mashed potatoes. 
+AM Snacks: Clementine
+PM Snacks: 1/4 cup Aussie style liquorice. 1/2 cup Cantalope. 1 cup sauerkraut. Small serving potato chips
+Notes: Lunch before workout. 
+
+2026-01-18: Daily
+Weight: 189.4 | Waist: 34 
+Sleep: 7:13:00
+RHR: 59 | HRV: 45
+Energy: 3
+Pain: 3 -- Back stiffness on awakening and after swim.  Will do yoga later. 
+
+2026-01-18: Swim
+RPE: 7 | Distance: 2 | Duration: 41:12
+Avg HR: 152
+Pain: 0
+Notes: Decently hard effort. Very busy pool so more pausing than usual. 
+
+2026-01-18: Yoga | Duration: 30:00
+
+2026-01-18: Meditation | Duration: 20:00
+
+2026-01-18: Nutrition
+Breakfast: Grapefruit, 3/4 cup yogurt with chia and pumpkin seeds, bread
+Lunch: Leftover salmon sandwich, 1/2 cup cottage cheese. 
+Dinner: Wheat-berry/salmon/red pepper salad with leftover mashed potatoes, cantaloupe 
+AM Snacks: Banana, small bread and one slice cheese. 10 mixed nuts
+PM Snacks: 1/2 cup cottage cheese, a carrot. Piece of liquorice  
+Notes: Breakfast before workout, snack after. 
+
+2026-01-19: Daily
+Weight: 190 | Waist: 34 
+Sleep: 6:59:00
+RHR: 59 | HRV: 45
+Energy: 3
+Pain: 3 -- Back pain all day yesterday felt less like something I had done and more like cortisol shot is wearing off.  Taking rest day in AM.  Maybe easy erg in PM if feeling better. 
+
+2026-01-19: Cycle Commute | Duration: 1:10:00
+
+2026-01-19: Nutrition
+Breakfast: 2 eggs, 1/3 cup cottage cheese, toast with jam
+Lunch: Personal margarita pizza, salad
+Dinner: 80 g grilled halloumi, medium potato, huge leafy salad
+AM Snacks: Banana
+PM Snacks: 1/3 cup pumpkin seeds and raisins. 1/3 cup cottage cheese
+Notes: Pizza was a make-your-own work event.  Didn’t eat the whole thing. 
+
+2026-01-20: Daily
+Weight: 190 | Waist: 34.5 
+Sleep: 7:34:00
+RHR: 59 | HRV: 98
+Energy: 3
+Pain: 3 -- Back quite stiff, but no sharp pain before workout.
+
+2026-01-20: Strength
+RPE: 6 | Focus: Core Stability
+Copenhagen plank (each side): 3 @ 30s
+Cable Pallof press (each side): 3x10 @ 65 lb
+Cable chops (each side): 3x10 @ 60 lb
+Back extension: 3x15 @ 0 lb
+Seated cable row: 3x10 @ 100 lb
+Suitcase carry (steps): 3x40 @ 50 lb
+Weighted hip hinge: 3x10 @ 45 lb
+Cable crunch: 3x12 @ 150 lb
+Pain: 3
+Notes: Back stiff and tired, not nerve pain.  Feels looser after workout. 
+
+2026-01-20: Cycle Commute | Duration: 1:10:00
+
+2026-01-20: Nutrition
+Breakfast: Yogurt with chia, hemp and pumpkin seeds
+Lunch: 1 cup leftover salmon/wheat-berry salad with 1/2 cup cottage cheese. 
+Dinner: 1 cup homemade mac & cheese with broccoli 
+PM Snacks: 1/4 cup nuts, seeds, raisins. 1/2 cup sauerkraut and 3 slices cheese. Protein shake
+Notes: Protein shake before pasta because I wa worried that pasta and cheese would leave me short on protein. 
+
+2026-01-21: Daily
+Weight: 189 | Waist: 34 
+Sleep: 8:45:00
+RHR: 59 | HRV: 55
+Energy: 3
+Pain: 3 -- Back quite stiff, but no sharp pain before workout.
+
+2026-01-21: Erg
+RPE: 8 | Distance: 7.465 | Duration: 48:21 | Power: 138
+Avg HR: 136
+Pain: 2 -- Back mildly sore/tired by end.  
+Details: 10x(500 m, 2:00 rest) @ Power/Pace = (162w/2:09.2, 228w/1:50.7, 259w/1:50.6, 280w/147.2, 183w/2:04.2, 261w/1:50.3, 297w/145.6, 291w/1:46).  
+Notes: What I didn’t realize about the PM5 is that it starts the clock quietly if you take extra rest.  In actuality, most of the intervals were in the 290w/1:47 to 320/1:41 range, but had an extra 10 seconds of rest.  Last two did not have that extra rest.  Will start on time next session.  Max HR 172 (Zone 5 by end of each interval).  Max power 372w. 
+
+2026-01-21: Cycle Commute | Duration: 1:10:00
+Notes: Fell in snowstorm.  Banged knee and may have pulled back a little bit.  Stiff hours after.
+
+2026-01-20: Nutrition
+Breakfast: 2 eggs, leftover mashed potatoes
+Lunch: Falafel wrap 
+Dinner: Restaurant salmon fillet, beet salad, Brussels sprouts
+AM Snacks: Birthday brownie (family tradition for kids birthdays). Banana
+PM Snacks: 1/2 cup cottage cheese, sauerkraut 
+Alcohol: 1 gin martini
+Notes: Breakfast after workout.
+
+2026-01-22: Daily
+Weight: 190 | Waist: 34.5 
+Sleep: 6:45:00
+RHR: 58 | HRV: 35
+Energy: 3
+Pain: 3 -- Back quite stiff, not sharp pain.
+
+2026-01-22: Strength
+RPE: 4 | Focus: Legs
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 60 lb
+Glute bridge machine: 3x15 @ 110 lb
+Leg press : 3x10 @ 200 lb
+Calf Press: 3x15 @ 200 lb
+Hamstring curls: 3x10 @ 90 lb
+Weighted hip hinge: 3x10 @ 45 lb
+Cable Crunch: 3x10 @ 160 lb
+Pain: 2
+Notes: 
+
+2026-01-22: Cycle Commute | Duration: 1:10:00
+
+2026-01-22: Nutrition
+Breakfast: Yogurt with chia, hemp, pumpkin seeds, banana
+Lunch: Slice leftover pizza, 3 salmon sashimi, 3 salmon sushi
+Dinner: 5 shrimp, slice homemade bread and butter, some zucchini, garden salad
+PM Snacks: 2 cups plain popcorn. 1/2 cup cottage cheese. 1/4 cup plain nuts and raisins 
+Notes: Breakfast before workout.
+
+2026-01-23: Daily
+Weight: 188.4 | Waist: 34 
+Sleep: 6:56:00
+RHR: 58 | HRV: 64
+Energy: 3
+Pain: 2 -- Back stiffness lower today.
+
+2026-01-23: Erg
+RPE: 4 | Distance: 7.465 | Duration: 45:00 | Power: 138
+Avg HR: 134
+Pain: 0 -- Stiffness at start, but relaxed.
+Notes: Breached HR cap for a while, but only by 1-2 bpm.
+
+2026-01-22: Nutrition
+Breakfast: 2 eggs, small tortilla shell
+Lunch: Tin sardines, small baked potato, some bread with oil and vinegar
+Dinner: Fish tacos (3 small)
+AM Snacks: Banana pre-workout. Carrot and hummus
+PM Snacks: Fresh bread with oil and balsamic 
+Alcohol: Pint beer
+Notes: Last day I’ll log nutrition for now.  I’ve learned enough to continue.
+
+2026-01-24: Daily
+Weight: 187.8 | Waist: 34 
+Sleep: 7:16:00
+RHR: 58 | HRV: 54
+Energy: 3
+Pain: 2 -- Back stiffness light.
+
+2026-01-24: Erg
+RPE: 6 | Distance: 18.416 | Duration: 1:28:00 | Power: 156
+Avg HR: 131
+Pain: 0 -- Stiffness at start, but relaxed.
+Details: 4x20:00 with 2:00 rest. 
+Notes: First 3 zone 2. Last @ 211 w / 1:58.4 pace / 176 bpm. 
+
+2026-01-25: Yoga | Duration: 45:00
+
+2026-01-25: Daily
+Weight: 188.2 | Waist: 34 
+Sleep: 5:32:00
+RHR: 52 | HRV: 97
+Energy: 3
+Pain: 2 -- Back stiffness light.
+
+2026-01-25: Strength
+RPE: 5 | Focus: Upper Body
+Warm Up: cat-cow, hip-hinge, light erg
+Assisted pull-ups: 3x10 @ 50 lb
+Chest fly machine: 3x10 @ 100 lb
+Dumbbell overhead press: 3x10 @ 30 lb
+Seated dumbbell curls: 3x10 @ 30 lb
+Tricep cable extension : 3x10 @ 120 lb
+Chest supported row: 3x10 @ 55 lb
+Cable crunch: 3x10 @ 130 lb
+Pain: 1
+Notes: no back pain.  Right shoulder has a niggle.  Oddly it wasn’t on shoulder press, but bench press.  So replaced bench press with flies. 
+
+2026-01-26: Yoga | Duration: 45:00
+
+2026-01-26: Daily
+Weight: 187 | Waist: 34 
+Sleep: 7:38:00
+RHR: 53 | HRV: 68
+Energy: 4
+Pain: 2 -- Back stiffness.
+
+2026-01-26: Erg
+RPE: 5 | Distance: 12.999 | Duration: 1:00:00 | Power: 132
+Avg HR: 133
+Pain: 0 -- Stiffness at start, but relaxed.
+Notes: All zone 2 with focus on pelvis and back. 
+
+2026-01-27: Daily
+Weight: 188 | Waist: 34 
+Sleep: 7:49:00
+RHR: 56 | HRV: 39
+Energy: 4
+Pain: 3 -- Back stiffness.  Slept very well.
+
+2026-01-27: Strength
+RPE: 4 | Focus: Core Stability
+Copenhagen plank (each side): 3 @ 30s
+Cable Pallof press (each side): 3x10 @ 60 lb
+Cable chops (each side): 3x10 @ 50 lb
+Back extension: 3x15 @ 0 lb
+Seated cable row: 3x10 @ 100 lb
+Suitcase carry (steps): 3x40 @ 50 lb
+Weighted hip hinge: 3x10 @ 50 lb
+Cable crunch: 3x12 @ 150 lb
+Pain: 2
+Notes: Back stiff in AM but workout loosened it up. 
+
+2026-01-27: Cycle Commute | Duration: 1:10:00
+
+2026-01-28: Daily
+Weight: 187 | Waist: 34 
+Sleep: 6:55:00
+RHR: 61 | HRV: 38
+Energy: 3
+Pain: 2 -- Back stiffness.  
+
+2026-01-28: Erg
+RPE: 8 | Distance: 10.591 | Duration: 56:19 | Power: 179
+Pain: 1 -- No major pain during intervals
+Details: 10x(500 m, 1:30 rest) @ Power/Pace = (273w/1:48.7, 302w/1:45.0, 298w/1:45.5, 301w/145.2, 279w/1:47.9, 283w/1:47.3, 283w/147.4, 283w/1:47.4).  Plus 20:00 UT2.
+
+2026-01-28: Erg
+RPE: 3 | Distance: 3.281 | Duration: 15:00 | Power: 136
+Avg HR: 135
+Pain: 1 -- Back tired by end.
+Notes: Zone 2 cooldown.
+
+2026-01-29: Daily
+Weight: 188 | Waist: 34 
+Sleep: 6:48:00
+RHR: 63 | HRV: 88
+Energy: 3
+Pain: 3 -- Back stiffness. 
+
+2026-01-29: Strength
+RPE: 5 | Focus: Legs
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Glute bridge machine: 3x15 @ 110 lb
+Leg press : 3x8 @ 240 lb
+Calf Press: 3x15 @ 240 lb
+Hamstring curls: 3x10 @ 90 lb
+Back extension: 3x15 @ 0 lb
+Cable Crunch: 3x10 @ 160 lb
+Pain: 2
+
+2026-01-30: Daily
+Weight: 186.5 | Waist: 34 
+Sleep: 7:28:00
+RHR: 57 | HRV: 63
+Energy: 3
+Pain: 3 -- Back stiffness. 
+
+2026-01-30: Erg
+RPE: 4 | Distance: 13.025 | Duration: 1:00:00 | Power: 133
+Avg HR: 129
+Pain: 1 -- Back stiff at end, but loosened during.
+Notes: Zone 2 with 4:00 kick to zone 4 at end.
+
+2026-01-31: Daily
+Weight: 188.4 | Waist: 34 
+Sleep: 6:01:00
+RHR: 59 | HRV: 62
+Energy: 3
+Pain: 3 -- Back stiffness. 
+
+2026-01-31: Erg
+RPE: 5 | Distance: 17.392 | Duration: 1:23:00 | Power: 161
+Avg HR: 131
+Pain: 1 -- Back quite stiff before erg.  Tired after. 
+Details: 5x15:00 with 2:00 rest. 
+
+2026-02-01: Daily
+Weight: 187.8 | Waist: 33.75 
+Sleep: 7:20:00
+RHR: 57 | HRV: 81
+Energy: 3
+Pain: 3 -- Back stiffness. 
+
+2026-02-01: Strength
+RPE: 7 | Focus: Upper Body
+Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 55 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x10 @ 145 lb
+Seated dumbbell curls: 3x10 @ 30 lb
+Tricep cable extension : 3x10 @ 110 lb
+Chest supported row: 3x10 @ 65 lb
+Dumbbell overhead press: 3x10 @ 30 lb
+Weighted hip hinge: 3x10 @ 50 lb
+Pain: 2
+
+2026-02-02: Daily
+Weight: 188.2 | Waist: 33.75 
+Sleep: 7:30:00
+RHR: 54 | HRV: 87
+Energy: 2
+Pain: 3 -- Back stiffness. Have a cold/flu today.  Cancelling workout, may do yoga instead. 
+
+2026-02-03: Daily
+Weight: 186.6 | Waist: 34 
+Sleep: 8:13:00
+RHR: 67 | HRV: 28
+Energy: 2
+Pain: 3 -- Back stiffness from sleeping all day yesterday.  Cold is going away today.
+
+2026-02-03: Erg
+RPE: 3 | Distance: 9.642 | Duration: 45:00 | Power: 135
+Avg HR: 129
+Pain: 1 -- Back quite stiff before erg.  Tired after. 
+Notes: Could not keep heart rate in zone 2 - likely due to tail end of illness..
+
+2026-02-04: Daily
+Weight: 185.8 | Waist: 34 
+Sleep: 7:11:00
+RHR: 59 | HRV: 42
+Energy: 3
+Pain: 3 -- Back stiffness. 
+
+2026-02-04: Strength
+RPE: 4 | Focus: Gada Session
+Hip-hinge/bent-row (each side): 3x10 @ 15 lb
+360 (each direction): 3x10 @ 10 lb
+Side-to-side lunge: 3x20 @ 15 lb
+Back-step uppercut (each side): 3x10 @ 10 lb
+Pain: 2
+Notes: Stiffness dissipated after getting moving. 
+
+2026-02-05: Daily
+Weight: 186.6 | Waist: 34 
+Sleep: 6:31:00
+RHR: 64 | HRV: 81
+Energy: 3
+Pain: 3 -- Back stiffness. Still leftover cough. 
+
+2026-02-05: Strength
+RPE: 3 | Focus: Upper Body
+Warm Up: light cycle right
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x10 @ 135 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x10 @ 30 lb
+Pain: 0
+Notes: Assisted pull-ups ready to increase in resistance. 
+
+2026-02-06: Daily
+Weight: 187.8 | Waist: 33.75 
+Sleep: 6:13:00
+RHR: 59 | HRV: 27
+Energy: 3
+Pain: 2 -- Back stiffness. 
+
+2026-02-06: Erg
+RPE: 4 | Distance: 13.261 | Duration: 1:00:00 | Power: 140
+Avg HR: 127
+Pain: 1 -- Less back stiffness today than earlier in week.  Cold gone, dry cough lingers. 
+Details: 3x20:00 with 1:00 rest. 
+
+2026-02-07: Daily
+Weight: 185.8 | Waist: 33.5 
+Sleep: 6:25:00
+RHR: 54 | HRV: 76
+Energy: 3
+Pain: 1 -- Back stiffness.
+
+2026-02-07: Swim
+RPE: 7 | Distance: 2 | Duration: 39:50
+Avg HR: 151
+Pain: 0
+Notes: Felt hard to get oxygen with lingering phlegm, but happy with final time.
+
+2026-02-08: Daily
+Weight: 186.6 | Waist: 33.5 
+Sleep: 7:13:00
+RHR: 54 | HRV: 72
+Energy: 4
+Pain: 2 -- Back stiffness.
+
+2026-02-08: Yoga | Duration: 30:00
+
+2026-02-08: Strength
+RPE: 7 | Focus: Force Production
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension: 3x15 @ 0 lb
+Chest supported row: 4x5 @ 80 lb
+Glute bridge machine: 4x5 @ 160 lb
+Leg press: 5x5 @ 220 lb
+Farmer carry (steps): 3x50 @ 50 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 0
+Notes: Shorter sets felt good on leg press. 
+
+2026-02-09: Daily
+Weight: 187.6 | Waist: 33.75 
+Sleep: 6:46:00
+RHR: 55 | HRV: 66
+Energy: 4
+Pain: 2 -- Back stiffness.
+
+2026-02-09: Erg
+RPE: 5 | Distance: 10.064 | Duration: 45:00 | Power: 145
+Avg HR: 140
+Pain: 1  
+Notes: Can’t control HR since cold. Zone 2 effort, but HR much higher than usual. 
+
+2026-02-10: Daily
+Weight: 189 | Waist: 34 
+Sleep: 7:14:00
+RHR: 59 | HRV: 60
+Energy: 4
+Pain: 2 -- Back stiffness.
+
+2026-02-10: Yoga | Duration: 20:00
+
+2026-02-10: Strength
+RPE: 4 | Focus: Gada Session
+Hip-hinge/bent-row (each side): 3x10 @ 15 lb
+360 (each direction): 3x10 @ 10 lb
+Side-to-side lunge: 3x20 @ 15 lb
+Back-step uppercut (each side): 3x10 @ 10 lb
+Pain: 2
+Notes: Did Gada a lot last year. But these are hard again. 
+
+2026-02-11: Daily
+Weight: 189 | Waist: 34 
+Sleep: 7:21:00
+RHR: 60 | HRV: 47
+Energy: 4
+Pain: 1 -- Back stiffness.
+
+2026-02-11: Run
+RPE: 7 | Distance: 8.06 | Duration: 41:45
+Avg HR: 162
+Pain: 1 -- Some back tenderness after. 
+Notes: Cancelled any type of intervals due to cold recovery.  However, Wednesday is quality day so I did push a bit.  Felt strong, especially given that I haven’t been running as much lately. 
+
+2026-02-12: Daily
+Weight: 187.6 | Waist: 34 
+Sleep: 6:45:00
+RHR: 54 | HRV: 47
+Energy: 3
+Pain: 2 -- Back stiffness.
+
+2026-02-12: Erg
+RPE: 4 | Distance: 9.547 | Duration: 45:00 | Power: 124
+Avg HR: 131
+Pain: 1 -- Just stiffness. 
+Notes: Easy row, focus on technique. 
+
+2026-02-12: Yoga | Duration: 45:00
+
+2026-02-13: Daily
+Weight: 187.6 | Waist: 34 
+Sleep: 7:14:00
+RHR: 58 | HRV: 48
+Energy: 3
+Pain: 2 -- Back stiffness.
+
+2026-02-13: Strength
+RPE: 5 | Focus: Upper Body
+Warm Up: light cycle
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x10 @ 40 lb
+Bench press: 3x8 @ 145 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x10 @ 35 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 0
+
+2026-02-14: Daily
+Weight: 190 | Waist: 34 
+Sleep: 7:00:00 (quality felt poor)
+RHR: 60 | HRV: 33
+Energy: 2
+Pain: 2 -- Back stiffness.
+
+2026-02-14: Swim
+RPE: 4 | Distance: 2 | Duration: 44:00
+Avg HR: 137
+Pain: 0
+Notes: Technique focus. Technically felt good, body sluggish. 
+
+2026-02-15: Daily
+Weight: 188 | Waist: 34 
+Sleep: 6:26:00 
+RHR: 56 | HRV: 58
+Energy: 2
+Pain: 2 -- Back stiffness.
+
+2026-02-15: Strength
+RPE: 7 | Focus: Force Production
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension: 3x15 @ 0 lb
+Chest supported row: 4x5 @ 80 lb
+Glute bridge machine: 4x5 @ 160 lb
+Leg press: 5x5 @ 260 lb
+Farmer carry (steps): 3x50 @ 50 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 0
+Notes: Shorter sets felt good on leg press. 
+
+2026-02-16: Daily
+Weight: 189.8 | Waist: 34 
+Sleep: 6:06:00 
+RHR: 53 | HRV: 52
+Energy: 2
+Pain: 2 -- Back stiffness.
+
+2026-02-16: Yoga | Duration: 45:00
+
+2026-02-16: Erg
+RPE: 4 | Distance: 9.392 | Duration: 45:00 | Power: 188
+Avg HR: 129
+Pain: 2 -- Back stiff.
+Notes: Very easy row.  HR crept up by end though.
+
+2026-02-17: Daily
+Weight: 190.5 | Waist: 34 
+Sleep: 7:30:00 
+RHR: 55 | HRV: 49
+Energy: 2
+Pain: 2 -- Back stiffness.
+
+2026-02-17: Yoga | Duration: 45:00
+
+2026-02-18: Daily
+Weight: 190.5 | Waist: 34 
+Sleep: 5:46:00 
+RHR: 60 | HRV: 46
+Energy: 2
+Pain: 2 -- Back stiffness.
+
+2026-02-19: Daily
+Weight: 189.4 | Waist: 34 
+Sleep: 6:38:00 
+RHR: 57 | HRV: 48
+Energy: 2
+Pain: 2 -- Back stiffness.
+
+2026-02-19: Swim
+RPE: 7 | Distance: 2 | Duration: 39:54
+Avg HR: 144
+Pain: 0
+Notes: Tempo. Added some intensity because yesterday was full rest, tomorrow is full rest, Saturday is light or maybe rest. Also want to get tired and help me sleep on plane. Felt very good today. 
+
+2026-02-21: Daily
+Waist: 34 
+Sleep: 6:42:00 
+RHR: 57 | HRV: 60
+Energy: 3
+Pain: 3 -- Back stiffness in PM. 
+Notes: No scale on vacation. Yesterday was on redeye flight so only various naps on flight and after, 
+
+2026-02-21: Walk | Distance: 10 km
+
+2026-02-22: Daily
+Waist: 34 
+Sleep: 7:49:00 
+RHR: 52 | HRV: 54
+Energy: 3
+Pain: 2 -- Back stiffness. Sleep recovered after flight. 
+
+2026-02-22: Walk | Distance: 16 km
+
+2026-02-23: Daily
+Waist: 34 
+Sleep: 5:39:00 
+RHR: 51 | HRV: 50
+Energy: 2
+Pain: 2 -- Jet lagged. Tired at wake-up. 
+
+2026-02-23: Row
+RPE: 3 | Distance: 9.679 | Duration: 1:12:20
+Avg HR: 125
+Pain: 2
+Notes: Easy and technically focused. 
+
+2026-02-23: Row
+RPE: 3 | Distance: 9.260 | Duration: 1:22:49
+Avg HR: 118
+Pain: 3
+Notes: Square blade drills. 
+
+2026-02-24: Daily
+Waist: 34.5 
+Sleep: 7:05:00 
+RHR: 52 | HRV: 28
+Energy: 2
+Pain: 2 -- Tired in AM.  
+
+2026-02-24: Row
+RPE: 4 | Distance: 11.860 | Duration: 1:30:57
+Avg HR: 129
+Pain: 2
+Notes: Pushed a bit. Tried to keep blades off water. 
+
+2026-02-24: Row
+RPE: 3 | Distance: 10.680 | Duration: 1:20:31
+Avg HR: 129
+Pain: 2
+Notes: Square blade drills. 
+
+2026-02-25: Daily
+Waist: 34 
+Sleep: 7:05:00 
+RHR: 57 | HRV: 84
+Energy: 2
+Pain: 3 -- Back stiffness on awakening. 
+
+2026-02-25: Row
+RPE: 5 | Distance: 14.890 | Duration: 1:35:06
+Avg HR: 138
+Pain: 2
+Notes: Pushed a bit more. Balance improving. 
+
+2026-02-25 PM: Row
+RPE: 3 | Distance: 10.020 | Duration: 1:04:05
+Avg HR: 135
+Pain: 3
+Notes: Easy row, but fatigued from morning. 
+
+2026-02-26: Daily
+Waist: 34 
+Sleep: 7:49:00 
+RHR: 59 | HRV: 42
+Energy: 3
+Pain: 3 -- Back stiffness on awakening. 
+
+2026-02-26: Row
+RPE: 5 | Distance: 16.760 | Duration: 1:49:06
+Avg HR: 127
+Pain: 2
+Notes: Pushed a bit more. Same route as yesterday AM, but not as tiring today. 
+
+2026-02-26: Row
+RPE: 3 | Distance: 10.020 | Duration: 1:00:05
+Avg HR: 135
+Pain: 2
+Notes: Easy row. Not as tired as yesterday. 
+
+2026-02-27: Daily
+Waist: 34.5 
+Sleep: 6:46:00 
+RHR: 59 | HRV: 48
+Energy: 3
+Pain: 3 -- Back stiffness on awakening. 
+
+2026-02-27: Row
+RPE: 5 | Distance: 19.860 | Duration: 2:05:06
+Avg HR: 128
+Pain: 2
+Notes: Pushed on the return leg. Balance getting much better. 
+
+2026-02-27: Row
+RPE: 2 | Distance: 8.780 | Duration: 1:10:05
+Avg HR: 111
+Pain: 2
+Notes: This was just a fun spin. Very hot weather. 
+
+2026-02-28: Daily
+Waist: 34 
+Sleep: 6:34:00 
+RHR: 58 | HRV: 53
+Energy: 3
+Pain: 3 -- Back stiffness on awakening. 
+
+2026-02-28: Row
+RPE: 7 | Distance: 14.060 | Duration: 1:38:05
+Avg HR: 130 | Max HR: 160 bpm
+Pain: 2
+Details: WU, 20 stroke on / 10 off repeats
+Notes: Last row of camp, CD. Gained a lot of confidence in single over week. Now able to push hard and not worry about balance. 
+
+2026-03-01: Daily
+Waist: 34 
+Sleep: 7:30:00 
+RHR: 55 | HRV: 49
+Energy: 3
+Pain: 1 -- Back stiffness on awakening, but better than previous days. 
+
+2026-03-02: Daily
+Waist: 34 
+Sleep: 6:38:00 
+RHR: 53 | HRV: 82
+Energy: 3
+Pain: 1 -- Back stiffness improving. 
+
+2026-03-03: Daily
+Weight: 187.8 | Waist: 34 
+Sleep: 7:11:00 
+RHR: 56 | HRV: 67
+Energy: 3
+Pain: 1 -- Some disjointed sleep on plane home, 5:00:00 in bed. 
+
+2026-03-03: Erg
+RPE: 3 | Distance: 6.382 | Duration: 30:00 | Power: 125
+Avg HR: 128
+Pain: 1 -- Just stiffness. 
+Notes: Easy row, focus on technique. 
+
+2026-03-04: Daily
+Weight: 187.8 | Waist: 34.25 
+Sleep: 7:49:00 
+RHR: 63 | HRV: 41
+Energy: 3
+Pain: 2. Back stiffness on awakening. 
+
+2026-03-04: Swim
+RPE: 3 | Distance: 1 | Duration: 23:51
+Avg HR: 150
+Pain: 0
+Notes: Not feeling it. Maybe jet lag. Maybe an illness coming on. Aborted at the half way point.
+
+2026-03-05: Daily
+Weight: 185.8 | Waist: 33.75 
+Sleep: 6:39:00 -- plus about 4 hours of naps
+RHR: 68 | HRV: 20
+Energy: 3
+Pain: 2 -- Back stiffness on awakening. Was sick yesterday: achy, cold, tired, headache, fever. Ate very little. 
+
+2026-03-06: Daily
+Weight: 185.8 | Waist: 34 
+Sleep: 6:27:00 
+RHR: 64 | HRV: 43
+Energy: 3
+Pain: 1
+
+2026-03-06: Strength
+RPE: 3 | Focus: Force Production
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x10 @ 60 lb
+Incline press: 3x8 @ 95 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x10 @ 35 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 0
+Notes: Slow with lots of rest between steps. 
+
+2026-03-07: Daily
+Weight: 185.8 | Waist: 34 
+Sleep: 5:52:00 
+RHR: 62 | HRV: 47
+Energy: 2
+Pain: 1 -- Still jet-lagged. Will nap in PM. 
+
+2026-03-07: Erg
+RPE: 4 | Distance: 9.552 | Duration: 45:00 | Power: 124
+Avg HR: 131
+Pain: 0
+Notes: Easy row, focus on back posture. 
+
+2026-03-08: Daily
+Weight: 186.4 | Waist: 34 
+Sleep: 6:49:00 -- Slept well
+RHR: 59 | HRV: 71
+Energy: 3
+Pain: 1
+
+2026-03-08: Strength
+RPE: 7 | Focus: Force Production
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension : 3x15 @ 0 lb
+Chest supported row: 4x5 @ 80 lb
+Glute bridge machine: 4x5 @ 180 lb
+Leg press: 5x5 @ 220 lb
+Suitcase carry (steps): 3x50 @ 50 lb
+Pain: 0
+Notes: Leg press at 220 felt hard, but far from my recent max. Next time swap to one leg press for change. 
+
+2026-03-09: Daily
+Weight: 187 | Waist: 34 
+Sleep: 6:50:00 
+RHR: 59 | HRV: 54
+Energy: 3
+Pain: 1
+
+2026-03-09: Run
+RPE: 7 | Distance: 10.14 | Duration: 52:08
+Avg HR: 159
+Pain: 1
+Notes: Only slight back tenderness at end.  HR high, but this didn’t feel like a strain - mildly hard but calm. Never felt like I needed or wanted to rest. 
+
+2026-03-10: Daily
+Weight: 186.8 | Waist: 34.5 
+Sleep: 6:45:00 
+RHR: 63 | HRV: 70
+Energy: 3
+Pain: 2 -- Back stiff after run. Quads DOMS. 
+Notes: Stopped taking creatinine when at rowing camp, started when I came back Monday. 
+
+2026-03-10: Erg
+RPE: 4 | Distance: 9.635 | Duration: 45:00 | Power: 127
+Avg HR: 132
+Pain: 0
+Notes: Easy row, focus on back posture. 
+
+2026-03-11: Daily
+Weight: 186.8 | Waist: 34 
+Sleep: 6:39:00 
+RHR: 59 | HRV: 39
+Energy: 2
+Pain: 2 -- Back stiffness on awakening.
+
+2026-03-12: Daily
+Weight: 185.6 | Waist: 34.25 
+Sleep: 7:39:00 
+RHR: 58 | HRV: 67
+Energy: 3
+Pain: 2 -- Back stiffness on awakening.
+
+2026-03-12: Erg
+RPE: 7 | Distance: 9.945 | Duration: 45:00 | Power: 140
+Avg HR: 134
+Pain: 0
+Notes: Progression erg. 35:00 Zone 2. 7:00 Zone 3. 2:00 Hard, 1:00 Sprint.
+
+2026-03-13: Daily
+Weight: 187 | Waist: 34 
+Sleep: 6:35:00 
+RHR: 58 | HRV: 71
+Energy: 3
+Pain: 1 -- Back stiffness on awakening.
+
+2026-03-13: Strength
+RPE: 5 | Focus: Upper Body
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x8 @ 145 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x10 @ 35 lb
+Cable crunch: 3x10 @ 150 lb
+Notes: Bench and shoulder press ready to increase. 
+
+2026-03-14: Daily
+Weight: 187 | Waist: 34 
+Sleep: 6:36:00 
+RHR: 58 | HRV: 69
+Energy: 3
+Pain: 1 -- Poor sleep after night out drinking with friends. Will take an afternoon nap. 
+
+2026-03-14: Run
+RPE: 8 | Distance: 10.34 | Duration: 55:04
+Avg HR: 160
+Pain: 1
+Notes: Faster than planned, but ran at group pace. After poor sleep was some work, but got a quality run done.  Now will nap. 
+
+2026-03-15: Daily
+Weight: 187 | Waist: 34 
+Sleep: 6:47:00 
+RHR: 58 | HRV: 39
+Energy: 3
+Pain: 2 -- After a run, I expect a stiff back. It is stiff today, but not as bad as I’m used to. 
+
+2026-03-15: Strength
+RPE: 5 | Focus: Force Production
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension : 3x15 @ 0 lb
+Chest supported row: 4x5 @ 80 lb
+Glute bridge machine: 4x5 @ 180 lb
+Single leg press: 5x5 @ 80 lb
+Suitcase carry (steps): 3x50 @ 50 lb
+Pain: 0
+Notes: Left leg obviously stronger on single leg press (I’m right leg dominant however).
+
+2026-03-16: Daily
+Weight: 188 | Waist: 34 
+Sleep: 7:15:00 
+RHR: 58 | HRV: 55
+Energy: 3 -- Bit sleepy on awaking.
+Pain: 2
+
+2026-03-16: Erg
+RPE: 4 | Distance: 9.827 | Duration: 45:00 | Power: 134
+Avg HR: 125
+Pain: 0
+Notes: Easy erg. Technique focus. 
+
+2026-03-17: Daily
+Weight: 186.6 | Waist: 34 
+Sleep: 7:34:00 
+RHR: 53 | HRV: 82
+Energy: 3
+Pain: 1 -- Back stiffness ok. 
+
+2026-03-16: Erg
+RPE: 8 | Distance: 5.008 | Duration: 30:55 | Power 182 w
+Avg HR: 139
+Pain: 1 -- Some back soreness by end.
+Details: 10x(1:00, 1:00 rest) @ Power/Pace = (361w/1:39.0, 336w/1:41.3, 313w/1:43.8, 319w/1:43.0, 313w/1:43.8, 310w/1:44.1, 306w/1:44.5, 306w/1:44.5).  
+
+2026-03-18: Daily
+Weight: 190 | Waist: 34.5 
+Sleep: 7:29:00 
+RHR: 58 | HRV: 59
+Energy: 3
+Pain: 1 -- Back stiffness ok. 
+
+2026-03-18: Run
+RPE: 5 | Distance: 8.15 | Duration: 45:51
+Avg HR: 147
+Pain: 1
+Notes: Commute run. 
+
+2026-03-18: Nutrition
+Breakfast: 3/4 cup cottage cheese with 1/2 last night’s lentil stew leftovers. 
+Lunch: 2 slices free pizza at work event
+Dinner: Sushi: 7 nigiri,  6 rolls
+AM Snacks: Apple
+PM Snacks: 4 edamame beans. 4 cheese and crackers. 2 cups potato chips
+Notes: Breakfast before workout.
+
+2026-03-19: Daily
+Weight: 189.5 | Waist: 34 
+Sleep: 7:17:00 
+RHR: 58 | HRV: 35
+Energy: 3
+Pain: 1 -- Back stiffness ok. 
+
+2026-03-19: Erg
+RPE: 4 | Distance: 9.759 | Duration: 45:00 | Power: 134
+Avg HR: 130
+Pain: 0
+Notes: Easy erg. Technique focus. 
+
+2026-03-20: Daily
+Weight: 186.8 | Waist: 34 
+Sleep: 7:29:00 
+RHR: 60 | HRV: 62
+Energy: 3
+Pain: 2 -- Back stiffness. 
+
+2026-03-20: Strength
+RPE: 8 | Focus: Upper Body
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x7 @ 155 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x8 @ 40 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 0
+Notes: Bench sets left one in tank. Could have done 8 with spotter. 
+
+2026-03-21: Daily
+Weight: 186.8 | Waist: 34 
+Sleep: 7:12:00 
+RHR: 59 | HRV: 39
+Energy: 3
+Pain: 3 -- Back stiffness. 
+
+2026-03-21: Swim
+RPE: 6 | Distance: 2 | Duration: 40:25
+Avg HR: 135
+Pain: 0
+Notes: Switched planned run to swim due to AM back stiffness.
+
+2026-03-22: Daily
+Weight: 186.8 | Waist: 34.25 
+Sleep: 6:23:00 
+RHR: 58 | HRV: 50
+Energy: 3
+Pain: 2 -- Back stiffness. 
+
+2026-03-22: Strength
+RPE: 5 | Focus: Force Production
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension : 3x15 @ 0 lb
+Chest supported row: 4x5 @ 90 lb
+Glute bridge machine: 4x5 @ 180 lb
+Single leg press: 5x5 @ 80 lb
+Suitcase carry (steps): 3x50 @ 50 lb
+Pain: 2 -- Back stiffness. 
+Notes: Improved control on single leg press. 
+
+2026-03-23: Daily
+Weight: 189.2 | Waist: 34.5 
+Sleep: 7:25:00 
+RHR: 58 | HRV: 81
+Energy: 3
+Pain: 2 -- Back stiffness. 
+
+2026-03-23: Erg
+RPE: 4 | Distance: 9.745 | Duration: 45:00 | Power: 132
+Avg HR: 133
+Pain: 1
+Notes: Easy erg. Technique focus. 
+
+2026-03-24: Daily
+Weight: 189.2 | Waist: 34.25 
+Sleep: 5:47:00 
+RHR: 60 | HRV: 52
+Energy: 2
+Pain: 2 -- Back stiffness.  
+
+2026-03-24: Erg
+RPE: 8 | Distance: 7.490 | Duration: 41:41 | Power: 157
+Avg HR: 127
+Pain: 1
+Details: 10x(500m, 1:30 rest) @ Power/Pace = (285w/1:47.1, 288w/1:46.7, 279w/1:47.9, 286w/1:47.0, 273w/1:48.7, 287w/1:46.9, 287w/1:46.9, 287w/1:46.9)
+
+2026-03-25: Daily
+Weight: 188.8 | Waist: 34 
+Sleep: 6:48:00 
+RHR: 53 | HRV: 52
+Energy: 2
+Pain: 2 -- Back stiffness.  
+
+2026-03-25: Yoga | Duration: 30:00
+
+2026-03-26: Daily
+Weight: 187.2 | Waist: 34.25 
+Sleep: 6:42:00 
+RHR: 54 | HRV: 43
+Energy: 2
+Pain: 2 -- Back stiffness.  
+
+2026-03-26: Strength
+RPE: 8 | Focus: Upper Support
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Bench press: 3x7 @ 155 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x8 @ 40 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 4
+Notes: I don’t think back pain was a result of this workout. There was stiffness before it, and it would feel the same had I just gone for a walk instead. 
+
+2026-03-27: Daily
+Weight: 187.2 | Waist: 34.5 
+Sleep: 5:55:00 
+RHR: 58 | HRV: 68
+Energy: 3
+Pain: 3 -- Back stiffness. Will take ibuprofen for swelling. 
+
+2026-03-27: Erg
+RPE: 4 | Distance: 9.732 | Duration: 45:00 | Power: 131
+Avg HR: 137
+Pain: 2
+Notes: Easy erg. Technique focus. 
+
+2026-03-28: Daily
+Weight: 186.5 | Waist: 34.25 
+Sleep: 6:38:00 
+RHR: 52 | HRV: 58
+Energy: 3
+Pain: 3 -- Back stiffness.
+Notes: Bought new scale. Old one measured 187.8 today. New scale going forward. 
+
+2026-03-29: Daily
+Weight: 186.5 | Waist: 34.25 
+Sleep: 6:14:00 
+RHR: 57 | HRV: 64
+Energy: 3
+Pain: 2 -- Back stiffness.
+
+2026-03-29: Strength
+RPE: 5 | Focus: Force Production
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension : 3x15 @ 0 lb
+Chest supported row: 4x5 @ 90 lb
+Glute bridge machine: 4x5 @ 180 lb
+Single leg press: 5x5 @ 85 lb
+Suitcase carry (steps): 3x50 @ 50 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 2 -- Back stiffness. 
+Notes: Improved control on single leg press. 
+
+2026-03-30: Daily
+Weight: 185.4 | Waist: 34 
+Sleep: 7:08:00 
+RHR: 55 | HRV: 71
+Energy: 3
+Pain: 2 -- Back stiffness.
+
+2026-03-30: Erg
+RPE: 5 | Distance: 9.688 | Duration: 45:00 | Power: 129
+Avg HR: 140
+Pain: 2
+Notes: Low zone 3. Hard to stay in zone 2 today.
+
+2026-03-31: Daily
+Weight: 185.64 | Waist: 34 
+Sleep: 7:03:00 
+RHR: 58 | HRV: 72
+Energy: 3
+Pain: 2 -- Back stiffness.
+
+2026-03-31: Erg
+RPE: 4 | Distance: 9.722 | Duration: 45:00 | Power: 131
+Avg HR: 132
+Pain: 1
+Notes: Zone 2. Felt easer and better result than yesterday.
+
+2026-04-01: Daily
+Weight: 188.2 | Waist: 34 
+Sleep: 6:03:00 
+RHR: 59 | HRV: 57
+Energy: 2
+Pain: 2 -- Back stiffness not soreness. 
+Notes: Late night event, 3 drinks alcohol. 
+
+2026-04-01: Strength
+RPE: 6 | Focus: Upper Body
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x8 @ 50 lb
+Bench press: 3x7 @ 160 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x8 @ 40 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 1
+Notes: Low energy workout.  But new bench max felt well within control. 
+
+2026-04-02: Daily
+Weight: 187.1 | Waist: 34.25 
+Sleep: 5:49:00 
+RHR: 58 | HRV: 55
+Energy: 3
+Pain: 2 -- Back stiffness not soreness. 
+
+2026-04-02: Swim
+RPE: 7 | Distance: 2 | Duration: 38:30
+Avg HR: 144
+Pain: 0
+Notes: Back feels better after swim, as is usual. 
+
+2026-04-03: Daily
+Weight: 185.1 | Waist: 34 
+Sleep: 6:33:00 
+RHR: 58 | HRV: 82
+Energy: 3
+Pain: 1 -- Back stiffness not soreness. 
+
+2026-04-03: Run
+RPE: 7 | Distance: 8.5 | Duration: 42:00
+Avg HR: 155
+Pain: 1
+Notes: Watch stop/start failure on this so numbers are estimated based on others in the group. 
+
+2026-04-04: Daily
+Weight: 189.1 | Waist: 34 
+Sleep: 7:38:00 
+RHR: 63 | HRV: 55
+Energy: 3
+Pain: 1 -- Back stiffness not soreness. 
+
+2026-04-04: Erg
+RPE: 8 | Distance: 9.722 | Duration: 59:00 | Power: 195
+Avg HR: 134 -- With 15:20 Zone 5
+Pain: 1
+Details: 10:00 warm up progression zone 1. Pyramid Intervals w/ 1:00 rest (1:00@241w, 2:00@243w, 3:00@241w, 4:00@237w, 5:00@234w, 4:00@231w, 3:00@243w, 2:00@,257w 1:00@310w). 15:00 cool down regression zone 1. 
+Notes: Accidentally joined a hard session with group - got it done fine. Will subtract one hard session from next week. 
+
+2026-04-05: Daily
+Weight: 190.0 | Waist: 34.5 
+Sleep: 8:04:00 
+RHR: 62 | HRV: 44
+Energy: 3
+Pain: 1 -- Back stiffness not soreness.
+
+2026-04-05: Strength
+RPE: 4 | Focus: Force Production
+Warm Up: cat-cow, hip-hinge, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension : 3x15 @ 0 lb
+Chest supported row: 4x5 @ 90 lb
+Glute bridge machine: 4x5 @ 180 lb
+Single leg press: 5x5 @ 90 lb
+Suitcase carry (steps): 3x50 @ 50 lb
+Pain: 2 -- Back stiffness. 
+Notes: Improved control on single leg press - which is where the gains are coming from. 
+
+2026-04-06: Daily
+Weight: 189.1 | Waist: 34.5 
+Sleep: 7:10:00 
+RHR: 58 | HRV: 44
+Energy: 3
+Pain: 1 -- Back stiffness not soreness.
+
+2026-04-06: Erg
+RPE: 3 | Distance: 9.385 | Duration: 45:00 | Power: 118
+Avg HR: 119
+Pain: 0
+Notes: Zone 1/2 recovery erg. 
+
+2026-04-07: Daily
+Weight: 189.1 | Waist: 34.5 
+Sleep: 7:19:00 
+RHR: 56 | HRV: 72
+Energy: 3
+Pain: 1 -- Back stiffness not soreness.
+
+2026-04-07: Erg
+RPE: 4 | Distance: 9.273 | Duration: 45:00 | Power: 113
+Avg HR: 129
+Pain: 0
+Notes: Zone 2 easy erg. 
+
+2026-04-08: Daily
+Weight: 189.1 | Waist: 34.5 
+Sleep: 6:44:00 
+RHR: 58 | HRV: 56
+Energy: 2
+Pain: 2 -- Back stiffness not soreness.
+
+2026-04-09: Daily
+Weight: 187.8 | Waist: 34.5 
+Sleep: 7:29:00 
+RHR: 57 | HRV: 71
+Energy: 2
+Pain: 2 -- Back stiffness not soreness.
+
+2026-04-09: Strength
+RPE: 6 | Focus: Upper Body
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x8 @ 50 lb
+Bench press: 3x6 @ 165 lb
+Chest supported row: 3x8 @ 70 lb
+Dumbbell overhead press: 3x8 @ 40 lb
+Cable crunch: 3x10 @ 150 lb
+Pain: 1
+Notes: Last rep of bench was a grind. 
+
+2026-04-09: Daily
+Weight: 187.8 | Waist: 34.25 
+Sleep: 9:27:00 
+RHR: 63 | HRV: 51
+Energy: 1
+Pain: 1 -- Back stiffness not soreness.
+Notes: Have a head cold. Last night was main part, today is milder. 
+
+2026-04-11: Daily
+Weight: 188.8 | Waist: 34.5 
+Sleep: 7:30:00 
+RHR: 64 | HRV: 40
+Energy: 2
+Pain: 1
+Notes: Still have cold: stuffy nose, headache. 
+
+2026-04-11: Strength
+RPE: 4 | Focus: Full Body
+Warm Up: cat-cow, bird-dogs
+Cable Pallof press (each side): 3x10 @ 70 lb
+Back extension : 3x15 @ 0 lb
+Chest supported row: 4x5 @ 90 lb
+Glute bridge machine: 4x5 @ 180 lb
+Single leg press: 4x5 @ 90 lb
+Chest fly machine: 3x10 @ 140 lb
+Pain: 2 -- Back stiffness. 
+Notes: Feeling better from this AM. Didn’t push, lots of rest between sets. 
+
+2026-04-12: Daily
+Weight: 187.2 | Waist: 34.5 
+Sleep: 6:53:00 
+RHR: 62 | HRV: 38
+Energy: 4
+Pain: 1
+Notes: Cold gone.
+
+2026-04-12: Cycle
+RPE: 5 | Distance: 29.78 | Duration: 1:16:11
+Avg HR: 126
+Pain: 1
+Notes: Probably RPE 4, but was a bit cold and some rain, so felt harder. 
+
+2026-04-13: Daily
+Weight: 186.4 | Waist: 34.5 
+Sleep: 7:45:00 
+RHR: 59 | HRV: 83
+Energy: 4
+Pain: 1
+
+2026-04-13: Row
+RPE: 5 | Distance: 10.653 | Duration: 55:11
+Avg HR: 117
+Pain: 1
+Notes: Some hard sections, but 95% easy and technical. 
+
+2026-04-14: Daily
+Weight: 187.3 | Waist: 34.5 
+Sleep: 5:11:00 
+RHR: 61 | HRV: 43
+Energy: 4
+Pain: 1
+
+2026-04-14: Run
+RPE: 8 | Distance: 10 | Duration: 50:37
+Avg HR: 163
+Pain: 1
+Notes: downpour at times, completely soaked shoes. Had to pause for quick breather several times. 
+
+2026-04-15: Daily
+Weight: 187.3 | Waist: 34.5 
+Sleep: 7:56:00 
+RHR: 59 | HRV: 44
+Energy: 3
+Pain: 2
+
+2026-04-15: Strength
+RPE: 6 | Focus: Upper Support
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x8 @ 50 lb
+Bench press: 3x8 @ 155 lb
+Chest supported row: 3x8 @ 70 lb
+Cable tricep extension : 3x10 @ 110 lb
+Dumbbell curls: 3x8 @ 30 lb
+Pain: 1
+Notes: Mixed it up for more arm focus today. 
+
+2026-04-16: Daily
+Weight: 189 | Waist: 34.5 
+Sleep: 6:22:00 
+RHR: 59 | HRV: 62
+Energy: 3
+Pain: 2
+
+2026-04-16: Erg
+RPE: 5 | Distance: 13.159 | Duration: 1:00:00 | Power: 137
+Avg HR: 132
+Pain: 0
+Notes: 4x15:00 w/ 2:00 rest
+
+2026-04-17: Daily
+Weight: 188 | Waist: 34.5 
+Sleep: 7:05:00 
+RHR: 61 | HRV: 40
+Energy: 3
+Pain: 1
+
+2026-04-17: Row
+RPE: 6 | Distance: 12.736 | Duration: 1:03:00
+Avg HR: 125
+Pain: 0
+Notes: 2x. Our Boy with Tristan. Oars off water, felt fast but smooth. Coach said we were doing an extended reach before the catch rather than simply dropping in and driving with legs. Had the effect of a little pause at every catch. Also rushed the slide at beginning but self corrected. 
+
+2026-04-18: Daily
+Weight: 186.5 | Waist: 34.5 
+Sleep: 6:51:00 
+RHR: 63 | HRV: 36
+Energy: 3
+Pain: 1
+
+2026-04-18: Run
+RPE: 5 | Distance: 11.61 | Duration: 1:04:12 
+Avg HR: 146
+Pain: 1
+Notes: Higher HR than Z2, but that’s because I’ve not been focusing on running and am out of run-shape. Perceived effort was low.
+
+2026-04-19: Daily
+Weight: 187.8 | Waist: 34.5 
+Sleep: 5:04:00 
+RHR: 59 | HRV: 73
+Energy: 3
+Pain: 1
+
+2026-04-19: Strength
+RPE: 5 | Focus: Force Production
+Warm Up: stretch
+Cable Pallof press (each side): 3x10 @ 70 lb
+Chest supported row: 4x5 @ 90 lb
+Glute bridge machine: 4x5 @ 180 lb
+Single leg press: 5x5 @ 90 lb
+Suitcase carry (steps): 3x50 @ 50 lb
+Bench press: 2x5 @ 175 lb
+Pain: 0
+Notes: Deeper on single leg press, greater range at same weight.
+
+2026-04-20: Daily
+Weight: 187.3 | Waist: 34.25 
+Sleep: 7:33:00 
+RHR: 58 | HRV: 67
+Energy: 3
+Pain: 1
+
+2026-04-20: Erg
+RPE: 2 | Distance: 5.917 | Duration: 30:00 | Power: 99
+Avg HR: 122
+Pain: 1 — Could feel asymmetry, slight pain on RHS.
+Notes: Focus on slide control
+
+2026-04-21: Daily
+Weight: 190 | Waist: 34.5 
+Sleep: 6:51:00 
+RHR: 63 | HRV: 36
+Energy: 3
+Pain: 1
+
+2026-04-22: Daily
+Weight: 189 | Waist: 34.5 
+Sleep: 7:16:00 
+RHR: 58 | HRV: 56
+Energy: 2
+Pain: 1
+
+2026-04-22: Cycle
+RPE: 7 | Distance: 24.17 | Duration: 58:38 | Power: 125
+Avg HR: 141
+Pain: 1 — mild back discomfort 
+
+2026-04-23: Daily
+Weight: 189 | Waist: 34.5 
+Sleep: 7:06:00 
+RHR: 58 | HRV: 68
+Energy: 2
+Pain: 2 — stiffness from cycle
+
+2026-04-23: Strength
+RPE: 6 | Focus: Upper Body
+Cable Pallof press (each side): 3x10 @ 70 lb
+Assisted pull-ups: 3x8 @ 50 lb
+Bench press: 3x6 @ 165 lb
+Chest supported row: 3x8 @ 75 lb
+Dumbbell overhead press: 3x8 @ 40 lb
+Cable crunch: 0x0 @ 0 lb — skipped for time
+Pain: 1 — back stiffness did not affect these exercises. 
