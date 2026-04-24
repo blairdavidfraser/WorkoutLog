@@ -1056,7 +1056,7 @@ Leg extension : 3x10 @ 120 lb
 Weighted hip hinge: 3x10 @ 30 lb
 Pain: 0
 
-2025-12-30 PM - Meditation | Duration: 20:00
+2025-12-30: Meditation | Duration: 20:00
 
 2025-12-31: Daily
 Weight: 190 | Waist: 34 
@@ -1177,7 +1177,7 @@ Notes: All six felt like quality work.  Not all out, but hard and smooth.
 
 2026-01-06: Yoga | Duration: 45:00 
 
-2026-01-06 PM: Meditation | Duration: 10:00
+2026-01-06: Meditation | Duration: 10:00
 
 2026-01-07: Daily
 Weight: 191 | Waist: 34.5 
@@ -1282,11 +1282,8 @@ Pain: 0 -- Some back pain, but general, not related to any exercise today.
 Breakfast: 2 eggs, small toast with honey, grapefruit 
 Lunch: 1/2 cup lentils, can sardines, toast
 Dinner: Sushi plate, small cheesecake dessert
-AM Snacks: 1/2 cup cottage cheese post workout 
-AM Snacks: Kind granola bar
-PM Snacks: 4 cheese and crackers
-PM Snacks: ~15 mixed nuts
-PM Snacks: 8 cheese and crackers
+AM Snacks: 1/2 cup cottage cheese post workout. Kind granola bar.
+PM Snacks: 4 cheese and crackers. ~15 mixed nuts. 8 cheese and crackers
 Alcohol: 1 negroni
 Notes: Breakfast before workout.
 
@@ -1308,10 +1305,7 @@ Breakfast: One egg and cheese on bun
 Lunch: cheese on toast, tomatoes 
 Dinner: Tofu, chickpea, coconut milk curry with rice
 AM Snacks: Kind granola bar
-PM Snacks: Protein shake post workout
-PM Snacks: Chocolate brownie
-PM Snacks: Half cup fermented coleslaw 
-PM Snacks: 10 nuts
+PM Snacks: Protein shake post workout. Chocolate brownie. Half cup fermented coleslaw. 10 nuts
 Notes: Breakfast before workout.
 
 2026-01-12: Daily
@@ -2100,7 +2094,7 @@ Avg HR: 138
 Pain: 2
 Notes: Pushed a bit more. Balance improving. 
 
-2026-02-25 PM: Row
+2026-02-25: Row
 RPE: 3 | Distance: 10.020 | Duration: 1:04:05
 Avg HR: 135
 Pain: 3
@@ -2902,3 +2896,4 @@ Chest supported row: 3x8 @ 75 lb
 Dumbbell overhead press: 3x8 @ 40 lb
 Cable crunch: 0x0 @ 0 lb — skipped for time
 Pain: 1 — back stiffness did not affect these exercises. 
+

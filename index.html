@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fitness Coach - Workout Tracker</title>
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
+
 <body>
   <div id="app" class="app-container">
     <!-- Navigation -->
@@ -63,23 +65,23 @@
         <div class="editor-container">
           <div class="editor-header">
             <h2>Edit Workout Log</h2>
-            <div class="search-bar">
-              <input 
-                type="text" 
-                id="editor-search" 
-                class="search-input" 
-                list="tag-suggestions"
-                placeholder="Search or select a tag..."
-              >
-              <datalist id="tag-suggestions">
-              </datalist>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+              <button id="add-entry-btn" class="add-entry-btn" title="Add New Entry">+</button>
+              <div id="add-entry-dropdown" class="add-entry-dropdown">
+                <button data-entry-type="daily">Daily Log</button>
+                <button data-entry-type="cardio">Cardio Entry</button>
+                <button data-entry-type="strength">Strength Entry</button>
+                <button data-entry-type="misc">Miscellaneous Entry</button>
+              </div>
+              <div class="search-bar">
+                <input type="text" id="editor-search" class="search-input" list="tag-suggestions"
+                  placeholder="Search or select a tag...">
+                <datalist id="tag-suggestions">
+                </datalist>
+              </div>
             </div>
           </div>
-          <textarea 
-            id="log-textarea" 
-            class="log-textarea"
-            placeholder="Workout log will appear here..."
-          ></textarea>
+          <textarea id="log-textarea" class="log-textarea" placeholder="Workout log will appear here..."></textarea>
           <div class="editor-actions">
             <button id="select-all-btn" class="btn btn-secondary">Select All</button>
             <button id="save-btn" class="btn btn-primary">Save</button>
@@ -92,4 +94,5 @@
 
   <script type="module" src="assets/scripts/app.js"></script>
 </body>
+
 </html>

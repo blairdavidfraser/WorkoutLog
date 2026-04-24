@@ -142,13 +142,17 @@ export class WorkoutLogViewer {
       });
 
       pre.appendChild(tagLink);
-      
+
       // Value
       pre.appendChild(document.createTextNode(': ' + tag.value));
 
       // Comment if present
       if (tag.comment) {
-        pre.appendChild(document.createTextNode(' -- ' + tag.comment));
+        pre.appendChild(document.createTextNode(' -- '));
+        const commentSpan = document.createElement('span');
+        commentSpan.className = 'comment-text';
+        commentSpan.textContent = tag.comment;
+        pre.appendChild(commentSpan);
       }
 
       if (index < entry.getAllTags().length - 1) {
@@ -161,7 +165,7 @@ export class WorkoutLogViewer {
 
   renderFilteredTagView(container) {
     const entries = this.workoutLog.getEntriesWithTag(this.filteredTag);
-    
+
     // Create table header
     const table = document.createElement('table');
     table.className = 'filtered-table';
@@ -187,13 +191,14 @@ export class WorkoutLogViewer {
       const row = document.createElement('tr');
 
       const dateCell = document.createElement('td');
-      dateCell.textContent = Utilities.formatDate(entry.date);
+      dateCell.textContent = Utilities.formatDateISO(entry.date);
 
       const valueCell = document.createElement('td');
       valueCell.textContent = entry.getTagValue(this.filteredTag) || '';
 
       const commentCell = document.createElement('td');
       commentCell.textContent = entry.getTagComment(this.filteredTag) || '';
+      commentCell.className = 'comment-cell';
 
       row.appendChild(dateCell);
       row.appendChild(valueCell);
@@ -207,7 +212,7 @@ export class WorkoutLogViewer {
 
   renderFilteredActivityView(container) {
     const entries = this.workoutLog.getEntriesByType(this.filteredActivityType);
-    
+
     if (entries.length === 0) {
       container.innerHTML = `<p style="text-align: center; color: #999;">No ${this.filteredActivityType} entries found.</p>`;
       return;
@@ -226,7 +231,7 @@ export class WorkoutLogViewer {
     } else {
       this.filteredTag = tagName;
     }
-    
+
     this.render();
     this.showBackButton(true);
   }

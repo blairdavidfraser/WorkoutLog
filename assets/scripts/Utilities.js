@@ -13,11 +13,11 @@ export class Duration {
     if (!str) return null;
     const parts = str.trim().split(':');
     if (parts.length !== 3) return null;
-    
+
     const hours = parseInt(parts[0], 10) || 0;
     const minutes = parseInt(parts[1], 10) || 0;
     const seconds = parseInt(parts[2], 10) || 0;
-    
+
     return new Duration(hours, minutes, seconds);
   }
 
@@ -61,6 +61,11 @@ export class Utilities {
     return date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
   }
 
+  static formatDateISO(dateStr) {
+    if (!dateStr) return '';
+    return dateStr; // Already in YYYY-MM-DD format
+  }
+
   static getDateDaysAgo(daysAgo) {
     const date = new Date();
     date.setDate(date.getDate() - daysAgo);
@@ -79,12 +84,12 @@ export class Utilities {
     const dates = [];
     const current = new Date(startDate + 'T00:00:00');
     const end = new Date(endDate + 'T00:00:00');
-    
+
     while (current <= end) {
       dates.push(current.toISOString().split('T')[0]);
       current.setDate(current.getDate() + 1);
     }
-    
+
     return dates;
   }
 

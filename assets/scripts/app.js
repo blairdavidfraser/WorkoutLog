@@ -3,6 +3,7 @@ import { WorkoutLogViewer } from './WorkoutLogViewer.js';
 import { WorkoutLogEditor } from './WorkoutLogEditor.js';
 import { Dashboard } from './Dashboard.js';
 import { Persistence } from './Persistence.js';
+import { EntryModal } from './EntryModal.js';
 
 /**
  * Main Application Controller
@@ -102,6 +103,54 @@ class App {
     const saveBtn = document.getElementById('save-btn');
     const cancelBtn = document.getElementById('cancel-btn');
     const searchInput = document.getElementById('editor-search');
+    const addEntryBtn = document.getElementById('add-entry-btn');
+    const addEntryDropdown = document.getElementById('add-entry-dropdown');
+    const dropdownItems = addEntryDropdown.querySelectorAll('button[data-entry-type]');
+
+    const entryModal = new EntryModal(this.workoutLog, this.editor, this.persistence);
+
+    // Add button toggle dropdown
+    if (addEntryBtn) {
+      addEntryBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        addEntryDropdown.classList.toggle('show');
+      });
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.add-entry-btn') && !e.target.closest('.add-entry-dropdown')) {
+        addEntryDropdown.classList.remove('show');
+      }
+    });
+
+    // Dropdown item click handlers
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        const entryType = e.target.dataset.entryType;
+        addEntryDropdown.classList.remove('show');
+
+        // Update modal reference to use current workoutLog
+        entryModal.workoutLog = this.workoutLog;
+        entryModal.editor = this.editor;
+        entryModal.persistence = this.persistence;
+
+        switch (entryType) {
+          case 'daily':
+            entryModal.showDaily();
+            break;
+          case 'cardio':
+            entryModal.showCardio();
+            break;
+          case 'strength':
+            entryModal.showStrength();
+            break;
+          case 'misc':
+            entryModal.showMiscellaneous();
+            break;
+        }
+      });
+    });
 
     if (selectAllBtn) {
       selectAllBtn.addEventListener('click', () => {
@@ -142,7 +191,7 @@ class App {
     periodBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
         const period = parseInt(e.target.dataset.period, 10);
-        
+
         // Update active state
         periodBtns.forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
