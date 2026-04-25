@@ -258,14 +258,14 @@ canvas {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-sm);
 }
 
 .viewer-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xs);
 }
 
 .viewer-header h2 {
@@ -276,7 +276,7 @@ canvas {
 .viewer-content {
   background: white;
   border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
+  padding: var(--spacing-xs);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow-y: auto;
   max-height: 70vh;
@@ -329,8 +329,8 @@ canvas {
 
 /* Entry Block - Compact text format */
 .log-entry-text {
-  margin-bottom: var(--spacing-lg);
-  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-xs);
   background-color: white;
   border-left: 3px solid var(--primary-red);
   border-radius: var(--radius-sm);
@@ -756,8 +756,8 @@ canvas {
 @media (max-width: 480px) {
   .app-nav {
     flex-direction: column;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
   }
 
   .nav-brand {
@@ -776,10 +776,10 @@ canvas {
   }
 
   .app-main {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
 
   .view {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
 }

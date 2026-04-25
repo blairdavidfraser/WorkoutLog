@@ -44,11 +44,11 @@ export class EntryModal {
         table.appendChild(dateRow);
 
         const fields = [
-            { label: 'Weight', type: 'text', noComment: true },
-            { label: 'Waist', type: 'text', noComment: true },
+            { label: 'Weight', type: 'text', noComment: true, placeholder: 'lb.' },
+            { label: 'Waist', type: 'text', noComment: true, placeholder: '"' },
             { label: 'Sleep', type: 'text', noComment: false },
-            { label: 'RHR', type: 'text', noComment: true },
-            { label: 'HRV', type: 'text', noComment: true },
+            { label: 'RHR', type: 'text', noComment: true, placeholder: 'bpm' },
+            { label: 'HRV', type: 'text', noComment: true, placeholder: 'ms' },
             { label: 'Energy', type: 'select', options: ['1', '2', '3', '4', '5'], noComment: false },
             { label: 'Pain', type: 'select', options: ['1', '2', '3', '4', '5'], noComment: false },
             { label: 'Notes', type: 'textarea', noComment: true }
@@ -89,6 +89,7 @@ export class EntryModal {
             } else {
                 input = document.createElement('input');
                 input.type = field.type;
+                if (field.placeholder) input.placeholder = field.placeholder;
             }
 
             input.name = field.label;
@@ -247,11 +248,11 @@ export class EntryModal {
         const fields = [
             { label: 'Type', type: 'select', options: ['Run', 'Cycle', 'Erg', 'Swim', 'Row', 'Yoga'], noComment: false },
             { label: 'RPE', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], noComment: false },
-            { label: 'Distance', type: 'text', noComment: false },
+            { label: 'Distance', type: 'text', noComment: false, placeholder: 'km' },
             { label: 'Duration', type: 'text', noComment: false },
             { label: 'Power', type: 'text', noComment: false },
-            { label: 'Avg HR', type: 'text', noComment: false },
-            { label: 'Max HR', type: 'text', noComment: false },
+            { label: 'Avg HR', type: 'text', noComment: false, placeholder: 'bpm' },
+            { label: 'Max HR', type: 'text', noComment: false, placeholder: 'bpm' },
             { label: 'Pain', type: 'select', options: ['1', '2', '3', '4', '5'], noComment: false },
             { label: 'Notes', type: 'textarea', noComment: true }
         ];
@@ -291,6 +292,7 @@ export class EntryModal {
             } else {
                 input = document.createElement('input');
                 input.type = field.type;
+                if (field.placeholder) input.placeholder = field.placeholder;
             }
 
             input.name = field.label;
@@ -459,8 +461,8 @@ export class EntryModal {
 
         // Top 3 rows: RPE, Focus, Pain
         const topFields = [
-            { label: 'RPE', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
             { label: 'Focus', type: 'text' },
+            { label: 'RPE', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
             { label: 'Pain', type: 'select', options: ['1', '2', '3', '4', '5'] }
         ];
 

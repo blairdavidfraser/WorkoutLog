@@ -1,6 +1,19 @@
 import { WorkoutEntry, EnduranceWorkoutEntry, StrengthWorkoutEntry, DailyLogEntry } from './WorkoutEntry.js';
 import { Utilities } from './Utilities.js';
 
+const UNITS = {
+  'Weight':  ' lb.',
+  'Waist':   '"',
+  'Distance': ' km',
+  'RHR':     ' bpm',
+  'Avg HR':  ' bpm',
+  'Max HR':  ' bpm',
+  'HRV':     ' ms',
+  'Pain':    '/5',
+  'Energy':  '/5',
+  'RPE':     '/10',
+};
+
 /**
  * WorkoutLogViewer - Renders workout log entries with tag filtering
  */
@@ -144,7 +157,8 @@ export class WorkoutLogViewer {
       pre.appendChild(tagLink);
 
       // Value
-      pre.appendChild(document.createTextNode(': ' + tag.value));
+      const unit = UNITS[tag.tag] || '';
+      pre.appendChild(document.createTextNode(': ' + tag.value + unit));
 
       // Comment if present
       if (tag.comment) {
