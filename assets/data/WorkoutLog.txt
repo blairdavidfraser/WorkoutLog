@@ -107,7 +107,9 @@ Avg HR: 138
 Pain: 0
 Notes: Easy-ish - with a focus on rotation and glide.
 
-2025-11-04: Strength | Focus: Abs | RPE: 8 | Duration: 30:00
+2025-11-04: Strength
+RPE: 8 | Focus: Abs
+Duration: 30:00
 Notes: Core Workout for Runners Video
 
 2025-11-05: Daily
@@ -158,7 +160,9 @@ Avg HR: 18
 Pain: 1
 Notes: Costal boats.  Wavy and windy.  More effort due to conditions.  Lots of square blade drills, started to come together.
 
-2025-11-07: Strength | Focus: Abs | RPE: 8 | Duration: 30:00
+2025-11-07: Strength
+RPE: 8 | Focus: Abs
+Duration: 30:00
 Notes: Core Workout for Runners Video
 
 2025-11-08: Daily
@@ -206,6 +210,7 @@ Pain: 3 -- Stiffness in morning.
 
 2025-11-11: Strength
 RPE: 3 | Focus: Full-Body
+Pain: 1
 Warm Up: light row, cat-cow, hip-hinge, banded reverse clams
 Glute bridge machine: 3x15 @ 90 lb
 Leg press: 3x10 @ 160 lb -- too easy
@@ -216,7 +221,6 @@ Seated cable row: 3x10 @ 90 lb
 Cable Pallof press (each side): 3x10 @ 50 lb
 Back extension: 3x15 @ 0 lb
 Bird-dog: 2x30 @ 0 lb
-Pain: 1
 Notes: Back extension revealed back tightness.
 
 2025-11-11: Swim
@@ -256,7 +260,9 @@ Notes: Intervals felt fast.  First 25 m always felt fast.  Second felt effortful
 
 2025-11-13: Cycle Commute | Duration: 58:00
 
-2025-11-13: Strength | Focus: Abs | RPE: 6 | Duration: 30:00
+2025-11-13: Strength
+RPE: 6 | Focus: Abs
+Duration: 30:00
 Notes: MadFit 30’ Slow Abs Video
 
 2025-11-14: Daily
@@ -282,6 +288,7 @@ Pain: 1 -- Back a bit stiff during weights, but loosened for rowing.  Out late, 
 
 2025-11-15: Strength
 RPE: 3 | Focus: Legs
+Pain: 2
 Warm Up: light row, cat-cow, hip-hinge
 Cable Pallof press (each side): 3x10 @ 60 lb
 Back extension: 3x15 @ 0 lb
@@ -289,8 +296,7 @@ Glute bridge machine: 3x15 @ 90 lb
 Leg press: 3x10 @ 200 lb
 Calf Press: 3x10 @ 200 lb
 Hamstring curls: 3x10 @ 100 lb
-Pain: 2
-Notes: Back tenderness on glute machine and hamstring curls.  Care taken. 
+Notes: Back tenderness on glute machine and hamstring curls.  Care taken.
 
 2025-11-15: Rowing
 Focus: Easy | RPE: 3
@@ -305,7 +311,9 @@ Sleep: 6:15:00
 Energy: 2
 Pain: 3 -- Back a bit stiff. Rowers elbow still present. Cancelling erg for today and will deload over this week - keeping most workouts but several will be at lower intensity. 
 
-2025-11-16: Strength | Focus: Abs | RPE: 6 | Duration: 30:00
+2025-11-16: Strength
+RPE: 6 | Focus: Abs
+Duration: 30:00
 Notes: Core Workout for Runners Video
 
 2025-11-16: Yoga | Duration: 45:00
@@ -318,15 +326,15 @@ Pain: 2 -- Back sore in middle of night.  Improved once moving.
 
 2025-11-17: Strength
 RPE: 5 | Focus: Stability
+Pain: 2
 Warm Up: light row, cat-cow, hip-hinge
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
 Seated cable row: 3x10 @ 90 lb
-Suitcase carry (steps): 3x40 @ 50 lb 
-Russian twists: 3x10 @ 14 lb 
-Copenhagen plank (each side): 3x10 @ 30s 
-Pain: 2
-Notes: Back not too painful but tender - had to keep core very engaged. 
+Suitcase carry (steps): 3x40 @ 50 lb
+Russian twists: 3x10 @ 14 lb
+Copenhagen plank (each side): 3x10 @ 30s
+Notes: Back not too painful but tender - had to keep core very engaged.
 
 2025-11-17: Cycle Commute | Duration: 59:00
 
@@ -384,6 +392,7 @@ Pain: 2 -- Back stiff but not sore.  Skipped last evening’s core exercises.  E
 
 2025-11-21: Strength
 RPE: 5 | Focus: Upper Body
+Pain: 0
 Warm Up: light row, cat-cow, hip-hinge
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -393,7 +402,6 @@ Dumbbell overhead press: 3x10 @ 30 lb
 Hammer curls: 1x10 @ 25 lb
 Tricep cable extension: 3x10 @ 90 lb
 Chest supported row: 3x10 @ 110 lb
-Pain: 0
 Notes: For overhead press, I had an older shoulder injury that isn’t bugging me, but this makes it sore - so aborted.  Curls did not feel good for the elbow, so aborted after one set.  The chest supported row were done with now elbow bend, so lats only; felt fine, but didn’t feel effective.
 
 2025-11-22: Daily
@@ -427,14 +435,14 @@ Pain: 3 -- Back very stiff.  Planning a weight room legs day with no cardio (exc
 
 2025-11-24: Strength
 RPE: 6 | Focus: Legs
+Pain: 2
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
 Glute bridge machine: 3x15 @ 110 lb
-Leg press : 3x10 @ 200 lb
+Leg press: 3x10 @ 200 lb
 Calf Press: 3x15 @ 200 lb
 Hamstring curls: 3x10 @ 110 lb
-Pain: 2
-Notes: Residual stiffness in back from yesterday. Quick workout, late getting out of house. 
+Notes: Residual stiffness in back from yesterday. Quick workout, late getting out of house.
 
 2025-11-24: Cycle Commute | Duration: 59:00 
 
@@ -483,9 +491,11 @@ Pain: 2 -- Could do all the moves, but very stiff like DOMS in low back.
 
 2025-11-27: Cycle Commute | Duration: 59:00
 
-2025-11-27: Strength | Focus: Abs | RPE: 8 | Duration: 30:00
+2025-11-27: Strength
+RPE: 8 | Focus: Abs
+Pain: 2 -- Back stiffness. Most core movements not affected.
+Duration: 30:00
 Notes: Core Workout for Runners Video
-Pain: 2 -- Back stiffness. Most core movements not affected. 
 
 2025-11-28: Daily
 Weight: 187 | Waist: 34.75 
@@ -495,6 +505,7 @@ Pain: 1 -- Back stiffness but lower level than previously this week. Still feels
 
 2025-11-28: Strength
 RPE: 5 | Focus: Upper Body
+Pain: 2
 Warm Up: light row, cat-cow, hip-hinge
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -504,8 +515,7 @@ Dumbbell overhead press: 3x10 @ 0 lb
 Dumbbell curls: 3x10 @ 22.5 lb
 Tricep cable extension: 3x10 @ 90 lb
 Chest supported row: 3x10 @ 55 lb
-Pain: 2
-Notes: Elbow pain low level today.  Did non-modified routine but kept curls very light.  Shoulder still sore in dumbbell press with weight, so just did motion with no weight. 
+Notes: Elbow pain low level today.  Did non-modified routine but kept curls very light.  Shoulder still sore in dumbbell press with weight, so just did motion with no weight.
 
 2025-11-29: Daily
 Weight: 187 | Waist: 35 
@@ -532,7 +542,9 @@ Pain: 4 -- Back DOMS upon awaking (before any yoga or stretching).
 2025-11-30: Yoga | Duration: 30:00
 Pain: 2 -- Not pain but DOMS in back and reduced flexibility.  Yoga felt good, but stiff. 
 
-2025-11-30: Strength | Focus: Abs | RPE: 4 | Duration: 30:00
+2025-11-30: Strength
+RPE: 4 | Focus: Abs
+Duration: 30:00
 Notes: MadFit 30’ Slow Abs Video
 
 2025-12-01: Daily
@@ -544,15 +556,15 @@ Pain: 4 -- Back DOMS again in AM.
 
 2025-12-01: Strength
 RPE: 4 | Focus: Legs
+Pain: 1
 Warm Up: light row, cat-cow, hip-hinge
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
 Glute bridge machine: 3x10 @ 110 lb
-Leg press : 3x10 @ 200 lb
+Leg press: 3x10 @ 200 lb
 Calf Press: 3x15 @ 200 lb
 Hamstring curls: 3x10 @ 80 lb
-Pain: 1
-Notes: plenty of stiffness, but only mild pain.  Took it easier on hamstring curls and glute bridges. 
+Notes: plenty of stiffness, but only mild pain.  Took it easier on hamstring curls and glute bridges.
 
 2025-12-01: Cycle Commute | Duration: 1:05:00
 
@@ -566,15 +578,15 @@ Notes: Dropped the ball on diet yesterday, ate lots of snacks at work and home. 
 
 2025-12-02: Strength
 RPE: 4 | Focus: Stability
+Pain: 1 -- No elbow pain.  Back stiff, but loosened by end.
 Warm Up: light row, cat-cow, hip-hinge
-Copenhagen plank (each side): 3 @ 30s 
+Copenhagen plank (each side): 3 @ 30s
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
 Seated cable row: 3x10 @ 90 lb
 Suitcase carry (steps): 3x40 @ 50 lb
-Russian twists: 3x10 @ 14 lb 
-Weighted hip hinge: 3x10 @ 20 lb 
-Pain: 1 -- No elbow pain.  Back stiff, but loosened by end. 
+Russian twists: 3x10 @ 14 lb
+Weighted hip hinge: 3x10 @ 20 lb
 
 2025-12-02: Cycle Commute | Duration: 1:05:00
 
@@ -694,7 +706,9 @@ Notes: 40:00 in Z2 followed by 1km fast finish.  Fast finish at average 270 w, 1
 
 2025-12-10 Cycle Commute | Duration: 65:00
 
-2025-12-10: Strength | Focus: Abs | RPE: 7 | Duration: 30:00
+2025-12-10: Strength
+RPE: 7 | Focus: Abs
+Duration: 30:00
 Notes: Core Workout for Runners Video
 
 2025-12-11: Daily
@@ -706,6 +720,7 @@ Pain: 1 -- Stiffness in back overnight.
 
 2025-12-11: Strength
 RPE: 6 | Focus: Legs
+Pain: 2
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -713,9 +728,8 @@ Glute bridge machine: 3x10 @ 110 lb
 Leg press: 3x8 @ 220 lb -- RPE: 8
 Calf Press: 3x15 @ 220 lb
 Hamstring curls: 3x10 @ 80 lb
-Leg extension : 3x10 @ 120 lb
-Pain: 2
-Notes: only minor back pain on hamstring curls. 
+Leg extension: 3x10 @ 120 lb
+Notes: only minor back pain on hamstring curls.
 
 2025-12-11: Cycle Commute | Duration: 65:00
 
@@ -732,6 +746,7 @@ Pain: 1 -- Stiffness in back overnight.
 
 2025-12-12: Strength
 RPE: 4 | Focus: Core Stability
+Pain: 0
 Copenhagen plank (each side): 3 @ 30s
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -739,7 +754,6 @@ Seated cable row: 3x10 @ 90 lb
 Suitcase carry (steps): 3x40 @ 50 lb
 Russian twists: 3x10 @ 14 lb
 Weighted hip hinge: 3x10 @ 22.5 lb
-Pain: 0
 Notes: Very little rest between sets - trying to fit into lunch break.
 
 2025-12-12: Swim
@@ -774,6 +788,7 @@ Pain: 1 -- Light stiffness in back.  Quads DOMS yesterday and today.
 
 2025-12-14: Strength
 RPE: 8 | Focus: Upper Body
+Pain: 0
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -782,10 +797,9 @@ Bench press: 3x6 @ 135 lb
 Chest fly machine: 3x8 @ 120 lb
 Shoulder press machine: 3x10 @ 50 lb
 Dumbbell curls: 3x10 @ 25 lb
-Tricep cable extension : 3x10 @ 100 lb
+Tricep cable extension: 3x10 @ 100 lb
 Chest supported row: 3x8 @ 55 lb
-Pain: 0
-Notes: Light weight on shoulder press.  Mild shoulder pain near full contraction. 
+Notes: Light weight on shoulder press.  Mild shoulder pain near full contraction.
 
 2025-12-14: Yoga | Duration: 45:00 
 
@@ -823,7 +837,9 @@ Notes: All Z2 work.
 
 2025-12-16: Cycle Commute | Duration: 65:00
 
-2025-12-16: Strength | Focus: Abs | RPE: 5 | Duration: 30:00
+2025-12-16: Strength
+RPE: 5 | Focus: Abs
+Duration: 30:00
 Notes: MadFit 30’ Slow Abs Video
 
 2025-12-17: Daily
@@ -835,15 +851,15 @@ Pain: 2 -- Back stiff.
 
 2025-12-17: Strength
 RPE: 5 | Focus: Legs
+Pain: 2
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
 Glute bridge machine: 3x10 @ 90 lb
-Leg press : 3x8 @ 200 lb
+Leg press: 3x8 @ 200 lb
 Calf Press: 3x15 @ 200 lb
 Hamstring curls: 3x10 @ 80 lb
-Pain: 2
-Notes: stiffness in back, no pain. 
+Notes: stiffness in back, no pain.
 
 2025-12-17: Run
 Focus: Easy | RPE: 3
@@ -904,6 +920,7 @@ Pain: 1 -- Back stiffness low but present.
 
 2025-12-21: Strength
 RPE: 8 | Focus: Upper Body
+Pain: 0
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -911,11 +928,10 @@ Assisted pull-ups: 3x8 @ 405 lb
 Bench press: 3x8 @ 135 lb
 Chest fly machine: 3x10 @ 120 lb
 Shoulder press machine: 3x10 @ 60 lb
-Dumbbell curls : 3x10 @ 25 lb
-Tricep cable extension : 3x10 @ 100 lb
+Dumbbell curls: 3x10 @ 25 lb
+Tricep cable extension: 3x10 @ 100 lb
 Chest supported row: 3x10 @ 55 lb
-Pain: 0
-Notes: Light weight on shoulder press still - shoulder ok.  Tricep extension needs to increase. 
+Notes: Light weight on shoulder press still - shoulder ok.  Tricep extension needs to increase.
 
 2025-12-21: Mesurements
 Biceps (L/R): 14”/13.75”
@@ -965,15 +981,15 @@ Pain: 1 -- Back stiff overnight.  Sleep bad, will take nap in afternoon.
 
 2025-12-24: Strength
 RPE: 4 | Focus: Legs
+Pain: 1
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Back extension: 3x15 @ 0 lb
 Glute bridge machine: 3x8 @ 140 lb
-Leg press : 3x10 @ 200 lb
+Leg press: 3x10 @ 200 lb
 Calf Press: 3x15 @ 200 lb
 Hamstring curls: 3x10 @ 90 lb
-Pain: 1
-Notes: Some intensity on glutes and leg press, but short session today. 
+Notes: Some intensity on glutes and leg press, but short session today.
 
 2025-12-25: Daily
 Weight: 189 | Waist: 34.5 
@@ -982,7 +998,9 @@ RHR: 55 | HRV: 43
 Energy: 2
 Pain: 1 -- Stiffness in AM but stretched it out. 
 
-2025-12-25: Strength | RPE: 7 | Focus: Abs | Duration: 30:00
+2025-12-25: Strength
+RPE: 7 | Focus: Abs
+Duration: 30:00
 Notes: Core Workout for Runners Video
 
 2025-12-25: Erg
@@ -1007,6 +1025,7 @@ Pain: 1 -- Stiffness in AM.  Planning a big nap in afternoon.
 
 2025-12-26: Strength
 RPE: 6 | Focus: Upper Body
+Pain: 0
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -1014,9 +1033,8 @@ Assisted pull-ups: 3x8 @ 50 lb
 Bench press: 3x8 @ 135 lb
 Shoulder press machine: 3x10 @ 70 lb
 Machine curls: 3x10 @ 90 lb
-Tricep cable extension : 3x10 @ 120 lb
+Tricep cable extension: 3x10 @ 120 lb
 Chest supported row: 3x10 @ 55 lb
-Pain: 0
 
 2025-12-27: Daily
 Weight: 189 | Waist: 34.25 
@@ -1041,6 +1059,7 @@ Pain: 1 -- Stiffness in AM.
 
 2025-12-28: Strength
 RPE: 5 | Focus: Stability
+Pain: 1
 Warm Up: light row, cat-cow, hip-hinge
 Cable Pallof press (each side): 3x10 @ 55 lb
 Back extension: 3x15 @ 0 lb
@@ -1050,8 +1069,7 @@ Seated cable row: 3x10 @ 90 lb
 Suitcase carry (steps): 3x40 @ 50 lb
 Russian twists: 3x10 @ 14 lb
 Copenhagen plank (each side): 3x30s
-Pain: 1
-Notes: Stiffness on Russian twists today. 
+Notes: Stiffness on Russian twists today.
 
 2025-12-29: Daily
 Weight: 185.8 | Waist: 34.75 
@@ -1080,15 +1098,15 @@ Pain: 2 -- Back stiffness.  Will swap today’s erg with tomorrow’s leg day (n
 
 2025-12-30: Strength
 RPE: 3 | Focus: Legs
+Pain: 0
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Back extension: 3x15 @ 0 lb
 Glute bridge machine: 3x15 @ 110 lb
-Leg press : 3x10 @ 200 lb
+Leg press: 3x10 @ 200 lb
 Calf Press: 3x15 @ 200 lb
-Leg extension : 3x10 @ 120 lb
+Leg extension: 3x10 @ 120 lb
 Weighted hip hinge: 3x10 @ 30 lb
-Pain: 0
 
 2025-12-30 PM - Meditation | Duration: 20:00
 
@@ -1101,14 +1119,14 @@ Pain: 2 -- Some back stiffness.
 
 2025-12-31: Strength
 RPE: 3 | Focus: Upper Body
+Pain: 0
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Assisted pull-ups: 3x10 @ 50 lb
 Bench press: 3x8 @ 135 lb
 Machine overhead press: 3x10 @ 70 lb
 Dumbbell curls: 3x10 @ 30 lb
-Tricep cable extension : 3x10 @ 110 lb
-Pain: 0
+Tricep cable extension: 3x10 @ 110 lb
 
 2026-01-01: Daily
 Weight: 192.5 | Waist: 34.25 
@@ -1169,6 +1187,7 @@ Notes: Very easy warmup before gym.
 
 2026-01-04: Strength
 RPE: 4 | Focus: Stability
+Pain: 1 -- Back sensitive not sore.  Not when core engaged.
 Warm Up: light row, cat-cow, hip-hinge
 Cable Pallof press (each side): 3x10 @ 60 lb
 Back extension: 3x15 @ 0 lb
@@ -1177,7 +1196,6 @@ Cable lifts (each side): 3x10 @ 50 lb
 Seated cable row: 3x10 @ 90 lb
 Suitcase carry (steps): 3x40 @ 50 lb
 Copenhagen plank (each side): 3x30s
-Pain: 1 -- Back sensitive not sore.  Not when core engaged.  
 
 2026-01-04: Meditation | Duration: 10:00
 
@@ -1242,7 +1260,9 @@ AM Snacks:  Half fist of chocolate covered nuts. Half fist of nuts, seeds and dr
 PM Snacks:  Half fist of chocolate covered nuts. 6 cheese and crackers, 10 potato chips. Plant protein shake
 Notes: No fuelling before workout. Breakfast immediately after. 
 
-2026-01-07: Strength | Focus: Abs | RPE: 4 | Duration: 30:00
+2026-01-07: Strength
+RPE: 4 | Focus: Abs
+Duration: 30:00
 Notes: MadFit 30’ Slow Abs Video
 
 2026-01-08: Daily
@@ -1254,15 +1274,15 @@ Pain: 1 -- Stiffness in AM.
 
 2026-01-08: Strength
 RPE: 3 | Focus: Legs
+Pain: 0
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Back extension: 3x15 @ 0 lb
 Glute bridge machine: 3x10 @ 110 lb
-Leg press : 3x10 @ 210 lb
+Leg press: 3x10 @ 210 lb
 Calf Press: 3x15 @ 210 lb
 Hamstring curls: 3x10 @ 100 lb
 Weighted hip hinge: 3x10 @ 30 lb
-Pain: 0
 
 2026-01-08: Cycle Commute | Duration: 1:10:00
 
@@ -1309,15 +1329,15 @@ Pain: 3 -- Back had some pain overnight.  Not the dull stiffness of usual, but a
 
 2026-01-10: Strength
 RPE: 5 | Focus: Upper Body
+Pain: 0 -- Some back pain, but general, not related to any exercise today.
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Assisted pull-ups: 3x10 @ 50 lb
 Bench press: 3x8 @ 145 lb
 Machine overhead press: 3x10 @ 80 lb
 Dumbbell curls: 3x10 @ 30 lb
-Tricep cable extension : 3x10 @ 115 lb
+Tricep cable extension: 3x10 @ 115 lb
 Chest supported row: 3x10 @ 55 lb
-Pain: 0 -- Some back pain, but general, not related to any exercise today. 
 
 2026-01-10: Nutrition
 Breakfast: 2 eggs, small toast with honey, grapefruit 
@@ -1383,6 +1403,7 @@ Pain: 2 -- Character is tired and sensitive, not sharp.
 
 2026-01-13: Strength
 RPE: 4 | Focus: Core Stability
+Pain: 2
 Copenhagen plank (each side): 3 @ 30s
 Cable Pallof press (each side): 3x10 @ 60 lb
 Cable chops (each side): 3x10 @ 60 lb
@@ -1391,8 +1412,7 @@ Seated cable row: 3x10 @ 90 lb
 Suitcase carry (steps): 3x40 @ 50 lb
 Weighted hip hinge: 3x10 @ 22.5 lb
 Cable crunch: 3x10 @ 130 lb
-Pain: 2
-Notes: Cable crunch can go up. 
+Notes: Cable crunch can go up.
 
 2026-01-13: Cycle Commute | Duration: 1:10:00
 
@@ -1465,15 +1485,15 @@ Pain: 1 -- Morning stiffness. Yesterday had some back discomfort from run, but j
 
 2026-01-16: Strength
 RPE: 6 | Focus: Legs
+Pain: 0
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Back extension: 3x15 @ 0 lb
 Glute bridge machine: 3x10 @ 110 lb
-Leg press : 3x10 @ 220 lb
+Leg press: 3x10 @ 220 lb
 Calf Press: 3x15 @ 220 lb
 Hamstring curls: 3x10 @ 100 lb
 Weighted hip hinge: 3x10 @ 30 lb
-Pain: 0
 Notes: 
 
 2026-01-16: Nutrition
@@ -1494,16 +1514,16 @@ Pain: 3 -- Mostly stiffness but had to stand for an hour this AM and that caused
 
 2026-01-17: Strength
 RPE: 5 | Focus: Upper Body
+Pain: 3
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Assisted pull-ups: 3x10 @ 50 lb
 Bench press: 3x8 @ 150 lb
 Dumbbell overhead press: 3x10 @ 30 lb
 Dumbbell curls: 3x10 @ 30 lb
-Tricep cable extension : 3x10 @ 120 lb
+Tricep cable extension: 3x10 @ 120 lb
 Chest supported row: 3x10 @ 55 lb
 Cable crunch: 3x10 @ 130 lb
-Pain: 3
 
 2026-01-17: Nutrition
 Breakfast: 2 eggs, 1/2 cup yogurt with 1/3 cup peanut butter and spoon honey
@@ -1565,6 +1585,7 @@ Pain: 3 -- Back quite stiff, but no sharp pain before workout.
 
 2026-01-20: Strength
 RPE: 6 | Focus: Core Stability
+Pain: 3
 Copenhagen plank (each side): 3 @ 30s
 Cable Pallof press (each side): 3x10 @ 65 lb
 Cable chops (each side): 3x10 @ 60 lb
@@ -1573,8 +1594,7 @@ Seated cable row: 3x10 @ 100 lb
 Suitcase carry (steps): 3x40 @ 50 lb
 Weighted hip hinge: 3x10 @ 45 lb
 Cable crunch: 3x12 @ 150 lb
-Pain: 3
-Notes: Back stiff and tired, not nerve pain.  Feels looser after workout. 
+Notes: Back stiff and tired, not nerve pain.  Feels looser after workout.
 
 2026-01-20: Cycle Commute | Duration: 1:10:00
 
@@ -1621,15 +1641,15 @@ Pain: 3 -- Back quite stiff, not sharp pain.
 
 2026-01-22: Strength
 RPE: 4 | Focus: Legs
+Pain: 2
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 60 lb
 Glute bridge machine: 3x15 @ 110 lb
-Leg press : 3x10 @ 200 lb
+Leg press: 3x10 @ 200 lb
 Calf Press: 3x15 @ 200 lb
 Hamstring curls: 3x10 @ 90 lb
 Weighted hip hinge: 3x10 @ 45 lb
 Cable Crunch: 3x10 @ 160 lb
-Pain: 2
 Notes: 
 
 2026-01-22: Cycle Commute | Duration: 1:10:00
@@ -1690,16 +1710,16 @@ Pain: 2 -- Back stiffness light.
 
 2026-01-25: Strength
 RPE: 5 | Focus: Upper Body
+Pain: 1
 Warm Up: cat-cow, hip-hinge, light erg
 Assisted pull-ups: 3x10 @ 50 lb
 Chest fly machine: 3x10 @ 100 lb
 Dumbbell overhead press: 3x10 @ 30 lb
 Seated dumbbell curls: 3x10 @ 30 lb
-Tricep cable extension : 3x10 @ 120 lb
+Tricep cable extension: 3x10 @ 120 lb
 Chest supported row: 3x10 @ 55 lb
 Cable crunch: 3x10 @ 130 lb
-Pain: 1
-Notes: no back pain.  Right shoulder has a niggle.  Oddly it wasn’t on shoulder press, but bench press.  So replaced bench press with flies. 
+Notes: no back pain.  Right shoulder has a niggle.  Oddly it wasn’t on shoulder press, but bench press.  So replaced bench press with flies.
 
 2026-01-26: Yoga | Duration: 45:00
 
@@ -1726,6 +1746,7 @@ Pain: 3 -- Back stiffness.  Slept very well.
 
 2026-01-27: Strength
 RPE: 4 | Focus: Core Stability
+Pain: 2
 Copenhagen plank (each side): 3 @ 30s
 Cable Pallof press (each side): 3x10 @ 60 lb
 Cable chops (each side): 3x10 @ 50 lb
@@ -1734,8 +1755,7 @@ Seated cable row: 3x10 @ 100 lb
 Suitcase carry (steps): 3x40 @ 50 lb
 Weighted hip hinge: 3x10 @ 50 lb
 Cable crunch: 3x12 @ 150 lb
-Pain: 2
-Notes: Back stiff in AM but workout loosened it up. 
+Notes: Back stiff in AM but workout loosened it up.
 
 2026-01-27: Cycle Commute | Duration: 1:10:00
 
@@ -1768,15 +1788,15 @@ Pain: 3 -- Back stiffness.
 
 2026-01-29: Strength
 RPE: 5 | Focus: Legs
+Pain: 2
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
 Glute bridge machine: 3x15 @ 110 lb
-Leg press : 3x8 @ 240 lb
+Leg press: 3x8 @ 240 lb
 Calf Press: 3x15 @ 240 lb
 Hamstring curls: 3x10 @ 90 lb
 Back extension: 3x15 @ 0 lb
 Cable Crunch: 3x10 @ 160 lb
-Pain: 2
 
 2026-01-30: Daily
 Weight: 186.5 | Waist: 34 
@@ -1815,16 +1835,16 @@ Pain: 3 -- Back stiffness.
 
 2026-02-01: Strength
 RPE: 7 | Focus: Upper Body
+Pain: 2
 Warm Up: light erg, cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 55 lb
 Assisted pull-ups: 3x10 @ 50 lb
 Bench press: 3x10 @ 145 lb
 Seated dumbbell curls: 3x10 @ 30 lb
-Tricep cable extension : 3x10 @ 110 lb
+Tricep cable extension: 3x10 @ 110 lb
 Chest supported row: 3x10 @ 65 lb
 Dumbbell overhead press: 3x10 @ 30 lb
 Weighted hip hinge: 3x10 @ 50 lb
-Pain: 2
 
 2026-02-02: Daily
 Weight: 188.2 | Waist: 33.75 
@@ -1856,12 +1876,12 @@ Pain: 3 -- Back stiffness.
 
 2026-02-04: Strength
 RPE: 4 | Focus: Gada Session
+Pain: 2
 Hip-hinge/bent-row (each side): 3x10 @ 15 lb
 360 (each direction): 3x10 @ 10 lb
 Side-to-side lunge: 3x20 @ 15 lb
 Back-step uppercut (each side): 3x10 @ 10 lb
-Pain: 2
-Notes: Stiffness dissipated after getting moving. 
+Notes: Stiffness dissipated after getting moving.
 
 2026-02-05: Daily
 Weight: 186.6 | Waist: 34 
@@ -1872,14 +1892,14 @@ Pain: 3 -- Back stiffness. Still leftover cough.
 
 2026-02-05: Strength
 RPE: 3 | Focus: Upper Body
+Pain: 0
 Warm Up: light cycle right
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x10 @ 50 lb
 Bench press: 3x10 @ 135 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x10 @ 30 lb
-Pain: 0
-Notes: Assisted pull-ups ready to increase in resistance. 
+Notes: Assisted pull-ups ready to increase in resistance.
 
 2026-02-06: Daily
 Weight: 187.8 | Waist: 33.75 
@@ -1920,6 +1940,7 @@ Pain: 2 -- Back stiffness.
 
 2026-02-08: Strength
 RPE: 7 | Focus: Force Production
+Pain: 0
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
 Back extension: 3x15 @ 0 lb
@@ -1928,8 +1949,7 @@ Glute bridge machine: 4x5 @ 160 lb
 Leg press: 5x5 @ 220 lb
 Farmer carry (steps): 3x50 @ 50 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 0
-Notes: Shorter sets felt good on leg press. 
+Notes: Shorter sets felt good on leg press.
 
 2026-02-09: Daily
 Weight: 187.6 | Waist: 33.75 
@@ -1956,12 +1976,12 @@ Pain: 2 -- Back stiffness.
 
 2026-02-10: Strength
 RPE: 4 | Focus: Gada Session
+Pain: 2
 Hip-hinge/bent-row (each side): 3x10 @ 15 lb
 360 (each direction): 3x10 @ 10 lb
 Side-to-side lunge: 3x20 @ 15 lb
 Back-step uppercut (each side): 3x10 @ 10 lb
-Pain: 2
-Notes: Did Gada a lot last year. But these are hard again. 
+Notes: Did Gada a lot last year. But these are hard again.
 
 2026-02-11: Daily
 Weight: 189 | Waist: 34 
@@ -2002,6 +2022,7 @@ Pain: 2 -- Back stiffness.
 
 2026-02-13: Strength
 RPE: 5 | Focus: Upper Body
+Pain: 0
 Warm Up: light cycle
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x10 @ 40 lb
@@ -2009,7 +2030,6 @@ Bench press: 3x8 @ 145 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x10 @ 35 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 0
 
 2026-02-14: Daily
 Weight: 190 | Waist: 34 
@@ -2034,6 +2054,7 @@ Pain: 2 -- Back stiffness.
 
 2026-02-15: Strength
 RPE: 7 | Focus: Force Production
+Pain: 0
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
 Back extension: 3x15 @ 0 lb
@@ -2042,8 +2063,7 @@ Glute bridge machine: 4x5 @ 160 lb
 Leg press: 5x5 @ 260 lb
 Farmer carry (steps): 3x50 @ 50 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 0
-Notes: Shorter sets felt good on leg press. 
+Notes: Shorter sets felt good on leg press.
 
 2026-02-16: Daily
 Weight: 189.8 | Waist: 34 
@@ -2287,14 +2307,14 @@ Pain: 1
 
 2026-03-06: Strength
 RPE: 3 | Focus: Force Production
+Pain: 0
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x10 @ 60 lb
 Incline press: 3x8 @ 95 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x10 @ 35 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 0
-Notes: Slow with lots of rest between steps. 
+Notes: Slow with lots of rest between steps.
 
 2026-03-07: Daily
 Weight: 185.8 | Waist: 34 
@@ -2319,15 +2339,15 @@ Pain: 1
 
 2026-03-08: Strength
 RPE: 7 | Focus: Force Production
+Pain: 0
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
-Back extension : 3x15 @ 0 lb
+Back extension: 3x15 @ 0 lb
 Chest supported row: 4x5 @ 80 lb
 Glute bridge machine: 4x5 @ 180 lb
 Leg press: 5x5 @ 220 lb
 Suitcase carry (steps): 3x50 @ 50 lb
-Pain: 0
-Notes: Leg press at 220 felt hard, but far from my recent max. Next time swap to one leg press for change. 
+Notes: Leg press at 220 felt hard, but far from my recent max. Next time swap to one leg press for change.
 
 2026-03-09: Daily
 Weight: 187 | Waist: 34 
@@ -2394,7 +2414,7 @@ Bench press: 3x8 @ 145 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x10 @ 35 lb
 Cable crunch: 3x10 @ 150 lb
-Notes: Bench and shoulder press ready to increase. 
+Notes: Bench and shoulder press ready to increase.
 
 2026-03-14: Daily
 Weight: 187 | Waist: 34 
@@ -2419,14 +2439,14 @@ Pain: 2 -- After a run, I expect a stiff back. It is stiff today, but not as bad
 
 2026-03-15: Strength
 RPE: 5 | Focus: Force Production
+Pain: 0
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
-Back extension : 3x15 @ 0 lb
+Back extension: 3x15 @ 0 lb
 Chest supported row: 4x5 @ 80 lb
 Glute bridge machine: 4x5 @ 180 lb
 Single leg press: 5x5 @ 80 lb
 Suitcase carry (steps): 3x50 @ 50 lb
-Pain: 0
 Notes: Left leg obviously stronger on single leg press (I’m right leg dominant however).
 
 2026-03-16: Daily
@@ -2502,14 +2522,14 @@ Pain: 2 -- Back stiffness.
 
 2026-03-20: Strength
 RPE: 8 | Focus: Upper Body
+Pain: 0
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x10 @ 50 lb
 Bench press: 3x7 @ 155 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x8 @ 40 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 0
-Notes: Bench sets left one in tank. Could have done 8 with spotter. 
+Notes: Bench sets left one in tank. Could have done 8 with spotter.
 
 2026-03-21: Daily
 Weight: 186.8 | Waist: 34 
@@ -2534,15 +2554,15 @@ Pain: 2 -- Back stiffness.
 
 2026-03-22: Strength
 RPE: 5 | Focus: Force Production
+Pain: 2 -- Back stiffness.
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
-Back extension : 3x15 @ 0 lb
+Back extension: 3x15 @ 0 lb
 Chest supported row: 4x5 @ 90 lb
 Glute bridge machine: 4x5 @ 180 lb
 Single leg press: 5x5 @ 80 lb
 Suitcase carry (steps): 3x50 @ 50 lb
-Pain: 2 -- Back stiffness. 
-Notes: Improved control on single leg press. 
+Notes: Improved control on single leg press.
 
 2026-03-23: Daily
 Weight: 189.2 | Waist: 34.5 
@@ -2590,14 +2610,14 @@ Pain: 2 -- Back stiffness.
 
 2026-03-26: Strength
 RPE: 8 | Focus: Upper Support
+Pain: 4
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x10 @ 50 lb
 Bench press: 3x7 @ 155 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x8 @ 40 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 4
-Notes: I don’t think back pain was a result of this workout. There was stiffness before it, and it would feel the same had I just gone for a walk instead. 
+Notes: I don’t think back pain was a result of this workout. There was stiffness before it, and it would feel the same had I just gone for a walk instead.
 
 2026-03-27: Daily
 Weight: 187.2 | Waist: 34.5 
@@ -2630,16 +2650,16 @@ Pain: 2 -- Back stiffness.
 
 2026-03-29: Strength
 RPE: 5 | Focus: Force Production
+Pain: 2 -- Back stiffness.
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
-Back extension : 3x15 @ 0 lb
+Back extension: 3x15 @ 0 lb
 Chest supported row: 4x5 @ 90 lb
 Glute bridge machine: 4x5 @ 180 lb
 Single leg press: 5x5 @ 85 lb
 Suitcase carry (steps): 3x50 @ 50 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 2 -- Back stiffness. 
-Notes: Improved control on single leg press. 
+Notes: Improved control on single leg press.
 
 2026-03-30: Daily
 Weight: 185.4 | Waist: 34 
@@ -2679,14 +2699,14 @@ Notes: Late night event, 3 drinks alcohol.
 
 2026-04-01: Strength
 RPE: 6 | Focus: Upper Body
+Pain: 1
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x8 @ 50 lb
 Bench press: 3x7 @ 160 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x8 @ 40 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 1
-Notes: Low energy workout.  But new bench max felt well within control. 
+Notes: Low energy workout.  But new bench max felt well within control.
 
 2026-04-02: Daily
 Weight: 187.1 | Waist: 34.25 
@@ -2740,15 +2760,15 @@ Pain: 1 -- Back stiffness not soreness.
 
 2026-04-05: Strength
 RPE: 4 | Focus: Force Production
+Pain: 2 -- Back stiffness.
 Warm Up: cat-cow, hip-hinge, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
-Back extension : 3x15 @ 0 lb
+Back extension: 3x15 @ 0 lb
 Chest supported row: 4x5 @ 90 lb
 Glute bridge machine: 4x5 @ 180 lb
 Single leg press: 5x5 @ 90 lb
 Suitcase carry (steps): 3x50 @ 50 lb
-Pain: 2 -- Back stiffness. 
-Notes: Improved control on single leg press - which is where the gains are coming from. 
+Notes: Improved control on single leg press - which is where the gains are coming from.
 
 2026-04-06: Daily
 Weight: 189.1 | Waist: 34.5 
@@ -2794,14 +2814,14 @@ Pain: 2 -- Back stiffness not soreness.
 
 2026-04-09: Strength
 RPE: 6 | Focus: Upper Body
+Pain: 1
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x8 @ 50 lb
 Bench press: 3x6 @ 165 lb
 Chest supported row: 3x8 @ 70 lb
 Dumbbell overhead press: 3x8 @ 40 lb
 Cable crunch: 3x10 @ 150 lb
-Pain: 1
-Notes: Last rep of bench was a grind. 
+Notes: Last rep of bench was a grind.
 
 2026-04-09: Daily
 Weight: 187.8 | Waist: 34.25 
@@ -2821,15 +2841,15 @@ Notes: Still have cold: stuffy nose, headache.
 
 2026-04-11: Strength
 RPE: 4 | Focus: Full Body
+Pain: 2 -- Back stiffness.
 Warm Up: cat-cow, bird-dogs
 Cable Pallof press (each side): 3x10 @ 70 lb
-Back extension : 3x15 @ 0 lb
+Back extension: 3x15 @ 0 lb
 Chest supported row: 4x5 @ 90 lb
 Glute bridge machine: 4x5 @ 180 lb
 Single leg press: 4x5 @ 90 lb
 Chest fly machine: 3x10 @ 140 lb
-Pain: 2 -- Back stiffness. 
-Notes: Feeling better from this AM. Didn’t push, lots of rest between sets. 
+Notes: Feeling better from this AM. Didn’t push, lots of rest between sets.
 
 2026-04-12: Daily
 Weight: 187.2 | Waist: 34.5 
@@ -2883,14 +2903,14 @@ Pain: 2
 
 2026-04-15: Strength
 RPE: 6 | Focus: Upper Support
+Pain: 1
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x8 @ 50 lb
 Bench press: 3x8 @ 155 lb
 Chest supported row: 3x8 @ 70 lb
-Cable tricep extension : 3x10 @ 110 lb
+Cable tricep extension: 3x10 @ 110 lb
 Dumbbell curls: 3x8 @ 30 lb
-Pain: 1
-Notes: Mixed it up for more arm focus today. 
+Notes: Mixed it up for more arm focus today.
 
 2026-04-16: Daily
 Weight: 189 | Waist: 34.5 
@@ -2943,6 +2963,7 @@ Pain: 1
 
 2026-04-19: Strength
 RPE: 5 | Focus: Force Production
+Pain: 0
 Warm Up: stretch
 Cable Pallof press (each side): 3x10 @ 70 lb
 Chest supported row: 4x5 @ 90 lb
@@ -2950,7 +2971,6 @@ Glute bridge machine: 4x5 @ 180 lb
 Single leg press: 5x5 @ 90 lb
 Suitcase carry (steps): 3x50 @ 50 lb
 Bench press: 2x5 @ 175 lb -- New maximum
-Pain: 0
 Notes: Deeper on single leg press, greater range at same weight.
 
 2026-04-20: Daily
@@ -2996,13 +3016,13 @@ Pain: 2 —- stiffness from cycle
 
 2026-04-23: Strength
 RPE: 6 | Focus: Upper Body
+Pain: 1 -— back stiffness did not affect these exercises.
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x8 @ 50 lb
 Bench press: 3x6 @ 165 lb
 Chest supported row: 3x8 @ 75 lb
 Dumbbell overhead press: 3x8 @ 40 lb
 Cable crunch: 0x0 @ 0 lb — skipped for time
-Pain: 1 -— back stiffness did not affect these exercises. 
 
 2026-04-24: Daily
 Weight: 188 | Waist: 34.5

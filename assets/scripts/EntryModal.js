@@ -474,7 +474,7 @@ export class EntryModal {
         const topFields = [
             { label: 'Focus', type: 'text' },
             { label: 'RPE', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
-            { label: 'Pain', type: 'select', options: ['1', '2', '3', '4', '5'] }
+            { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'] }
         ];
 
         const topData = {};
@@ -585,6 +585,25 @@ export class EntryModal {
             });
         }
 
+        // Notes row
+        const notesRow = document.createElement('tr');
+        const notesLabelCell = document.createElement('td');
+        notesLabelCell.className = 'label-cell';
+        notesLabelCell.textContent = 'Notes';
+        notesRow.appendChild(notesLabelCell);
+        const notesColonCell = document.createElement('td');
+        notesColonCell.className = 'separator';
+        notesColonCell.textContent = ':';
+        notesRow.appendChild(notesColonCell);
+        const notesInputCell = document.createElement('td');
+        notesInputCell.className = 'notes-cell';
+        const notesInput = document.createElement('textarea');
+        notesInput.className = 'notes-field';
+        notesInput.name = 'Notes';
+        notesInputCell.appendChild(notesInput);
+        notesRow.appendChild(notesInputCell);
+        table.appendChild(notesRow);
+
         modal.appendChild(table);
 
         const actions = document.createElement('div');
@@ -606,7 +625,7 @@ export class EntryModal {
         document.body.appendChild(overlay);
 
         saveBtn.addEventListener('click', () => {
-            this.saveStrengthEntry(topData, exerciseData, dateInput.value, overlay);
+            this.saveStrengthEntry(topData, exerciseData, dateInput.value, overlay, notesInput);
         });
 
         cancelBtn.addEventListener('click', () => {
@@ -620,18 +639,26 @@ export class EntryModal {
         });
     }
 
-    saveStrengthEntry(topData, exerciseData, selectedDate, overlay) {
+    saveStrengthEntry(topData, exerciseData, selectedDate, overlay, notesInput) {
         const lines = [selectedDate + ': Strength'];
 
-        // RPE, Focus, Pain
-        if (topData['RPE'].input.value) {
-            lines.push('RPE: ' + topData['RPE'].input.value);
+        // RPE + Focus: same line if neither have comments
+        const rpe = topData['RPE'].input.value;
+        const rpeComment = topData['RPE'].commentBtn?._comment || '';
+        const focus = topData['Focus'].input.value;
+        const focusComment = topData['Focus'].commentBtn?._comment || '';
+        if (rpe && focus && !rpeComment && !focusComment) {
+            lines.push('RPE: ' + rpe + ' | Focus: ' + focus);
+        } else {
+            if (rpe) lines.push('RPE: ' + rpe + (rpeComment ? ' -- ' + rpeComment : ''));
+            if (focus) lines.push('Focus: ' + focus + (focusComment ? ' -- ' + focusComment : ''));
         }
-        if (topData['Focus'].input.value) {
-            lines.push('Focus: ' + topData['Focus'].input.value);
-        }
-        if (topData['Pain'].input.value) {
-            lines.push('Pain: ' + topData['Pain'].input.value);
+
+        // Pain
+        const pain = topData['Pain'].input.value;
+        const painComment = topData['Pain'].commentBtn?._comment || '';
+        if (pain) {
+            lines.push('Pain: ' + pain + (painComment ? ' -- ' + painComment : ''));
         }
 
         // Exercise rows
@@ -645,6 +672,11 @@ export class EntryModal {
                 }
             }
         });
+
+        // Notes
+        if (notesInput?.value) {
+            lines.push('Notes: ' + notesInput.value);
+        }
 
         this.appendAndSave(lines.join('\n'), overlay);
     }
