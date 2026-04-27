@@ -341,6 +341,14 @@ canvas {
   word-wrap: break-word;
 }
 
+.log-entry-text.day-stripe-odd {
+  background-color: white;
+}
+
+.log-entry-text.day-stripe-even {
+  background-color: var(--light-gray);
+}
+
 .type-hyperlink {
   color: var(--primary-red);
   text-decoration: none;

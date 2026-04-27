@@ -839,8 +839,8 @@ export class EntryModal {
 
                     if (lineDateMatch) {
                         const lineDate = lineDateMatch[1];
-                        if (newDate > lineDate) {
-                            // New entry is newer, keep looking
+                        if (newDate >= lineDate) {
+                            // New entry is newer or same date, keep looking
                             insertIndex = i;
                         } else if (newDate < lineDate) {
                             // New entry is older, insert before this entry

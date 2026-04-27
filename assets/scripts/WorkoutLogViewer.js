@@ -116,10 +116,19 @@ export class WorkoutLogViewer {
       return;
     }
 
+    let dayIndex = 0;
+    let lastDate = null;
     entries.forEach(entry => {
+      if (entry.date !== lastDate) {
+        lastDate = entry.date;
+        dayIndex++;
+      }
       const entryDiv = this.createEntryElement(entry);
+      entryDiv.classList.add(dayIndex % 2 === 0 ? 'day-stripe-even' : 'day-stripe-odd');
       container.appendChild(entryDiv);
     });
+
+    requestAnimationFrame(() => { container.scrollTop = container.scrollHeight; });
   }
 
   createEntryElement(entry) {

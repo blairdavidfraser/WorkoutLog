@@ -100,7 +100,7 @@ Sleep: 6:08:00 -- Slept well
 Energy: 4
 Pain: 3 -- Back stiff overnight, but loosens up after workout. 
 
-2025-11-04: Swim
+2025-11-04: Swim | Focus: Easy
 RPE: 4 | Distance: 2 | Duration: 41:34
 Avg HR: 138
 Pain: 0
@@ -118,7 +118,7 @@ Pain: 3 -- Back stiff this AM before run.
 2025-11-05: Yoga | Duration: 10:00
 Notes: As run warmup
 
-2025-11-05: Run
+2025-11-05: Run | Focus: Tempo
 RPE: 8 | Distance: 5.72 | Duration: 30:00:20
 Avg HR: 158
 Pain: 1
@@ -134,7 +134,7 @@ Sleep: 7:06:00 -- Woke up at 3, couldn’t get back to sleep for a while
 Energy: 3
 Pain: 3 -- Back stiff this AM.  Better after swim. 
 
-2025-11-06: Swim
+2025-11-06: Swim | Focus: Recovery
 RPE: 2 | Distance: 2 | Duration: 44:29
 Avg HR: 133
 Pain: 1
@@ -148,7 +148,7 @@ Sleep: 7:30:00 -- Woke up several times.
 Energy: 3
 Pain: 3 -- Back stiffness again upon waking.
 
-2025-11-07: Rowing
+2025-11-07: Rowing | Focus: Steady
 RPE: 5 | Distance: 8.85 | Duration: 1:19:00
 Avg HR: 18
 Pain: 1
@@ -163,7 +163,7 @@ Sleep: 6:15:00
 Energy: 3
 Pain: 3 
 
-2025-11-08: Rowing
+2025-11-08: Rowing | Focus: Steady
 RPE: 4 | Distance: 9.5 | Duration: 1:20:00
 Avg HR: 130
 Pain: 2
@@ -183,7 +183,7 @@ Sleep: 8:02:00
 Energy: 3
 Pain: 4 -- Sharp sensation in back.  Low intensity, but feels like nerve pinch. 
 
-2025-11-10: Spin
+2025-11-10: Spin | Focus: Easy
 RPE: 4 | Distance: 18.4 | Duration: 40:00
 Avg HR: 132
 Pain: 1
@@ -214,7 +214,7 @@ Bird-dog: 2x30 @ 0 lb
 Pain: 1
 Notes: Back extension revealed back tightness.
 
-2025-11-11: Swim
+2025-11-11: Swim | Focus: Tempo
 RPE: 7 | Distance: 1.5 | Duration: 29:52
 Avg HR: 144
 Pain: 0
@@ -226,7 +226,7 @@ Sleep: 7:20:00
 Energy: 2
 Pain: 3 -- Stiff back in morning, loosened somewhat after erg.  Achy body - feel a cold coming on. 
 
-2025-11-12: Erg
+2025-11-12: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.853 | Duration: 45:00 | Power: 136
 Avg HR: 136
 Pain: 2 -- Rower’s elbow. 
@@ -240,7 +240,7 @@ Sleep: 7:13:00
 Energy: 4
 Pain: 2 -- Back good.  DOMS in arms, likely from weight day.  Stopped taking creatine couple weeks back - going to start again today.  Cold-like symptoms gone.
 
-2025-11-13: Swim
+2025-11-13: Swim | Focus: Intervals
 RPE: 8 | Distance: 1.025 | Duration: 31:17
 Details: 200m WU, 12 x 50 m @ (38s, 40s, 40s, 39s, 38s, 35s, 36s, 39s, 40s, 38s, 35s, 37s) with 1:00 rest, 200 m CD, 140 bpm average, 9:00 in Zone 4+
 Pain: 0
@@ -257,7 +257,7 @@ Sleep: 7:15:00
 Energy: 4
 Pain: 1 -- Back good.  Still DOMS in arms.  Running today instead of erg due to arm DOMS and rower’s elbow.
 
-2025-11-14: Run
+2025-11-14: Run | Focus: Easy
 RPE: 4 | Distance: 6 | Duration: 31:50
 Avg HR: 152
 Pain: 1 -- Only back tiredness at end
@@ -283,7 +283,7 @@ Hamstring curls: 3x10 @ 100 lb
 Pain: 2
 Notes: Back tenderness on glute machine and hamstring curls.  Care taken. 
 
-2025-11-15: Rowing
+2025-11-15: Rowing | Focus: Easy
 RPE: 3 | Distance: 9.2 | Duration: 1:10:00
 Avg HR: 134
 Pain: 2
@@ -328,7 +328,7 @@ Sleep: 7:56:00
 Energy: 4
 Pain: 2 -- Back sore in middle of night.  Improved once moving, but still feels movement restricted. Still some elbow pain. 
 
-2025-11-18: Swim
+2025-11-18: Swim | Focus: Recovery
 RPE: 3 | Distance: 1.250 | Duration: 29:37
 Avg HR: 133
 Pain: 1
@@ -340,7 +340,7 @@ Sleep: 6:42:00
 Energy: 4
 Pain: 2 -- Back stiff on awakening and mobility (forward bend) low.  Maybe shouldn’t run, but I’m gonna.  Then I’ll do no running until an easy 5km on Sunday (no Saturday shakeout). 
 
-2025-11-19: Run
+2025-11-19: Run | Focus: Long
 RPE: 5 | Distance: 8.04 | Duration: 43:57
 Avg HR: 156
 Pain: 2 -- In last 2km
@@ -356,7 +356,7 @@ Sleep: 7:20:00
 Energy: 4
 Pain: 2 -- Back still sore and low mobility (forward bend especially on right leans).  Elbow painful but only when used for pulling weight. 
 
-2025-11-20: Spin
+2025-11-20: Spin | Focus: Intervals
 RPE: 8 | Distance: 22 | Duration: 42:00 
 Avg HR: 142
 Pain: 0
@@ -400,7 +400,7 @@ Pain: 1 -- Mild low back stiffness.  Elbow and shoulder fine.
 
 2025-11-23: Yoga | Duration: 45:00
 
-2025-11-23: Run
+2025-11-23: Run | Focus: Easy
 RPE: 3 | Distance: 5.15 | Duration: 32:45
 Avg HR: 138
 Pain: 2 
@@ -433,7 +433,7 @@ Sleep: 7:20:00
 Energy: 4
 Pain: 3 -- Back stiff again, but otherwise fine.  Back loosened with exercise.
 
-2025-11-25: Erg
+2025-11-25: Erg | Focus: Zone 2
 RPE: 3 | Distance: 9.703 | Duration: 45:00 | Power: 130
 Avg HR: 135
 Pain: 1 
@@ -445,7 +445,7 @@ Sleep: 6:19:00
 Energy: 4
 Pain: 3 -- Back quite stiff upon awakening.  Did some stretching before run.
 
-2025-11-26: Run
+2025-11-26: Run | Focus: Intervals
 RPE: 8 | Distance: 5.79 | Duration: 38:35
 Avg HR: 155 -- with 15:20 @ 160+bpm (Z5) 
 Pain: 2
@@ -500,7 +500,7 @@ Pain: 2 -- Stiffness on awaking, but loosened after yoga.
 
 2025-11-29: Yoga | Duration: 30:00 | Notes: Pre-run warmup
 
-2025-11-29: Run
+2025-11-29: Run | Focus: Easy
 RPE: 5 | Distance: 10 | Duration: 57:26
 Avg HR: 140
 Pain: 1
@@ -571,7 +571,7 @@ RHR: 59 | HRV: 57
 Energy: 4
 Pain: 2 -- Back less stiff this AM. 
 
-2025-12-03: Swim
+2025-12-03: Swim | Focus: Tempo
 RPE: 8 | Distance: 2 | Duration: 38:22
 Avg HR: 152
 Pain: 0
@@ -586,7 +586,7 @@ RHR: 58 | HRV: 58
 Energy: 4
 Pain: 1 -- Slight back stiffness.
 
-2025-12-04: Erg
+2025-12-04: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.529 | Duration: 45:00 | Power: 128
 Avg HR: 131
 Pain: 2 -- Some low back pain past half way, but low level.  Zero on the elbow pain.
@@ -603,7 +603,7 @@ Pain: 1 -- Slight back stiffness.
 
 2025-12-05: Yoga | Duration: 20:00
 
-2025-12-05: Run
+2025-12-05: Run | Focus: Easy
 RPE: 6 | Distance: 7.19 | Duration: 41:09
 Avg HR: 147
 Pain: 1
@@ -632,7 +632,7 @@ Pain: 4 -- Back stiff on awakening.  Eased with yoga. Cold is winding down - res
 
 2025-12-08: Yoga | Duration: 30:00
 
-2025-12-08: Swim
+2025-12-08: Swim | Focus: Recovery
 RPE: 3 | Distance: 1.5 | Duration: 35:08
 Avg HR: 135
 Pain: 0
@@ -649,11 +649,11 @@ Pain: 1 -- Slight back stiffness on awakening.
 
 2025-12-09: Yoga | Duration: 20:00
 
-2025-12-09: Run
+2025-12-09: Run | Focus: Tempo
 RPE: 8 | Distance: 8.36 | Duration: 42:20
 Avg HR: 163
 Pain: 1
-Notes: only minor niggles on run, no pain after.  Conquered Fallingbrook hill again. Starting to feel “running fitness”: not gasping for air at higher paces, no stitches in side, etc.  Like it used to feel. 
+Notes: Only minor niggles on run, no pain after.  Conquered Fallingbrook hill again. Starting to feel “running fitness”: not gasping for air at higher paces, no stitches in side, etc.  Like it used to feel. 
 
 2025-12-09: Cycle Commute | Duration: 1:05:00
 
@@ -664,7 +664,7 @@ RHR: 61 | HRV: 44
 Energy: 4
 Pain: 1 -- Light stiffness in back before rowing. 
 
-2025-12-10: Erg
+2025-12-10: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.926 | Duration: 45:00 | Power: 134
 Avg HR: 131
 Pain: 1 -- Low back stiffness at start, but passed. 
@@ -720,8 +720,8 @@ Weighted hip hinge: 3x10 @ 22.5 lb
 Pain: 0
 Notes: Very little rest between sets - trying to fit into lunch break.
 
-2025-12-12: Swim
-RPE: 6 | Duration: 29:44 | Distance: 1500 m
+2025-12-12: Swim | Focus: Tempo
+RPE: 6 | Duration: 29:44 | Distance: 1.5
 Avg HR: 142
 Pain: 0
 Notes: More intense than planned, but trying to fit into lunch break.
@@ -733,7 +733,7 @@ RHR: 59 | HRV: 39
 Energy: 3
 Pain: 1 -- Stiffness in back overnight. Bad sleep, will try to nap. 
 
-2025-12-13: Run
+2025-12-13: Run | Focus: Easy
 RPE: 6 | Distance: 9.90 | Duration: 50:03
 Avg HR: 152
 Pain: 1
@@ -790,7 +790,7 @@ RHR: 59 | HRV: 61
 Energy: 2
 Pain: 1 -- DOMS in legs and calves.
 
-2025-12-16: Erg
+2025-12-16: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.697 | Duration: 45:00 | Power: 130
 Pain: 1 -- Back tired, but not sore.
 Notes: All Z2 work.
@@ -819,7 +819,7 @@ Hamstring curls: 3x10 @ 80 lb
 Pain: 2
 Notes: stiffness in back, no pain. 
 
-2025-12-17: Run
+2025-12-17: Run | Focus: Easy
 RPE: 3 | Distance: 8.06 | Duration: 50:15
 Avg HR: 138
 Pain: 2 -- Back got stiff near end. 
@@ -845,7 +845,7 @@ RHR: 60 | HRV: 71
 Energy: 2
 Pain: 1 -- Back stiff overnight.  
 
-2025-12-19: Swim
+2025-12-19: Swim | Focus: Tempo
 RPE: 8 | Distance: 2 | Duration: 38:39
 Avg HR: 148
 Pain: 0
@@ -860,7 +860,7 @@ Pain: 1 -- Back stiff overnight.  AM yoga helps.
 
 2025-12-20: Yoga | Duration: 30:00
 
-2025-12-20: Run
+2025-12-20: Run | Focus: Easy
 RPE: 4 | Distance: 10.04 | Duration: 53:09
 Avg HR: 151
 Pain: 1 -- Back tight but no pain. 
@@ -905,7 +905,7 @@ Pain: 1 -- Back stiff overnight.  Loosens with yoga.
 
 2025-12-22: Yoga | Duration: 30:00
 
-2025-12-22: Run
+2025-12-22: Run | Focus: Intervals
 RPE: 8 | Distance: 8.39 | Duration: 1:03:08
 Avg HR: 152 -- With 20:54 @ 160+bpm (Z5) 
 Pain: 1 -- Only stiffness after
@@ -919,7 +919,7 @@ RHR: 60 | HRV: 31
 Energy: 3
 Pain: 1 -- Back stiff overnight.  
 
-2025-12-23: Erg
+2025-12-23: Erg | Focus: Zone 2
 RPE: 3 | Distance: 9.742 | Duration: 45:00 | Power: 132
 Avg HR: 129
 Pain: 2 -- Back tired at end, but not nerve pain sore.
@@ -954,7 +954,7 @@ Pain: 1 -- Stiffness in AM but stretched it out.
 2025-12-25: Strength | RPE: 7 | Focus: Abs | Duration: 30:00
 Notes: Core Workout for Runners Video
 
-2025-12-25: Erg
+2025-12-25: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.825 | Duration: 45:00 | Power: 135
 Avg HR: 134
 Pain: 1 -- Back stiff at start, fine once going.
@@ -993,7 +993,7 @@ RHR: 54 | HRV: 66
 Energy: 4
 Pain: 1 -- Stiffness in AM. 
 
-2025-12-27: Swim
+2025-12-27: Swim | Focus: Easy
 RPE: 4 | Distance: 2 | Duration: 46:55
 Avg HR: 149
 Pain: 0
@@ -1029,7 +1029,7 @@ Pain: 1 -- Stiffness in AM.  Weight taken after run.
 
 2025-12-29: Yoga | Duration: 45:00 
 
-2025-12-29: Run
+2025-12-29: Run | Focus: Easy
 RPE: 4 | Distance: 17.33 | Duration: 1:49:29
 Avg HR: 153 
 Pain: 1 -- Only on last km
@@ -1092,7 +1092,7 @@ RHR: 55 | HRV: 55
 Energy: 4
 Pain: 2 -- Back stiff in bed. 
 
-2026-01-02: Erg
+2026-01-02: Erg | Focus: Intervals
 RPE: 8 | Distance: 12.324 | Duration: 50:00 | Power: 135
 Avg HR: 150
 Pain: 2 -- Back mildly sore/tired by end.  Gone within 15 minutes after. 
@@ -1107,7 +1107,7 @@ Pain: 2 -- Back a bit stiffer today.
 
 2026-01-03: Yoga | Duration: 30:00
 
-2026-01-03: Run
+2026-01-03: Run | Focus: Easy
 RPE: 3 | Distance: 10.11 | Duration: 58:26
 Avg HR: 144 
 Pain: 1
@@ -1124,7 +1124,7 @@ RHR: 58 | HRV: 39
 Energy: 3
 Pain: 2 -- AM stiffness again.
 
-2026-01-04: Erg
+2026-01-04: Erg | Focus: Recovery
 RPE: 2 | Distance: 4.165 | Duration: 20:00 | Power: 134
 Avg HR: 129
 Pain: 1 -- Mild back stiffness - less so when focused on good back form.
@@ -1151,7 +1151,7 @@ RHR: 59 | HRV: 82
 Energy: 3
 Pain: 2 -- AM stiffness again.
 
-2026-01-05: Erg
+2026-01-05: Erg | Focus: Zone 2
 RPE: 3 | Distance: 9.371 | Duration: 45:00 | Power: 117
 Avg HR: 133
 Pain: 1
@@ -1166,7 +1166,7 @@ RHR: 62 | HRV: 42
 Energy: 3
 Pain: 1 -- Low AM stiffness in back.
 
-2026-01-06: Run
+2026-01-06: Run | Focus: Intervals
 RPE: 7 | Distance: 7.58 | Duration: 39:57
 Avg HR: 150 -- With 13:58 @ 160+bpm (Z5) 
 Pain: 1 -- Spine tight immediately after, but dissipated quickly.
@@ -1186,7 +1186,7 @@ RHR: 59 | HRV: 57
 Energy: 4
 Pain: 2 -- AM stiffness again.
 
-2026-01-07: Erg
+2026-01-07: Erg | Focus: Zone 2
 RPE: 3 | Distance: 9.951 | Duration: 45:00 | Power: 140
 Avg HR: 133
 Pain: 1
@@ -1241,7 +1241,7 @@ RHR: 59 | HRV: 57
 Energy: 3
 Pain: 2 -- Stiffness in AM. 
 
-2026-01-09: Erg
+2026-01-09: Erg | Focus: Intervals
 RPE: 4 | Distance: 10.140 | Duration: 50:59 | Power: 143
 Avg HR: 132
 Pain: 2 -- Some back stiffness at beginning and after.  No major pain. 
@@ -1297,7 +1297,7 @@ RHR: 58 | HRV: 50
 Energy: 3
 Pain: 3 -- No back pain overnight, but in AM the character of the pain is still sharp not dull.
 
-2026-01-11: Spin
+2026-01-11: Spin | Focus: Intervals
 RPE: 7 | Distance: 22.76 | Duration: 42:29 | Power: 187
 Avg HR: 141
 Pain: 0 -- Cycling cause no back pain. 
@@ -1374,7 +1374,7 @@ RHR: 59 | HRV: 44
 Energy: 4
 Pain: 2 -- Character is tired and sensitive, not sharp. 
 
-2026-01-14: Erg
+2026-01-14: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.909 | Duration: 50:59 | Power: 138
 Avg HR: 135
 Pain: 2 -- Stiffness before, not during.
@@ -1399,7 +1399,7 @@ RHR: 59 | HRV: 122
 Energy: 4
 Pain: 1 -- Morning stiffness. 
 
-2026-01-15: Run
+2026-01-15: Run | Focus: Zone 2
 RPE: 6 | Distance: 6.55 | Duration: 41:52
 Avg HR: 151 
 Pain: 1 -- Only after run done. 
@@ -1477,7 +1477,7 @@ RHR: 59 | HRV: 45
 Energy: 3
 Pain: 3 -- Back stiffness on awakening and after swim.  Will do yoga later. 
 
-2026-01-18: Swim
+2026-01-18: Swim | Focus: Tempo
 RPE: 7 | Distance: 2 | Duration: 41:12
 Avg HR: 152
 Pain: 0
@@ -1548,7 +1548,7 @@ RHR: 59 | HRV: 55
 Energy: 3
 Pain: 3 -- Back quite stiff, but no sharp pain before workout.
 
-2026-01-21: Erg
+2026-01-21: Erg | Focus: Intervals
 RPE: 8 | Distance: 7.465 | Duration: 48:21 | Power: 138
 Avg HR: 136
 Pain: 2 -- Back mildly sore/tired by end.  
@@ -1603,7 +1603,7 @@ RHR: 58 | HRV: 64
 Energy: 3
 Pain: 2 -- Back stiffness lower today.
 
-2026-01-23: Erg
+2026-01-23: Erg | Focus: Zone 2
 RPE: 4 | Distance: 7.465 | Duration: 45:00 | Power: 138
 Avg HR: 134
 Pain: 0 -- Stiffness at start, but relaxed.
@@ -1625,7 +1625,7 @@ RHR: 58 | HRV: 54
 Energy: 3
 Pain: 2 -- Back stiffness light.
 
-2026-01-24: Erg
+2026-01-24: Erg | Focus: Zone 2
 RPE: 6 | Distance: 18.416 | Duration: 1:28:00 | Power: 156
 Avg HR: 131
 Pain: 0 -- Stiffness at start, but relaxed.
@@ -1698,12 +1698,12 @@ RHR: 61 | HRV: 38
 Energy: 3
 Pain: 2 -- Back stiffness.  
 
-2026-01-28: Erg
+2026-01-28: Erg | Focus: Intervals
 RPE: 8 | Distance: 10.591 | Duration: 56:19 | Power: 179
 Pain: 1 -- No major pain during intervals
 Details: 10x(500 m, 1:30 rest) @ Power/Pace = (273w/1:48.7, 302w/1:45.0, 298w/1:45.5, 301w/145.2, 279w/1:47.9, 283w/1:47.3, 283w/147.4, 283w/1:47.4).  Plus 20:00 UT2.
 
-2026-01-28: Erg
+2026-01-28: Erg | Focus: Zone 2
 RPE: 3 | Distance: 3.281 | Duration: 15:00 | Power: 136
 Avg HR: 135
 Pain: 1 -- Back tired by end.
@@ -1735,7 +1735,7 @@ RHR: 57 | HRV: 63
 Energy: 3
 Pain: 3 -- Back stiffness. 
 
-2026-01-30: Erg
+2026-01-30: Erg | Focus: Zone 2
 RPE: 4 | Distance: 13.025 | Duration: 1:00:00 | Power: 133
 Avg HR: 129
 Pain: 1 -- Back stiff at end, but loosened during.
@@ -1748,7 +1748,7 @@ RHR: 59 | HRV: 62
 Energy: 3
 Pain: 3 -- Back stiffness. 
 
-2026-01-31: Erg
+2026-01-31: Erg | Focus: Intervals
 RPE: 5 | Distance: 17.392 | Duration: 1:23:00 | Power: 161
 Avg HR: 131
 Pain: 1 -- Back quite stiff before erg.  Tired after. 
@@ -1788,7 +1788,7 @@ RHR: 67 | HRV: 28
 Energy: 2
 Pain: 3 -- Back stiffness from sleeping all day yesterday.  Cold is going away today.
 
-2026-02-03: Erg
+2026-02-03: Erg | Focus: Zone 2
 RPE: 3 | Distance: 9.642 | Duration: 45:00 | Power: 135
 Avg HR: 129
 Pain: 1 -- Back quite stiff before erg.  Tired after. 
@@ -1835,7 +1835,7 @@ RHR: 59 | HRV: 27
 Energy: 3
 Pain: 2 -- Back stiffness. 
 
-2026-02-06: Erg
+2026-02-06: Erg | Focus: Zone 2
 RPE: 4 | Distance: 13.261 | Duration: 1:00:00 | Power: 140
 Avg HR: 127
 Pain: 1 -- Less back stiffness today than earlier in week.  Cold gone, dry cough lingers. 
@@ -1914,7 +1914,7 @@ RHR: 60 | HRV: 47
 Energy: 4
 Pain: 1 -- Back stiffness.
 
-2026-02-11: Run
+2026-02-11: Run | Focus: Tempo
 RPE: 7 | Distance: 8.06 | Duration: 41:45
 Avg HR: 162
 Pain: 1 -- Some back tenderness after. 
@@ -1927,7 +1927,7 @@ RHR: 54 | HRV: 47
 Energy: 3
 Pain: 2 -- Back stiffness.
 
-2026-02-12: Erg
+2026-02-12: Erg | Focus: Recovery
 RPE: 4 | Distance: 9.547 | Duration: 45:00 | Power: 124
 Avg HR: 131
 Pain: 1 -- Just stiffness. 
@@ -1960,7 +1960,7 @@ RHR: 60 | HRV: 33
 Energy: 2
 Pain: 2 -- Back stiffness.
 
-2026-02-14: Swim
+2026-02-14: Swim | Focus: Easy
 RPE: 4 | Distance: 2 | Duration: 44:00
 Avg HR: 137
 Pain: 0
@@ -1995,7 +1995,7 @@ Pain: 2 -- Back stiffness.
 
 2026-02-16: Yoga | Duration: 45:00
 
-2026-02-16: Erg
+2026-02-16: Erg | Focus: Recovery
 RPE: 4 | Distance: 9.392 | Duration: 45:00 | Power: 188
 Avg HR: 129
 Pain: 2 -- Back stiff.
@@ -2024,7 +2024,7 @@ RHR: 57 | HRV: 48
 Energy: 2
 Pain: 2 -- Back stiffness.
 
-2026-02-19: Swim
+2026-02-19: Swim | Focus: Tempo
 RPE: 7 | Distance: 2 | Duration: 39:54
 Avg HR: 144
 Pain: 0
@@ -2062,7 +2062,7 @@ Avg HR: 125
 Pain: 2
 Notes: Easy and technically focused. 
 
-2026-02-23: Row
+2026-02-23: Row | Focus: Recovery
 RPE: 3 | Distance: 9.260 | Duration: 1:22:49
 Avg HR: 118
 Pain: 3
@@ -2075,13 +2075,13 @@ RHR: 52 | HRV: 28
 Energy: 2
 Pain: 2 -- Tired in AM.  
 
-2026-02-24: Row
+2026-02-24: Row | Focus: Easy
 RPE: 4 | Distance: 11.860 | Duration: 1:30:57
 Avg HR: 129
 Pain: 2
 Notes: Pushed a bit. Tried to keep blades off water. 
 
-2026-02-24: Row
+2026-02-24: Row | Focus: Easy
 RPE: 3 | Distance: 10.680 | Duration: 1:20:31
 Avg HR: 129
 Pain: 2
@@ -2094,13 +2094,13 @@ RHR: 57 | HRV: 84
 Energy: 2
 Pain: 3 -- Back stiffness on awakening. 
 
-2026-02-25: Row
+2026-02-25: Row | Focus: Tempo
 RPE: 5 | Distance: 14.890 | Duration: 1:35:06
 Avg HR: 138
 Pain: 2
 Notes: Pushed a bit more. Balance improving. 
 
-2026-02-25 PM: Row
+2026-02-25 PM: Row | Focus: Easy
 RPE: 3 | Distance: 10.020 | Duration: 1:04:05
 Avg HR: 135
 Pain: 3
@@ -2113,13 +2113,13 @@ RHR: 59 | HRV: 42
 Energy: 3
 Pain: 3 -- Back stiffness on awakening. 
 
-2026-02-26: Row
+2026-02-26: Row | Focus: Tempo
 RPE: 5 | Distance: 16.760 | Duration: 1:49:06
 Avg HR: 127
 Pain: 2
 Notes: Pushed a bit more. Same route as yesterday AM, but not as tiring today. 
 
-2026-02-26: Row
+2026-02-26: Row | Focus: Easy
 RPE: 3 | Distance: 10.020 | Duration: 1:00:05
 Avg HR: 135
 Pain: 2
@@ -2132,13 +2132,13 @@ RHR: 59 | HRV: 48
 Energy: 3
 Pain: 3 -- Back stiffness on awakening. 
 
-2026-02-27: Row
+2026-02-27: Row | Focus: Tempo
 RPE: 5 | Distance: 19.860 | Duration: 2:05:06
 Avg HR: 128
 Pain: 2
 Notes: Pushed on the return leg. Balance getting much better. 
 
-2026-02-27: Row
+2026-02-27: Row | Focus: Recovery
 RPE: 2 | Distance: 8.780 | Duration: 1:10:05
 Avg HR: 111
 Pain: 2
@@ -2151,7 +2151,7 @@ RHR: 58 | HRV: 53
 Energy: 3
 Pain: 3 -- Back stiffness on awakening. 
 
-2026-02-28: Row
+2026-02-28: Row | Focus: Intervals
 RPE: 7 | Distance: 14.060 | Duration: 1:38:05
 Avg HR: 130 | Max HR: 160 bpm
 Pain: 2
@@ -2179,7 +2179,7 @@ RHR: 56 | HRV: 67
 Energy: 3
 Pain: 1 -- Some disjointed sleep on plane home, 5:00:00 in bed. 
 
-2026-03-03: Erg
+2026-03-03: Erg | Focus: Easy
 RPE: 3 | Distance: 6.382 | Duration: 30:00 | Power: 125
 Avg HR: 128
 Pain: 1 -- Just stiffness. 
@@ -2192,7 +2192,7 @@ RHR: 63 | HRV: 41
 Energy: 3
 Pain: 2. Back stiffness on awakening. 
 
-2026-03-04: Swim
+2026-03-04: Swim | Focus: Recovery
 RPE: 3 | Distance: 1 | Duration: 23:51
 Avg HR: 150
 Pain: 0
@@ -2230,7 +2230,7 @@ RHR: 62 | HRV: 47
 Energy: 2
 Pain: 1 -- Still jet-lagged. Will nap in PM. 
 
-2026-03-07: Erg
+2026-03-07: Erg | Focus: Easy
 RPE: 4 | Distance: 9.552 | Duration: 45:00 | Power: 124
 Avg HR: 131
 Pain: 0
@@ -2262,7 +2262,7 @@ RHR: 59 | HRV: 54
 Energy: 3
 Pain: 1
 
-2026-03-09: Run
+2026-03-09: Run | Focus: Easy
 RPE: 7 | Distance: 10.14 | Duration: 52:08
 Avg HR: 159
 Pain: 1
@@ -2296,7 +2296,7 @@ RHR: 58 | HRV: 67
 Energy: 3
 Pain: 2 -- Back stiffness on awakening.
 
-2026-03-12: Erg
+2026-03-12: Erg | Focus: Progression
 RPE: 7 | Distance: 9.945 | Duration: 45:00 | Power: 140
 Avg HR: 134
 Pain: 0
@@ -2326,7 +2326,7 @@ RHR: 58 | HRV: 69
 Energy: 3
 Pain: 1 -- Poor sleep after night out drinking with friends. Will take an afternoon nap. 
 
-2026-03-14: Run
+2026-03-14: Run | Focus: Tempo
 RPE: 8 | Distance: 10.34 | Duration: 55:04
 Avg HR: 160
 Pain: 1
@@ -2358,7 +2358,7 @@ RHR: 58 | HRV: 55
 Energy: 3 -- Bit sleepy on awaking.
 Pain: 2
 
-2026-03-16: Erg
+2026-03-16: Erg | Focus: Easy
 RPE: 4 | Distance: 9.827 | Duration: 45:00 | Power: 134
 Avg HR: 125
 Pain: 0
@@ -2371,7 +2371,7 @@ RHR: 53 | HRV: 82
 Energy: 3
 Pain: 1 -- Back stiffness ok. 
 
-2026-03-16: Erg
+2026-03-16: Erg | Focus: Intervals
 RPE: 8 | Distance: 5.008 | Duration: 30:55 | Power 182 w
 Avg HR: 139
 Pain: 1 -- Some back soreness by end.
@@ -2384,7 +2384,7 @@ RHR: 58 | HRV: 59
 Energy: 3
 Pain: 1 -- Back stiffness ok. 
 
-2026-03-18: Run
+2026-03-18: Run | Focus: Easy
 RPE: 5 | Distance: 8.15 | Duration: 45:51
 Avg HR: 147
 Pain: 1
@@ -2436,7 +2436,7 @@ RHR: 59 | HRV: 39
 Energy: 3
 Pain: 3 -- Back stiffness. 
 
-2026-03-21: Swim
+2026-03-21: Swim | Focus: Easy
 RPE: 6 | Distance: 2 | Duration: 40:25
 Avg HR: 135
 Pain: 0
@@ -2468,7 +2468,7 @@ RHR: 58 | HRV: 81
 Energy: 3
 Pain: 2 -- Back stiffness. 
 
-2026-03-23: Erg
+2026-03-23: Erg | Focus: Easy
 RPE: 4 | Distance: 9.745 | Duration: 45:00 | Power: 132
 Avg HR: 133
 Pain: 1
@@ -2481,7 +2481,7 @@ RHR: 60 | HRV: 52
 Energy: 2
 Pain: 2 -- Back stiffness.  
 
-2026-03-24: Erg
+2026-03-24: Erg | Focus: Intervals
 RPE: 8 | Distance: 7.490 | Duration: 41:41 | Power: 157
 Avg HR: 127
 Pain: 1
@@ -2521,7 +2521,7 @@ RHR: 58 | HRV: 68
 Energy: 3
 Pain: 3 -- Back stiffness. Will take ibuprofen for swelling. 
 
-2026-03-27: Erg
+2026-03-27: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.732 | Duration: 45:00 | Power: 131
 Avg HR: 137
 Pain: 2
@@ -2562,7 +2562,7 @@ RHR: 55 | HRV: 71
 Energy: 3
 Pain: 2 -- Back stiffness.
 
-2026-03-30: Erg
+2026-03-30: Erg | Focus: Zone 2
 RPE: 5 | Distance: 9.688 | Duration: 45:00 | Power: 129
 Avg HR: 140
 Pain: 2
@@ -2575,7 +2575,7 @@ RHR: 58 | HRV: 72
 Energy: 3
 Pain: 2 -- Back stiffness.
 
-2026-03-31: Erg
+2026-03-31: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.722 | Duration: 45:00 | Power: 131
 Avg HR: 132
 Pain: 1
@@ -2607,7 +2607,7 @@ RHR: 58 | HRV: 55
 Energy: 3
 Pain: 2 -- Back stiffness not soreness. 
 
-2026-04-02: Swim
+2026-04-02: Swim | Focus: Tempo
 RPE: 7 | Distance: 2 | Duration: 38:30
 Avg HR: 144
 Pain: 0
@@ -2620,7 +2620,7 @@ RHR: 58 | HRV: 82
 Energy: 3
 Pain: 1 -- Back stiffness not soreness. 
 
-2026-04-03: Run
+2026-04-03: Run | Focus: Tempo
 RPE: 7 | Distance: 8.5 | Duration: 42:00
 Avg HR: 155
 Pain: 1
@@ -2633,7 +2633,7 @@ RHR: 63 | HRV: 55
 Energy: 3
 Pain: 1 -- Back stiffness not soreness. 
 
-2026-04-04: Erg
+2026-04-04: Erg | Focus: Intervals
 RPE: 8 | Distance: 9.722 | Duration: 59:00 | Power: 195
 Avg HR: 134 (15:20 Zone 5)
 Pain: 1
@@ -2666,7 +2666,7 @@ RHR: 58 | HRV: 44
 Energy: 3
 Pain: 1 -- Back stiffness not soreness.
 
-2026-04-06: Erg
+2026-04-06: Erg | Focus: Recovery
 RPE: 3 | Distance: 9.385 | Duration: 45:00 | Power: 118
 Avg HR: 119
 Pain: 0
@@ -2679,7 +2679,7 @@ RHR: 56 | HRV: 72
 Energy: 3
 Pain: 1 -- Back stiffness not soreness.
 
-2026-04-07: Erg
+2026-04-07: Erg | Focus: Zone 2
 RPE: 4 | Distance: 9.273 | Duration: 45:00 | Power: 113
 Avg HR: 129
 Pain: 0
@@ -2746,7 +2746,7 @@ Energy: 4
 Pain: 1
 Notes: Cold gone.
 
-2026-04-12: Cycle
+2026-04-12: Cycle | Focus: Easy
 RPE: 5 | Distance: 29.78 | Duration: 1:16:11
 Avg HR: 126
 Pain: 1
@@ -2759,7 +2759,7 @@ RHR: 59 | HRV: 83
 Energy: 4
 Pain: 1
 
-2026-04-13: Row
+2026-04-13: Row | Focus: Easy
 RPE: 5 | Distance: 10.653 | Duration: 55:11
 Avg HR: 117
 Pain: 1
@@ -2772,7 +2772,7 @@ RHR: 61 | HRV: 43
 Energy: 4
 Pain: 1
 
-2026-04-14: Run
+2026-04-14: Run | Focus: Tempo
 RPE: 8 | Distance: 10 | Duration: 50:37
 Avg HR: 163
 Pain: 1
@@ -2803,7 +2803,7 @@ RHR: 59 | HRV: 62
 Energy: 3
 Pain: 2
 
-2026-04-16: Erg
+2026-04-16: Erg | Focus: Zone 2
 RPE: 5 | Distance: 13.159 | Duration: 1:00:00 | Power: 137
 Avg HR: 132
 Pain: 0
@@ -2816,7 +2816,7 @@ RHR: 61 | HRV: 40
 Energy: 3
 Pain: 1
 
-2026-04-17: Row
+2026-04-17: Row | Focus: Easy
 RPE: 6 | Distance: 12.736 | Duration: 1:03:00
 Avg HR: 125
 Pain: 0
@@ -2829,7 +2829,7 @@ RHR: 63 | HRV: 36
 Energy: 3
 Pain: 1
 
-2026-04-18: Run
+2026-04-18: Run | Focus: Easy
 RPE: 5 | Distance: 11.61 | Duration: 1:04:12 
 Avg HR: 146
 Pain: 1
@@ -2861,7 +2861,7 @@ RHR: 58 | HRV: 67
 Energy: 3
 Pain: 1
 
-2026-04-20: Erg
+2026-04-20: Erg | Focus: Easy
 RPE: 2 | Distance: 5.917 | Duration: 30:00 | Power: 99
 Avg HR: 122
 Pain: 1 —- Could feel asymmetry, slight pain on RHS.
@@ -2881,7 +2881,7 @@ RHR: 58 | HRV: 56
 Energy: 2
 Pain: 1
 
-2026-04-22: Cycle
+2026-04-22: Cycle | Focus: Easy
 RPE: 7 | Distance: 24.17 | Duration: 58:38 | Power: 125
 Avg HR: 141
 Pain: 1 -— mild back discomfort 
@@ -2911,8 +2911,36 @@ Energy: 2
 Pain: 1 -- Back stiffness
 Notes: Rolled ankle at rowing practice.
 
-2026-04-24: Row
+2026-04-24: Row | Focus: Easy
 RPE: 4 | Distance: 8.736 | Duration: 43:06
 Avg HR: 119
 Pain: 1
 Notes: Technical row in John Carmichael with Mat, Tristan, Lucas. Fast and well set.
+
+2026-04-25: Daily
+Weight: 188.5 | Waist: 34.5
+Sleep: 7:04:00
+RHR: 58 | HRV: 42
+Energy: 2
+Pain: 4 -- Rolled ankle
+Notes: Back ok today
+
+2026-04-26: Daily
+Weight: 189 | Waist: 34.25
+Sleep: 7:18:00
+RHR: 56 | HRV: 60
+Energy: 1
+Pain: 1
+Notes: Ankle getting better
+
+2026-04-26: Strength
+RPE: 1 | Focus: Force Production
+Pain: 1
+Cable Pallof press (each side): 3x10 @ 70
+Chest supported row: 4x5 @ 90 lb
+Back extension: 3x15 @ 0 lb
+Glute bridge machine: 4x5 @ 180 lb
+Hamstring curls: 3x8 @ 120 lb
+Leg extension: 3x8 @ 120 lb
+Cable Crunch: 3x10 @ 180 lb
+Notes: Modified for ankle
