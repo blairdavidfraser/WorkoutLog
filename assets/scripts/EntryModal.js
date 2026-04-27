@@ -242,6 +242,7 @@ export class EntryModal {
 
         const fields = [
             { label: 'Type', type: 'select', options: ['Run', 'Cycle', 'Erg', 'Swim', 'Row', 'Yoga'], noComment: false },
+            { label: 'Focus', type: 'text', noComment: false },
             { label: 'RPE', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], noComment: false },
             { label: 'Distance', type: 'text', noComment: false, placeholder: 'km' },
             { label: 'Duration', type: 'text', noComment: false },
@@ -366,6 +367,13 @@ export class EntryModal {
         const typeComment = formData['Type'].commentBtn?._comment || '';
         if (type && type !== activityType) {
             lines.push('Type: ' + type + (typeComment ? ' -- ' + typeComment : ''));
+        }
+
+        // Focus
+        const focus = formData['Focus'].input.value;
+        const focusComment = formData['Focus'].commentBtn?._comment || '';
+        if (focus) {
+            lines.push('Focus: ' + focus + (focusComment ? ' -- ' + focusComment : ''));
         }
 
         // RPE, Distance, Duration, Power on same line if all have values and no comments
