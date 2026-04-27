@@ -369,28 +369,34 @@ export class EntryModal {
             lines.push('Type: ' + type + (typeComment ? ' -- ' + typeComment : ''));
         }
 
-        // Focus
+        // Focus + RPE: same line if neither have comments
         const focus = formData['Focus'].input.value;
         const focusComment = formData['Focus'].commentBtn?._comment || '';
-        if (focus) {
-            lines.push('Focus: ' + focus + (focusComment ? ' -- ' + focusComment : ''));
+        const rpe = formData['RPE'].input.value;
+        const rpeComment = formData['RPE'].commentBtn?._comment || '';
+
+        if (focus && rpe && !focusComment && !rpeComment) {
+            lines.push('Focus: ' + focus + ' | RPE: ' + rpe);
+        } else {
+            if (focus) lines.push('Focus: ' + focus + (focusComment ? ' -- ' + focusComment : ''));
+            if (rpe) lines.push('RPE: ' + rpe + (rpeComment ? ' -- ' + rpeComment : ''));
         }
 
-        // RPE, Distance, Duration, Power on same line if all have values and no comments
-        const rpe = formData['RPE'].input.value;
+        // Distance + Duration + Power: same line if none have comments
         const distance = formData['Distance'].input.value;
         const duration = formData['Duration'].input.value;
         const power = formData['Power'].input.value;
-
-        const rpeComment = formData['RPE'].commentBtn?._comment || '';
         const distanceComment = formData['Distance'].commentBtn?._comment || '';
         const durationComment = formData['Duration'].commentBtn?._comment || '';
         const powerComment = formData['Power'].commentBtn?._comment || '';
 
-        if (rpe && distance && duration && power && !rpeComment && !distanceComment && !durationComment && !powerComment) {
-            lines.push('RPE: ' + rpe + ' | Distance: ' + distance + ' | Duration: ' + duration + ' | Power: ' + power);
+        if ((distance || duration || power) && !distanceComment && !durationComment && !powerComment) {
+            const parts = [];
+            if (distance) parts.push('Distance: ' + distance);
+            if (duration) parts.push('Duration: ' + duration);
+            if (power) parts.push('Power: ' + power);
+            lines.push(parts.join(' | '));
         } else {
-            if (rpe) lines.push('RPE: ' + rpe + (rpeComment ? ' -- ' + rpeComment : ''));
             if (distance) lines.push('Distance: ' + distance + (distanceComment ? ' -- ' + distanceComment : ''));
             if (duration) lines.push('Duration: ' + duration + (durationComment ? ' -- ' + durationComment : ''));
             if (power) lines.push('Power: ' + power + (powerComment ? ' -- ' + powerComment : ''));
