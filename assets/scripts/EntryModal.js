@@ -49,8 +49,8 @@ export class EntryModal {
             { label: 'Sleep', type: 'text', noComment: false },
             { label: 'RHR', type: 'text', noComment: true, placeholder: 'bpm' },
             { label: 'HRV', type: 'text', noComment: true, placeholder: 'ms' },
-            { label: 'Energy', type: 'select', options: ['1', '2', '3', '4', '5'], noComment: false },
-            { label: 'Pain', type: 'select', options: ['1', '2', '3', '4', '5'], noComment: false },
+            { label: 'Energy', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
+            { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
             { label: 'Notes', type: 'textarea', noComment: true }
         ];
 
@@ -155,14 +155,16 @@ export class EntryModal {
     saveDailyEntry(formData, selectedDate, overlay) {
         const lines = [selectedDate + ': Daily'];
 
-        // Weight and Waist on same line if both have values and neither has comment
+        // Weight and Waist on same line if both present and neither has a comment
         const weight = formData['Weight'].input.value;
         const waist = formData['Waist'].input.value;
-        if (weight && waist) {
+        const weightComment = formData['Weight'].commentBtn?._comment || '';
+        const waistComment = formData['Waist'].commentBtn?._comment || '';
+        if (weight && waist && !weightComment && !waistComment) {
             lines.push('Weight: ' + weight + ' | Waist: ' + waist);
         } else {
-            if (weight) lines.push('Weight: ' + weight);
-            if (waist) lines.push('Waist: ' + waist);
+            if (weight) lines.push('Weight: ' + weight + (weightComment ? ' -- ' + weightComment : ''));
+            if (waist) lines.push('Waist: ' + waist + (waistComment ? ' -- ' + waistComment : ''));
         }
 
         // Sleep
@@ -172,14 +174,16 @@ export class EntryModal {
             lines.push('Sleep: ' + sleep + (sleepComment ? ' -- ' + sleepComment : ''));
         }
 
-        // RHR and HRV on same line if both have values and neither has comment
+        // RHR and HRV on same line if both present and neither has a comment
         const rhr = formData['RHR'].input.value;
         const hrv = formData['HRV'].input.value;
-        if (rhr && hrv) {
+        const rhrComment = formData['RHR'].commentBtn?._comment || '';
+        const hrvComment = formData['HRV'].commentBtn?._comment || '';
+        if (rhr && hrv && !rhrComment && !hrvComment) {
             lines.push('RHR: ' + rhr + ' | HRV: ' + hrv);
         } else {
-            if (rhr) lines.push('RHR: ' + rhr);
-            if (hrv) lines.push('HRV: ' + hrv);
+            if (rhr) lines.push('RHR: ' + rhr + (rhrComment ? ' -- ' + rhrComment : ''));
+            if (hrv) lines.push('HRV: ' + hrv + (hrvComment ? ' -- ' + hrvComment : ''));
         }
 
         // Energy
