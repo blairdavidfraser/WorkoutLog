@@ -601,7 +601,7 @@ canvas {
 
 .form-table tr {
   display: grid;
-  grid-template-columns: 80px 20px 1fr 20px 2fr;
+  grid-template-columns: 60px 16px 1fr 32px;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
   align-items: start;
@@ -622,7 +622,7 @@ canvas {
 .form-table select,
 .form-table textarea {
   width: 100%;
-  padding: var(--spacing-none) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
   border: 1px solid var(--medium-gray);
   border-radius: var(--radius-sm);
   font-family: inherit;
@@ -644,11 +644,6 @@ canvas {
   min-height: 60px;
 }
 
-.form-table textarea.comment-input {
-  min-height: auto;
-  height: 1.5em;
-  resize: none;
-}
 
 .form-table textarea.notes-field {
   min-height: 80px;
@@ -657,11 +652,102 @@ canvas {
 }
 
 .form-table td.notes-cell {
-  grid-column: 3 / 6;
+  grid-column: 3 / 5;
 }
 
 .form-table .empty-cell {
   /* For fields that don't need comments */
+}
+
+.comment-btn-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.comment-btn:hover {
+  color: #888;
+}
+
+.comment-btn.has-comment {
+  color: #4caf50;
+}
+
+.comment-popup {
+  position: fixed;
+  z-index: 1000;
+  background: white;
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  padding: var(--spacing-sm);
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.comment-popup-text {
+  width: 100%;
+  min-height: 60px;
+  resize: vertical;
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.comment-popup-text:focus {
+  outline: none;
+  border-color: var(--primary-red);
+}
+
+.comment-popup-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  justify-content: flex-end;
+}
+
+.comment-popup-save,
+.comment-popup-cancel {
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.comment-popup-save {
+  background: #4caf50;
+  color: white;
+}
+
+.comment-popup-save:hover {
+  background: #388e3c;
+}
+
+.comment-popup-cancel {
+  background: var(--medium-gray);
+  color: var(--dark-gray);
+}
+
+.comment-popup-cancel:hover {
+  background: #bdbdbd;
 }
 
 .modal-actions {

@@ -96,27 +96,22 @@ export class EntryModal {
             inputCell.appendChild(input);
             tr.appendChild(inputCell);
 
-            // For Notes field, only create 3 cells; for others, create 5
+            // For Notes field, only create 3 cells; for others, create 4
             if (field.label !== 'Notes') {
-                const dashCell = document.createElement('td');
-                dashCell.className = 'separator';
-                dashCell.textContent = field.noComment ? '' : '-';
-                tr.appendChild(dashCell);
-
-                const commentCell = document.createElement('td');
-                if (!field.noComment) {
-                    const commentInput = document.createElement('textarea');
-                    commentInput.className = 'comment-input';
-                    commentInput.name = field.label + '_comment';
-                    commentCell.appendChild(commentInput);
-                } else {
-                    commentCell.className = 'empty-cell';
-                }
-                tr.appendChild(commentCell);
-
-                formData[field.label] = { input, comment: !field.noComment };
+                const commentBtnCell = document.createElement('td');
+                commentBtnCell.className = 'comment-btn-cell';
+                const commentBtn = document.createElement('button');
+                commentBtn.type = 'button';
+                commentBtn.className = 'comment-btn';
+                commentBtn.textContent = '+';
+                commentBtn.title = 'Add comment';
+                commentBtn._comment = '';
+                commentBtn.addEventListener('click', () => this.showCommentPopup(commentBtn));
+                commentBtnCell.appendChild(commentBtn);
+                tr.appendChild(commentBtnCell);
+                formData[field.label] = { input, commentBtn };
             } else {
-                formData[field.label] = { input, comment: false };
+                formData[field.label] = { input, commentBtn: null };
             }
 
             table.appendChild(tr);
@@ -172,7 +167,7 @@ export class EntryModal {
 
         // Sleep
         const sleep = formData['Sleep'].input.value;
-        const sleepComment = formData['Sleep'].comment ? document.querySelector('textarea[name="Sleep_comment"]').value : '';
+        const sleepComment = formData['Sleep'].commentBtn?._comment || '';
         if (sleep) {
             lines.push('Sleep: ' + sleep + (sleepComment ? ' -- ' + sleepComment : ''));
         }
@@ -189,14 +184,14 @@ export class EntryModal {
 
         // Energy
         const energy = formData['Energy'].input.value;
-        const energyComment = document.querySelector('textarea[name="Energy_comment"]').value;
+        const energyComment = formData['Energy'].commentBtn?._comment || '';
         if (energy) {
             lines.push('Energy: ' + energy + (energyComment ? ' -- ' + energyComment : ''));
         }
 
         // Pain
         const pain = formData['Pain'].input.value;
-        const painComment = document.querySelector('textarea[name="Pain_comment"]').value;
+        const painComment = formData['Pain'].commentBtn?._comment || '';
         if (pain) {
             lines.push('Pain: ' + pain + (painComment ? ' -- ' + painComment : ''));
         }
@@ -299,27 +294,25 @@ export class EntryModal {
             inputCell.appendChild(input);
             tr.appendChild(inputCell);
 
-            // For Notes field, only create 3 cells; for others, create 5
+            // For Notes field, only create 3 cells; for others, create 4
             if (field.label !== 'Notes') {
-                const dashCell = document.createElement('td');
-                dashCell.className = 'separator';
-                dashCell.textContent = !field.noComment ? '-' : '';
-                tr.appendChild(dashCell);
-
-                const commentCell = document.createElement('td');
-                if (!field.noComment) {
-                    const commentInput = document.createElement('textarea');
-                    commentInput.className = 'comment-input';
-                    commentInput.name = field.label + '_comment';
-                    commentCell.appendChild(commentInput);
-                } else {
-                    commentCell.className = 'empty-cell';
-                }
-                tr.appendChild(commentCell);
+                const commentBtnCell = document.createElement('td');
+                commentBtnCell.className = 'comment-btn-cell';
+                const commentBtn = document.createElement('button');
+                commentBtn.type = 'button';
+                commentBtn.className = 'comment-btn';
+                commentBtn.textContent = '+';
+                commentBtn.title = 'Add comment';
+                commentBtn._comment = '';
+                commentBtn.addEventListener('click', () => this.showCommentPopup(commentBtn));
+                commentBtnCell.appendChild(commentBtn);
+                tr.appendChild(commentBtnCell);
+                formData[field.label] = { input, commentBtn };
+            } else {
+                formData[field.label] = { input, commentBtn: null };
             }
 
             table.appendChild(tr);
-            formData[field.label] = input;
         });
 
         modal.appendChild(table);
@@ -343,7 +336,7 @@ export class EntryModal {
         document.body.appendChild(overlay);
 
         const getActivityType = () => {
-            const type = formData['Type'].value;
+            const type = formData['Type'].input.value;
             if (['Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga'].includes(type)) {
                 return type;
             }
@@ -369,22 +362,22 @@ export class EntryModal {
         const lines = [selectedDate + ': ' + activityType];
 
         // Type field
-        const type = formData['Type'].value;
-        const typeComment = document.querySelector('textarea[name="Type_comment"]').value;
+        const type = formData['Type'].input.value;
+        const typeComment = formData['Type'].commentBtn?._comment || '';
         if (type && type !== activityType) {
             lines.push('Type: ' + type + (typeComment ? ' -- ' + typeComment : ''));
         }
 
         // RPE, Distance, Duration, Power on same line if all have values and no comments
-        const rpe = formData['RPE'].value;
-        const distance = formData['Distance'].value;
-        const duration = formData['Duration'].value;
-        const power = formData['Power'].value;
+        const rpe = formData['RPE'].input.value;
+        const distance = formData['Distance'].input.value;
+        const duration = formData['Duration'].input.value;
+        const power = formData['Power'].input.value;
 
-        const rpeComment = document.querySelector('textarea[name="RPE_comment"]').value;
-        const distanceComment = document.querySelector('textarea[name="Distance_comment"]').value;
-        const durationComment = document.querySelector('textarea[name="Duration_comment"]').value;
-        const powerComment = document.querySelector('textarea[name="Power_comment"]').value;
+        const rpeComment = formData['RPE'].commentBtn?._comment || '';
+        const distanceComment = formData['Distance'].commentBtn?._comment || '';
+        const durationComment = formData['Duration'].commentBtn?._comment || '';
+        const powerComment = formData['Power'].commentBtn?._comment || '';
 
         if (rpe && distance && duration && power && !rpeComment && !distanceComment && !durationComment && !powerComment) {
             lines.push('RPE: ' + rpe + ' | Distance: ' + distance + ' | Duration: ' + duration + ' | Power: ' + power);
@@ -396,10 +389,10 @@ export class EntryModal {
         }
 
         // Avg HR and Max HR on same line if both present and no comments
-        const avgHR = formData['Avg HR'].value;
-        const maxHR = formData['Max HR'].value;
-        const avgHRComment = document.querySelector('textarea[name="Avg HR_comment"]').value;
-        const maxHRComment = document.querySelector('textarea[name="Max HR_comment"]').value;
+        const avgHR = formData['Avg HR'].input.value;
+        const maxHR = formData['Max HR'].input.value;
+        const avgHRComment = formData['Avg HR'].commentBtn?._comment || '';
+        const maxHRComment = formData['Max HR'].commentBtn?._comment || '';
 
         if (avgHR && maxHR && !avgHRComment && !maxHRComment) {
             lines.push('Avg HR: ' + avgHR + ' | Max HR: ' + maxHR);
@@ -409,14 +402,14 @@ export class EntryModal {
         }
 
         // Pain
-        const pain = formData['Pain'].value;
-        const painComment = document.querySelector('textarea[name="Pain_comment"]').value;
+        const pain = formData['Pain'].input.value;
+        const painComment = formData['Pain'].commentBtn?._comment || '';
         if (pain) {
             lines.push('Pain: ' + pain + (painComment ? ' -- ' + painComment : ''));
         }
 
         // Notes
-        const notes = formData['Notes'].value;
+        const notes = formData['Notes'].input.value;
         if (notes) {
             lines.push('Notes: ' + notes);
         }
@@ -501,16 +494,20 @@ export class EntryModal {
             inputCell.appendChild(input);
             tr.appendChild(inputCell);
 
-            const dashCell = document.createElement('td');
-            dashCell.className = 'separator empty-cell';
-            tr.appendChild(dashCell);
-
-            const commentCell = document.createElement('td');
-            commentCell.className = 'empty-cell';
-            tr.appendChild(commentCell);
+            const commentBtnCell = document.createElement('td');
+            commentBtnCell.className = 'comment-btn-cell';
+            const commentBtn = document.createElement('button');
+            commentBtn.type = 'button';
+            commentBtn.className = 'comment-btn';
+            commentBtn.textContent = '+';
+            commentBtn.title = 'Add comment';
+            commentBtn._comment = '';
+            commentBtn.addEventListener('click', () => this.showCommentPopup(commentBtn));
+            commentBtnCell.appendChild(commentBtn);
+            tr.appendChild(commentBtnCell);
 
             table.appendChild(tr);
-            topData[field.label] = input;
+            topData[field.label] = { input, commentBtn };
         });
 
         // Get existing strength exercise tags
@@ -550,23 +547,23 @@ export class EntryModal {
             valCell.appendChild(valueInput);
             tr.appendChild(valCell);
 
-            const dashCell = document.createElement('td');
-            dashCell.className = 'separator';
-            dashCell.textContent = '-';
-            tr.appendChild(dashCell);
-
-            const commentCell = document.createElement('td');
-            const commentInput = document.createElement('textarea');
-            commentInput.className = 'comment-input';
-            commentInput.name = 'exercise_comment_' + i;
-            commentCell.appendChild(commentInput);
-            tr.appendChild(commentCell);
+            const commentBtnCell = document.createElement('td');
+            commentBtnCell.className = 'comment-btn-cell';
+            const exCommentBtn = document.createElement('button');
+            exCommentBtn.type = 'button';
+            exCommentBtn.className = 'comment-btn';
+            exCommentBtn.textContent = '+';
+            exCommentBtn.title = 'Add comment';
+            exCommentBtn._comment = '';
+            exCommentBtn.addEventListener('click', () => this.showCommentPopup(exCommentBtn));
+            commentBtnCell.appendChild(exCommentBtn);
+            tr.appendChild(commentBtnCell);
 
             table.appendChild(tr);
             exerciseData.push({
                 exercise: exerciseCombo,
                 value: valueInput,
-                comment: commentInput
+                commentBtn: exCommentBtn
             });
         }
 
@@ -609,14 +606,14 @@ export class EntryModal {
         const lines = [selectedDate + ': Strength'];
 
         // RPE, Focus, Pain
-        if (topData['RPE'].value) {
-            lines.push('RPE: ' + topData['RPE'].value);
+        if (topData['RPE'].input.value) {
+            lines.push('RPE: ' + topData['RPE'].input.value);
         }
-        if (topData['Focus'].value) {
-            lines.push('Focus: ' + topData['Focus'].value);
+        if (topData['Focus'].input.value) {
+            lines.push('Focus: ' + topData['Focus'].input.value);
         }
-        if (topData['Pain'].value) {
-            lines.push('Pain: ' + topData['Pain'].value);
+        if (topData['Pain'].input.value) {
+            lines.push('Pain: ' + topData['Pain'].input.value);
         }
 
         // Exercise rows
@@ -624,7 +621,7 @@ export class EntryModal {
             if (row.exercise.value) {
                 const exercise = row.exercise.value;
                 const value = row.value.value;
-                const comment = row.comment.value;
+                const comment = row.commentBtn?._comment || '';
                 if (value) {
                     lines.push(exercise + ': ' + value + (comment ? ' -- ' + comment : ''));
                 }
@@ -745,6 +742,68 @@ export class EntryModal {
                 overlay.remove();
             }
         });
+    }
+
+    showCommentPopup(btn) {
+        document.querySelectorAll('.comment-popup').forEach(p => p.remove());
+
+        const popup = document.createElement('div');
+        popup.className = 'comment-popup';
+
+        const textarea = document.createElement('textarea');
+        textarea.className = 'comment-popup-text';
+        textarea.value = btn._comment || '';
+        textarea.placeholder = 'Add a comment...';
+        popup.appendChild(textarea);
+
+        const actions = document.createElement('div');
+        actions.className = 'comment-popup-actions';
+
+        const saveBtn = document.createElement('button');
+        saveBtn.type = 'button';
+        saveBtn.className = 'comment-popup-save';
+        saveBtn.textContent = '✓';
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.type = 'button';
+        cancelBtn.className = 'comment-popup-cancel';
+        cancelBtn.textContent = '✗';
+
+        const closePopup = () => {
+            popup.remove();
+            document.removeEventListener('mousedown', closeOnOutside);
+        };
+
+        saveBtn.addEventListener('click', () => {
+            btn._comment = textarea.value.trim();
+            btn.classList.toggle('has-comment', !!btn._comment);
+            closePopup();
+        });
+
+        cancelBtn.addEventListener('click', closePopup);
+
+        actions.appendChild(saveBtn);
+        actions.appendChild(cancelBtn);
+        popup.appendChild(actions);
+
+        document.body.appendChild(popup);
+        textarea.focus();
+
+        // Position near the button after appending so we know popup size
+        const rect = btn.getBoundingClientRect();
+        const popupRect = popup.getBoundingClientRect();
+        const top = rect.bottom + 4 + popupRect.height > window.innerHeight
+            ? rect.top - popupRect.height - 4
+            : rect.bottom + 4;
+        popup.style.top = Math.max(8, top) + 'px';
+        popup.style.right = Math.max(8, window.innerWidth - rect.right) + 'px';
+
+        const closeOnOutside = (e) => {
+            if (!popup.contains(e.target) && e.target !== btn) {
+                closePopup();
+            }
+        };
+        setTimeout(() => document.addEventListener('mousedown', closeOnOutside), 0);
     }
 
     createModal(title) {

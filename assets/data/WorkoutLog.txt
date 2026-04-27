@@ -2944,3 +2944,19 @@ Hamstring curls: 3x8 @ 120 lb
 Leg extension: 3x8 @ 120 lb
 Cable Crunch: 3x10 @ 180 lb
 Notes: Modified for ankle
+
+2026-04-27: Daily
+Weight: 186.7 | Waist: 34.5
+Sleep: 7:00:00
+RHR: 59 | HRV: 96
+Energy: 4
+Pain: 2
+Notes: Ankle stiff, some toe bruising. Doesn’t affect rowing. 
+
+2026-04-27: Row | Focus: Tempo
+RPE: 7
+Distance: 11.675
+Duration: 54:53
+Avg HR: 137 | Max HR: 175
+Pain: 1
+Notes: Flat water. Focus on controlled slide and early square. 
