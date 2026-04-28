@@ -8,7 +8,7 @@ export class EntryModal {
         this.persistence = persistence;
     }
 
-    showDaily() {
+    showDaily(existingEntry = null) {
         const modal = this.createModal('Daily Log');
         const table = document.createElement('table');
         table.className = 'form-table';
@@ -117,13 +117,28 @@ export class EntryModal {
             table.appendChild(tr);
         });
 
+        // Pre-populate if editing
+        if (existingEntry) {
+            dateInput.value = existingEntry.date;
+            Object.keys(formData).forEach(label => {
+                const { input, commentBtn } = formData[label];
+                const val = existingEntry.getTagValue(label);
+                const comment = existingEntry.getTagComment(label);
+                if (val !== null && val !== undefined) input.value = val;
+                if (comment && commentBtn) {
+                    commentBtn._comment = comment;
+                    commentBtn.classList.add('has-comment');
+                }
+            });
+        }
+
         modal.appendChild(table);
 
         const actions = document.createElement('div');
         actions.className = 'modal-actions';
         const saveBtn = document.createElement('button');
         saveBtn.className = 'btn-primary';
-        saveBtn.textContent = 'Save';
+        saveBtn.textContent = existingEntry ? 'Update' : 'Save';
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn-secondary';
         cancelBtn.textContent = 'Cancel';
@@ -138,7 +153,7 @@ export class EntryModal {
         document.body.appendChild(overlay);
 
         saveBtn.addEventListener('click', () => {
-            this.saveDailyEntry(formData, dateInput.value, overlay);
+            this.saveDailyEntry(formData, dateInput.value, overlay, existingEntry);
         });
 
         cancelBtn.addEventListener('click', () => {
@@ -152,7 +167,7 @@ export class EntryModal {
         });
     }
 
-    saveDailyEntry(formData, selectedDate, overlay) {
+    saveDailyEntry(formData, selectedDate, overlay, existingEntry = null) {
         const lines = [selectedDate + ': Daily'];
 
         // Weight and Waist on same line if both present and neither has a comment
@@ -206,10 +221,14 @@ export class EntryModal {
             lines.push('Notes: ' + notes);
         }
 
-        this.appendAndSave(lines.join('\n'), overlay);
+        if (existingEntry) {
+            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+        } else {
+            this.appendAndSave(lines.join('\n'), overlay);
+        }
     }
 
-    showCardio() {
+    showCardio(existingEntry = null) {
         const modal = this.createModal('Cardio Entry');
         const table = document.createElement('table');
         table.className = 'form-table';
@@ -320,13 +339,30 @@ export class EntryModal {
             table.appendChild(tr);
         });
 
+        // Pre-populate if editing
+        if (existingEntry) {
+            dateInput.value = existingEntry.date;
+            formData['Type'].input.value = existingEntry.type;
+            ['Focus', 'RPE', 'Distance', 'Duration', 'Power', 'Avg HR', 'Max HR', 'Pain', 'Notes'].forEach(label => {
+                const field = formData[label];
+                if (!field) return;
+                const val = existingEntry.getTagValue(label);
+                const comment = existingEntry.getTagComment(label);
+                if (val !== null && val !== undefined) field.input.value = val;
+                if (comment && field.commentBtn) {
+                    field.commentBtn._comment = comment;
+                    field.commentBtn.classList.add('has-comment');
+                }
+            });
+        }
+
         modal.appendChild(table);
 
         const actions = document.createElement('div');
         actions.className = 'modal-actions';
         const saveBtn = document.createElement('button');
         saveBtn.className = 'btn-primary';
-        saveBtn.textContent = 'Save';
+        saveBtn.textContent = existingEntry ? 'Update' : 'Save';
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn-secondary';
         cancelBtn.textContent = 'Cancel';
@@ -349,7 +385,7 @@ export class EntryModal {
         };
 
         saveBtn.addEventListener('click', () => {
-            this.saveCardioEntry(formData, dateInput.value, getActivityType(), overlay);
+            this.saveCardioEntry(formData, dateInput.value, getActivityType(), overlay, existingEntry);
         });
 
         cancelBtn.addEventListener('click', () => {
@@ -363,7 +399,7 @@ export class EntryModal {
         });
     }
 
-    saveCardioEntry(formData, selectedDate, activityType, overlay) {
+    saveCardioEntry(formData, selectedDate, activityType, overlay, existingEntry = null) {
         const lines = [selectedDate + ': ' + activityType];
 
         // Type field
@@ -432,10 +468,14 @@ export class EntryModal {
             lines.push('Notes: ' + notes);
         }
 
-        this.appendAndSave(lines.join('\n'), overlay);
+        if (existingEntry) {
+            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+        } else {
+            this.appendAndSave(lines.join('\n'), overlay);
+        }
     }
 
-    showStrength() {
+    showStrength(existingEntry = null) {
         const modal = this.createModal('Strength Entry');
         const table = document.createElement('table');
         table.className = 'form-table';
@@ -604,13 +644,41 @@ export class EntryModal {
         notesRow.appendChild(notesInputCell);
         table.appendChild(notesRow);
 
+        // Pre-populate if editing
+        if (existingEntry) {
+            dateInput.value = existingEntry.date;
+            Object.keys(topData).forEach(label => {
+                const { input, commentBtn } = topData[label];
+                const val = existingEntry.getTagValue(label);
+                const comment = existingEntry.getTagComment(label);
+                if (val !== null && val !== undefined) input.value = val;
+                if (comment && commentBtn) {
+                    commentBtn._comment = comment;
+                    commentBtn.classList.add('has-comment');
+                }
+            });
+            const exercises = existingEntry.getExercises();
+            exercises.forEach((ex, i) => {
+                if (i < exerciseData.length) {
+                    exerciseData[i].exercise.value = ex.name;
+                    exerciseData[i].value.value = ex.value;
+                    if (ex.comment) {
+                        exerciseData[i].commentBtn._comment = ex.comment;
+                        exerciseData[i].commentBtn.classList.add('has-comment');
+                    }
+                }
+            });
+            const existingNotes = existingEntry.getTagValue('Notes');
+            if (existingNotes) notesInput.value = existingNotes;
+        }
+
         modal.appendChild(table);
 
         const actions = document.createElement('div');
         actions.className = 'modal-actions';
         const saveBtn = document.createElement('button');
         saveBtn.className = 'btn-primary';
-        saveBtn.textContent = 'Save';
+        saveBtn.textContent = existingEntry ? 'Update' : 'Save';
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn-secondary';
         cancelBtn.textContent = 'Cancel';
@@ -625,7 +693,7 @@ export class EntryModal {
         document.body.appendChild(overlay);
 
         saveBtn.addEventListener('click', () => {
-            this.saveStrengthEntry(topData, exerciseData, dateInput.value, overlay, notesInput);
+            this.saveStrengthEntry(topData, exerciseData, dateInput.value, overlay, notesInput, existingEntry);
         });
 
         cancelBtn.addEventListener('click', () => {
@@ -639,7 +707,7 @@ export class EntryModal {
         });
     }
 
-    saveStrengthEntry(topData, exerciseData, selectedDate, overlay, notesInput) {
+    saveStrengthEntry(topData, exerciseData, selectedDate, overlay, notesInput, existingEntry = null) {
         const lines = [selectedDate + ': Strength'];
 
         // RPE + Focus: same line if neither have comments
@@ -678,7 +746,158 @@ export class EntryModal {
             lines.push('Notes: ' + notesInput.value);
         }
 
-        this.appendAndSave(lines.join('\n'), overlay);
+        if (existingEntry) {
+            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+        } else {
+            this.appendAndSave(lines.join('\n'), overlay);
+        }
+    }
+
+    showNutrition(existingEntry = null) {
+        const modal = this.createModal('Nutrition Entry');
+        const table = document.createElement('table');
+        table.className = 'form-table';
+
+        const dateInput = this.createDateInput();
+
+        const dateRow = document.createElement('tr');
+        const dateLabelCell = document.createElement('td');
+        dateLabelCell.className = 'label-cell';
+        dateLabelCell.textContent = 'Date';
+        dateRow.appendChild(dateLabelCell);
+        const dateColonCell = document.createElement('td');
+        dateColonCell.className = 'separator';
+        dateColonCell.textContent = ':';
+        dateRow.appendChild(dateColonCell);
+        const dateInputCell = document.createElement('td');
+        dateInputCell.appendChild(dateInput);
+        dateRow.appendChild(dateInputCell);
+        const dateEmptyCell1 = document.createElement('td');
+        dateEmptyCell1.className = 'empty-cell';
+        dateRow.appendChild(dateEmptyCell1);
+        const dateEmptyCell2 = document.createElement('td');
+        dateEmptyCell2.className = 'empty-cell';
+        dateRow.appendChild(dateEmptyCell2);
+        table.appendChild(dateRow);
+
+        const fields = [
+            { label: 'Breakfast', noComment: false },
+            { label: 'Lunch', noComment: false },
+            { label: 'Dinner', noComment: false },
+            { label: 'AM Snacks', noComment: false },
+            { label: 'PM Snacks', noComment: false },
+            { label: 'Alcohol', noComment: false },
+            { label: 'Notes', noComment: true },
+        ];
+
+        const formData = {};
+
+        fields.forEach(field => {
+            const tr = document.createElement('tr');
+
+            const labelCell = document.createElement('td');
+            labelCell.className = 'label-cell';
+            labelCell.textContent = field.label;
+            tr.appendChild(labelCell);
+
+            const colonCell = document.createElement('td');
+            colonCell.className = 'separator';
+            colonCell.textContent = ':';
+            tr.appendChild(colonCell);
+
+            const inputCell = document.createElement('td');
+            const input = document.createElement('textarea');
+            input.className = 'notes-field';
+            input.name = field.label;
+            inputCell.appendChild(input);
+            tr.appendChild(inputCell);
+
+            if (field.noComment) {
+                inputCell.className = 'notes-cell';
+                formData[field.label] = { input, commentBtn: null };
+            } else {
+                const commentBtnCell = document.createElement('td');
+                commentBtnCell.className = 'comment-btn-cell';
+                const commentBtn = document.createElement('button');
+                commentBtn.type = 'button';
+                commentBtn.className = 'comment-btn';
+                commentBtn.textContent = '+';
+                commentBtn.title = 'Add comment';
+                commentBtn._comment = '';
+                commentBtn.addEventListener('click', () => this.showCommentPopup(commentBtn));
+                commentBtnCell.appendChild(commentBtn);
+                tr.appendChild(commentBtnCell);
+                formData[field.label] = { input, commentBtn };
+            }
+
+            table.appendChild(tr);
+        });
+
+        // Pre-populate if editing
+        if (existingEntry) {
+            dateInput.value = existingEntry.date;
+            Object.keys(formData).forEach(label => {
+                const { input, commentBtn } = formData[label];
+                const val = existingEntry.getTagValue(label);
+                const comment = existingEntry.getTagComment(label);
+                if (val !== null && val !== undefined) input.value = val;
+                if (comment && commentBtn) {
+                    commentBtn._comment = comment;
+                    commentBtn.classList.add('has-comment');
+                }
+            });
+        }
+
+        modal.appendChild(table);
+
+        const actions = document.createElement('div');
+        actions.className = 'modal-actions';
+        const saveBtn = document.createElement('button');
+        saveBtn.className = 'btn-primary';
+        saveBtn.textContent = existingEntry ? 'Update' : 'Save';
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'btn-secondary';
+        cancelBtn.textContent = 'Cancel';
+        actions.appendChild(saveBtn);
+        actions.appendChild(cancelBtn);
+        modal.appendChild(actions);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        saveBtn.addEventListener('click', () => {
+            this.saveNutritionEntry(formData, dateInput.value, overlay, existingEntry);
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            overlay.remove();
+        });
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
+        });
+    }
+
+    saveNutritionEntry(formData, selectedDate, overlay, existingEntry = null) {
+        const lines = [selectedDate + ': Nutrition'];
+        const fieldOrder = ['Breakfast', 'Lunch', 'Dinner', 'AM Snacks', 'PM Snacks', 'Alcohol', 'Notes'];
+
+        fieldOrder.forEach(label => {
+            const field = formData[label];
+            if (!field) return;
+            const value = field.input.value.trim();
+            if (!value) return;
+            const comment = field.commentBtn?._comment || '';
+            lines.push(label + ': ' + value + (comment ? ' -- ' + comment : ''));
+        });
+
+        if (existingEntry) {
+            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+        } else {
+            this.appendAndSave(lines.join('\n'), overlay);
+        }
     }
 
     showMiscellaneous() {
@@ -854,6 +1073,73 @@ export class EntryModal {
             }
         };
         setTimeout(() => document.addEventListener('mousedown', closeOnOutside), 0);
+    }
+
+    async replaceAndSave(existingEntry, newContent, overlay) {
+        try {
+            const currentText = this.editor.textarea.value;
+            const lines = currentText.split('\n');
+
+            const matchDate = existingEntry.date;
+            const matchType = existingEntry.shortcutName || existingEntry.type;
+
+            let startLine = -1;
+            for (let i = 0; i < lines.length; i++) {
+                const m = lines[i].match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)$/);
+                if (m && m[1] === matchDate && m[2].trim().toLowerCase() === matchType.toLowerCase()) {
+                    startLine = i;
+                    break;
+                }
+            }
+
+            if (startLine === -1) {
+                return this.appendAndSave(newContent, overlay);
+            }
+
+            // Find end of entry block (next blank line or next date line)
+            let endLine = startLine + 1;
+            while (endLine < lines.length && lines[endLine].trim() !== '' && !lines[endLine].match(/^\d{4}-\d{2}-\d{2}:/)) {
+                endLine++;
+            }
+            // Skip trailing blank lines
+            while (endLine < lines.length && lines[endLine].trim() === '') {
+                endLine++;
+            }
+
+            const before = lines.slice(0, startLine).join('\n');
+            const after = lines.slice(endLine).join('\n');
+
+            let newText;
+            if (before && after) {
+                newText = before + '\n\n' + newContent + '\n\n' + after;
+            } else if (before) {
+                newText = before + '\n\n' + newContent;
+            } else if (after) {
+                newText = newContent + '\n\n' + after;
+            } else {
+                newText = newContent;
+            }
+
+            this.editor.textarea.value = newText;
+            await this.persistence.saveWorkoutLog(newText);
+            this.editor.originalText = newText;
+            overlay.remove();
+
+            const startPos = before ? before.length + 2 : 0;
+            this.editor.textarea.focus();
+            this.editor.textarea.setSelectionRange(startPos, startPos + newContent.length);
+            this.editor.textarea.scrollTop = this.editor.textarea.scrollHeight;
+
+            alert('Entry updated successfully!');
+
+            const logText = await this.persistence.loadWorkoutLog();
+            this.workoutLog = (await import('./WorkoutLog.js')).WorkoutLog.parse(logText);
+            this.editor.workoutLog = this.workoutLog;
+            this.editor.populateTagSuggestions();
+        } catch (error) {
+            console.error('Error updating entry:', error);
+            alert('Error updating entry.');
+        }
     }
 
     createModal(title) {

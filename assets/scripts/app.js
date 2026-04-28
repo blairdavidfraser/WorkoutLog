@@ -135,19 +135,19 @@ class App {
         entryModal.editor = this.editor;
         entryModal.persistence = this.persistence;
 
-        switch (entryType) {
-          case 'daily':
-            entryModal.showDaily();
-            break;
-          case 'cardio':
-            entryModal.showCardio();
-            break;
-          case 'strength':
-            entryModal.showStrength();
-            break;
-          case 'misc':
-            entryModal.showMiscellaneous();
-            break;
+        if (entryType === 'misc') {
+          entryModal.showMiscellaneous();
+          return;
+        }
+
+        const todayEntries = this.getTodayEntriesByType(entryType);
+        if (todayEntries.length > 0) {
+          this.showEditOrNewMenu(e, todayEntries,
+            () => this.openModal(entryModal, entryType, null),
+            (entry) => this.openModal(entryModal, entryType, entry)
+          );
+        } else {
+          this.openModal(entryModal, entryType, null);
         }
       });
     });
@@ -184,6 +184,69 @@ class App {
         this.editor.onSearchInput(e);
       });
     }
+  }
+
+  getTodayEntriesByType(entryType) {
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const todayEntries = this.workoutLog.entries.filter(e => e.date === todayStr);
+    const cardioTypes = ['Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga'];
+    switch (entryType) {
+      case 'daily':    return todayEntries.filter(e => e.type === 'Daily');
+      case 'cardio':   return todayEntries.filter(e => cardioTypes.includes(e.type));
+      case 'strength': return todayEntries.filter(e => e.type === 'Strength');
+      case 'nutrition': return todayEntries.filter(e => e.type === 'Nutrition');
+      default: return [];
+    }
+  }
+
+  openModal(entryModal, entryType, existingEntry) {
+    switch (entryType) {
+      case 'daily':    entryModal.showDaily(existingEntry); break;
+      case 'cardio':   entryModal.showCardio(existingEntry); break;
+      case 'strength': entryModal.showStrength(existingEntry); break;
+      case 'nutrition': entryModal.showNutrition(existingEntry); break;
+    }
+  }
+
+  showEditOrNewMenu(event, existingEntries, onNew, onEdit) {
+    document.querySelectorAll('.entry-choice-menu').forEach(m => m.remove());
+
+    const menu = document.createElement('div');
+    menu.className = 'entry-choice-menu';
+
+    if (existingEntries.length === 1) {
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit Today\'s Entry';
+      editBtn.addEventListener('click', () => { menu.remove(); onEdit(existingEntries[0]); });
+      menu.appendChild(editBtn);
+    } else {
+      existingEntries.forEach(entry => {
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit ' + (entry.shortcutName || entry.type);
+        editBtn.addEventListener('click', () => { menu.remove(); onEdit(entry); });
+        menu.appendChild(editBtn);
+      });
+    }
+
+    const newBtn = document.createElement('button');
+    newBtn.textContent = 'New Entry';
+    newBtn.addEventListener('click', () => { menu.remove(); onNew(); });
+    menu.appendChild(newBtn);
+
+    document.body.appendChild(menu);
+
+    const rect = event.target.getBoundingClientRect();
+    menu.style.top = (rect.bottom + 4) + 'px';
+    menu.style.left = rect.left + 'px';
+
+    const close = (e) => {
+      if (!menu.contains(e.target)) {
+        menu.remove();
+        document.removeEventListener('mousedown', close);
+      }
+    };
+    setTimeout(() => document.addEventListener('mousedown', close), 0);
   }
 
   setupDashboard() {
