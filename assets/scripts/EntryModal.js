@@ -1106,7 +1106,7 @@ export class EntryModal {
                 endLine++;
             }
 
-            const before = lines.slice(0, startLine).join('\n');
+            const before = lines.slice(0, startLine).join('\n').replace(/\n+$/, '');
             const after = lines.slice(endLine).join('\n');
 
             let newText;
