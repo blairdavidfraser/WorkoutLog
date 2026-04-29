@@ -16,6 +16,7 @@ class App {
     this.editor = null;
     this.dashboard = null;
     this.currentView = 'dashboard';
+    this.logMode = 'view';
   }
 
   async init() {
@@ -38,6 +39,9 @@ class App {
 
     // Render initial view
     this.renderDashboard();
+
+    // Initialize workout-log to view mode state
+    this.enterViewMode(false);
   }
 
   setupNavigation() {
@@ -74,16 +78,19 @@ class App {
 
     this.currentView = viewName;
 
+    // Hamburger is only relevant on the workout-log tab
+    const hamburgerWrapper = document.getElementById('hamburger-wrapper');
+    if (hamburgerWrapper) {
+      hamburgerWrapper.style.display = viewName === 'workout-log' ? '' : 'none';
+    }
+
     // Render appropriate view
     switch (viewName) {
       case 'dashboard':
         this.renderDashboard();
         break;
-      case 'viewer':
-        this.renderViewer();
-        break;
-      case 'editor':
-        this.renderEditor();
+      case 'workout-log':
+        this.enterViewMode();
         break;
     }
   }
@@ -101,6 +108,29 @@ class App {
     await this.editor.load();
   }
 
+  async enterEditMode() {
+    this.logMode = 'edit';
+    document.getElementById('viewer-content').style.display = 'none';
+    document.getElementById('viewer-search-bar').style.display = 'none';
+    document.getElementById('add-entry-wrapper').style.display = 'none';
+    document.getElementById('back-btn').style.display = 'none';
+    document.getElementById('editor-panel').style.display = 'flex';
+    document.getElementById('hamburger-mode-btn').textContent = 'View Log';
+    document.getElementById('hamburger-dropdown').classList.remove('show');
+    await this.editor.load();
+  }
+
+  enterViewMode(render = true) {
+    this.logMode = 'view';
+    document.getElementById('editor-panel').style.display = 'none';
+    document.getElementById('viewer-content').style.display = '';
+    document.getElementById('viewer-search-bar').style.display = '';
+    document.getElementById('add-entry-wrapper').style.display = '';
+    document.getElementById('hamburger-mode-btn').textContent = 'Edit Log';
+    document.getElementById('hamburger-dropdown').classList.remove('show');
+    if (render) this.viewer.render();
+  }
+
   setupEditor() {
     const selectAllBtn = document.getElementById('select-all-btn');
     const saveBtn = document.getElementById('save-btn');
@@ -109,6 +139,32 @@ class App {
     const addEntryBtn = document.getElementById('add-entry-btn');
     const addEntryDropdown = document.getElementById('add-entry-dropdown');
     const dropdownItems = addEntryDropdown.querySelectorAll('button[data-entry-type]');
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const hamburgerDropdown = document.getElementById('hamburger-dropdown');
+    const hamburgerModeBtn = document.getElementById('hamburger-mode-btn');
+
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hamburgerDropdown.classList.toggle('show');
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.hamburger-wrapper')) {
+        hamburgerDropdown.classList.remove('show');
+      }
+    });
+
+    if (hamburgerModeBtn) {
+      hamburgerModeBtn.addEventListener('click', () => {
+        if (this.logMode === 'view') {
+          this.enterEditMode();
+        } else {
+          this.enterViewMode();
+        }
+      });
+    }
 
     this.entryModal = new EntryModal(this.workoutLog, this.editor, this.persistence);
     this.viewer.onEditEntry = (entry) => this.openModalForEntry(entry);
@@ -123,7 +179,7 @@ class App {
       this.editor.originalText = logText;
       this.editor.textarea.value = logText;
       this.editor.populateTagSuggestions();
-      if (this.currentView === 'viewer') this.viewer.render();
+      if (this.currentView === 'workout-log' && this.logMode === 'view') this.viewer.render();
       if (this.currentView === 'dashboard') this.dashboard.render();
     };
 
@@ -170,7 +226,6 @@ class App {
       saveBtn.addEventListener('click', async () => {
         const success = await this.editor.save();
         if (success) {
-          // Reload the log
           const logText = await this.persistence.loadWorkoutLog();
           this.workoutLog = WorkoutLog.parse(logText);
           this.viewer = new WorkoutLogViewer(this.workoutLog);
@@ -178,6 +233,7 @@ class App {
           this.dashboard = new Dashboard(this.workoutLog);
           this.editor.workoutLog = this.workoutLog;
           this.editor.populateTagSuggestions();
+          this.enterViewMode();
         }
       });
     }
@@ -185,6 +241,7 @@ class App {
     if (cancelBtn) {
       cancelBtn.addEventListener('click', () => {
         this.editor.cancel();
+        this.enterViewMode();
       });
     }
 
@@ -203,7 +260,7 @@ class App {
           this.viewer.filteredTag = value;
           this.viewer.filteredActivityType = null;
         }
-        if (this.currentView === 'viewer') {
+        if (this.currentView === 'workout-log' && this.logMode === 'view') {
           this.viewer.render();
           this.viewer.showBackButton(this.viewer.filteredTag || this.viewer.filteredActivityType);
         }

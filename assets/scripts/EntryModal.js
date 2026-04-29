@@ -809,6 +809,7 @@ export class EntryModal {
             const inputCell = document.createElement('td');
             const input = document.createElement('textarea');
             input.className = 'notes-field';
+            input.rows = 2;
             input.name = field.label;
             inputCell.appendChild(input);
             tr.appendChild(inputCell);

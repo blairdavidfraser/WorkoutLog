@@ -1,6 +1,25 @@
 import { WorkoutEntry, EnduranceWorkoutEntry, StrengthWorkoutEntry, DailyLogEntry } from './WorkoutEntry.js';
 import { Utilities } from './Utilities.js';
 
+function copyToClipboard(text) {
+  // Use textarea + execCommand — works in setTimeout on iOS (no user-gesture requirement)
+  const el = document.createElement('textarea');
+  el.value = text;
+  el.setAttribute('readonly', '');
+  el.style.cssText = 'position:fixed;top:0;left:0;width:2em;height:2em;opacity:0;pointer-events:none;';
+  document.body.appendChild(el);
+  el.focus();
+  el.select();
+  el.setSelectionRange(0, text.length); // required for iOS Safari
+  const ok = document.execCommand('copy');
+  document.body.removeChild(el);
+  window.getSelection()?.removeAllRanges();
+  if (!ok && navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+  return ok;
+}
+
 const UNITS = {
   'Weight':  ' lb.',
   'Waist':   '"',
@@ -184,7 +203,15 @@ export class WorkoutLogViewer {
       tagsEl.appendChild(tagLink);
 
       const unit = UNITS[tag.tag] || '';
-      tagsEl.appendChild(document.createTextNode(': ' + tag.value + unit));
+      if (tag.tag === 'Notes') {
+        tagsEl.appendChild(document.createTextNode(': '));
+        const noteSpan = document.createElement('span');
+        noteSpan.className = 'comment-text';
+        noteSpan.textContent = tag.value;
+        tagsEl.appendChild(noteSpan);
+      } else {
+        tagsEl.appendChild(document.createTextNode(': ' + tag.value + unit));
+      }
 
       if (tag.comment) {
         tagsEl.appendChild(document.createTextNode(' -- '));
@@ -228,7 +255,7 @@ export class WorkoutLogViewer {
           const comment = tag.comment ? ` -- ${tag.comment}` : '';
           lines.push(`${tag.tag}: ${tag.value}${comment}`);
         });
-        navigator.clipboard.writeText(lines.join('\n')).catch(() => {});
+        copyToClipboard(lines.join('\n'));
 
         const toast = document.createElement('div');
         toast.className = 'copy-toast';

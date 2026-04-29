@@ -21,11 +21,15 @@
   <div id="app" class="app-container">
     <!-- Navigation -->
     <nav class="app-nav">
-      <div class="nav-brand">💪 Fitness Coach</div>
+      <div class="hamburger-wrapper" id="hamburger-wrapper" style="display: none;">
+        <button id="hamburger-btn" class="hamburger-btn">☰</button>
+        <div id="hamburger-dropdown" class="hamburger-dropdown">
+          <button id="hamburger-mode-btn">Edit Log</button>
+        </div>
+      </div>
       <div class="nav-tabs">
         <button class="nav-tab active" data-view="dashboard">Dashboard</button>
-        <button class="nav-tab" data-view="viewer">View Log</button>
-        <button class="nav-tab" data-view="editor">Edit Log</button>
+        <button class="nav-tab" data-view="workout-log">Workout Log</button>
       </div>
     </nav>
 
@@ -56,19 +60,19 @@
         </div>
       </section>
 
-      <!-- Viewer View -->
-      <section id="viewer" class="view">
+      <!-- Workout Log (View + Edit combined) -->
+      <section id="workout-log" class="view">
         <div class="viewer-container">
           <div class="viewer-header">
-            <div class="search-bar">
+            <div class="search-bar" id="viewer-search-bar">
               <input type="text" id="editor-search" class="search-input" list="tag-suggestions"
                 placeholder="Search or select a tag...">
               <datalist id="tag-suggestions">
               </datalist>
             </div>
             <div class="viewer-actions">
-              <div class="add-entry-wrapper">
-                <button id="add-entry-btn" class="add-entry-btn" title="Add New Entry">+</button>
+              <div class="add-entry-wrapper" id="add-entry-wrapper">
+                <button id="add-entry-btn" class="add-entry-btn">Add</button>
                 <div id="add-entry-dropdown" class="add-entry-dropdown">
                   <button data-entry-type="daily">Daily Log</button>
                   <button data-entry-type="cardio">Cardio Entry</button>
@@ -81,22 +85,15 @@
             </div>
           </div>
           <div id="viewer-content" class="viewer-content">
-            <!-- Log entries will be rendered here -->
+            <!-- Log entries rendered here -->
           </div>
-        </div>
-      </section>
-
-      <!-- Editor View -->
-      <section id="editor" class="view">
-        <div class="editor-container">
-          <div class="editor-header">
-            <h2>Edit Workout Log</h2>
-          </div>
-          <textarea id="log-textarea" class="log-textarea" placeholder="Workout log will appear here..."></textarea>
-          <div class="editor-actions">
-            <button id="select-all-btn" class="btn btn-secondary">Select All</button>
-            <button id="save-btn" class="btn btn-primary">Save</button>
-            <button id="cancel-btn" class="btn btn-secondary">Cancel</button>
+          <div id="editor-panel" class="editor-panel" style="display: none;">
+            <textarea id="log-textarea" class="log-textarea" placeholder="Workout log will appear here..."></textarea>
+            <div class="editor-actions">
+              <button id="select-all-btn" class="btn btn-secondary">Select All</button>
+              <button id="save-btn" class="btn btn-primary">Save</button>
+              <button id="cancel-btn" class="btn btn-secondary">Cancel</button>
+            </div>
           </div>
         </div>
       </section>
