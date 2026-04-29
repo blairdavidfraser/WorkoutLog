@@ -108,6 +108,7 @@ class App {
     document.getElementById('viewer-search-bar').style.display = 'none';
     document.getElementById('add-entry-wrapper').style.display = 'none';
     document.getElementById('back-btn').style.display = 'none';
+    document.getElementById('editor-header-actions').style.display = 'flex';
     document.getElementById('editor-panel').style.display = 'flex';
     document.getElementById('hamburger-mode-btn').textContent = 'View Log';
     document.getElementById('hamburger-dropdown').classList.remove('show');
@@ -117,6 +118,7 @@ class App {
   enterViewMode(render = true) {
     this.logMode = 'view';
     document.getElementById('editor-panel').style.display = 'none';
+    document.getElementById('editor-header-actions').style.display = 'none';
     document.getElementById('viewer-content').style.display = '';
     document.getElementById('viewer-search-bar').style.display = '';
     document.getElementById('add-entry-wrapper').style.display = '';

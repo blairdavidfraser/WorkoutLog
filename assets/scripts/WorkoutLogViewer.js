@@ -258,19 +258,20 @@ export class WorkoutLogViewer {
     let pressTimer = null;
     let startX = 0;
     let startY = 0;
+    let pendingCopyText = null;
 
     const cancelPress = () => {
-      if (pressTimer) {
-        clearTimeout(pressTimer);
-        pressTimer = null;
-        entryDiv.classList.remove('pressing');
-      }
+      clearTimeout(pressTimer);
+      pressTimer = null;
+      pendingCopyText = null;
+      entryDiv.classList.remove('pressing');
     };
 
     entryDiv.addEventListener('pointerdown', (e) => {
       if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
       startX = e.clientX;
       startY = e.clientY;
+      pendingCopyText = null;
       entryDiv.classList.add('pressing');
       pressTimer = setTimeout(() => {
         pressTimer = null;
@@ -281,13 +282,8 @@ export class WorkoutLogViewer {
           const comment = tag.comment ? ` -- ${tag.comment}` : '';
           lines.push(`${tag.tag}: ${tag.value}${comment}`);
         });
-        copyToClipboard(lines.join('\n'));
-
-        const toast = document.createElement('div');
-        toast.className = 'copy-toast';
-        toast.textContent = 'Copied to clipboard';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 1000);
+        // Store text — actual clipboard write happens in pointerup (user gesture context on iOS)
+        pendingCopyText = lines.join('\n');
       }, 600);
     });
 
@@ -298,7 +294,24 @@ export class WorkoutLogViewer {
       if (dx * dx + dy * dy > 100) cancelPress(); // 10px radius
     });
 
-    entryDiv.addEventListener('pointerup', cancelPress);
+    entryDiv.addEventListener('pointerup', () => {
+      const textToCopy = pendingCopyText;
+      cancelPress();
+      if (!textToCopy) return;
+
+      // pointerup is a user gesture event — clipboard API works on iOS here
+      (navigator.clipboard
+        ? navigator.clipboard.writeText(textToCopy)
+        : Promise.reject()
+      ).catch(() => copyToClipboard(textToCopy));
+
+      const toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.textContent = 'Copied to clipboard';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 1000);
+    });
+
     entryDiv.addEventListener('pointercancel', cancelPress);
     entryDiv.addEventListener('contextmenu', (e) => e.preventDefault());
 
