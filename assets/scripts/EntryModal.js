@@ -6,6 +6,7 @@ export class EntryModal {
         this.workoutLog = workoutLog;
         this.editor = editor;
         this.persistence = persistence;
+        this.onSaved = null;
     }
 
     showDaily(existingEntry = null) {
@@ -1077,7 +1078,7 @@ export class EntryModal {
 
     async replaceAndSave(existingEntry, newContent, overlay) {
         try {
-            const currentText = this.editor.textarea.value;
+            const currentText = await this.persistence.loadWorkoutLog();
             const lines = currentText.split('\n');
 
             const matchDate = existingEntry.date;
@@ -1131,11 +1132,7 @@ export class EntryModal {
             this.editor.textarea.scrollTop = this.editor.textarea.scrollHeight;
 
             alert('Entry updated successfully!');
-
-            const logText = await this.persistence.loadWorkoutLog();
-            this.workoutLog = (await import('./WorkoutLog.js')).WorkoutLog.parse(logText);
-            this.editor.workoutLog = this.workoutLog;
-            this.editor.populateTagSuggestions();
+            if (this.onSaved) await this.onSaved();
         } catch (error) {
             console.error('Error updating entry:', error);
             alert('Error updating entry.');
@@ -1206,7 +1203,7 @@ export class EntryModal {
 
     async appendAndSave(content, overlay) {
         try {
-            const currentText = this.editor.textarea.value;
+            const currentText = await this.persistence.loadWorkoutLog();
 
             // Extract date from content (format: YYYY-MM-DD: ...)
             const dateMatch = content.match(/^(\d{4}-\d{2}-\d{2})/);
@@ -1288,12 +1285,7 @@ export class EntryModal {
             this.editor.textarea.scrollTop = this.editor.textarea.scrollHeight;
 
             alert('Entry added successfully!');
-
-            // Reload the log
-            const logText = await this.persistence.loadWorkoutLog();
-            this.workoutLog = (await import('./WorkoutLog.js')).WorkoutLog.parse(logText);
-            this.editor.workoutLog = this.workoutLog;
-            this.editor.populateTagSuggestions();
+            if (this.onSaved) await this.onSaved();
         } catch (error) {
             console.error('Error saving entry:', error);
             alert('Error saving entry.');

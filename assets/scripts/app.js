@@ -113,6 +113,20 @@ class App {
     this.entryModal = new EntryModal(this.workoutLog, this.editor, this.persistence);
     this.viewer.onEditEntry = (entry) => this.openModalForEntry(entry);
 
+    this.entryModal.onSaved = async () => {
+      const logText = await this.persistence.loadWorkoutLog();
+      this.workoutLog = WorkoutLog.parse(logText);
+      this.viewer.workoutLog = this.workoutLog;
+      this.viewer.onEditEntry = (entry) => this.openModalForEntry(entry);
+      this.dashboard.workoutLog = this.workoutLog;
+      this.editor.workoutLog = this.workoutLog;
+      this.editor.originalText = logText;
+      this.editor.textarea.value = logText;
+      this.editor.populateTagSuggestions();
+      if (this.currentView === 'viewer') this.viewer.render();
+      if (this.currentView === 'dashboard') this.dashboard.render();
+    };
+
     // Add button toggle dropdown
     if (addEntryBtn) {
       addEntryBtn.addEventListener('click', (e) => {
