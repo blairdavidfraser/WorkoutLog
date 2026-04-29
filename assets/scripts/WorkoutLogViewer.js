@@ -201,6 +201,54 @@ export class WorkoutLogViewer {
 
     entryDiv.appendChild(tagsEl);
 
+    // Long press → copy to clipboard
+    let pressTimer = null;
+    let startX = 0;
+    let startY = 0;
+
+    const cancelPress = () => {
+      if (pressTimer) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+        entryDiv.classList.remove('pressing');
+      }
+    };
+
+    entryDiv.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
+      startX = e.clientX;
+      startY = e.clientY;
+      entryDiv.classList.add('pressing');
+      pressTimer = setTimeout(() => {
+        pressTimer = null;
+        entryDiv.classList.remove('pressing');
+
+        const lines = [`${entry.date}: ${entry.shortcutName || entry.type}`];
+        entry.getAllTags().forEach(tag => {
+          const comment = tag.comment ? ` -- ${tag.comment}` : '';
+          lines.push(`${tag.tag}: ${tag.value}${comment}`);
+        });
+        navigator.clipboard.writeText(lines.join('\n')).catch(() => {});
+
+        const toast = document.createElement('div');
+        toast.className = 'copy-toast';
+        toast.textContent = 'Copied to clipboard';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 1000);
+      }, 600);
+    });
+
+    entryDiv.addEventListener('pointermove', (e) => {
+      if (!pressTimer) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (dx * dx + dy * dy > 100) cancelPress(); // 10px radius
+    });
+
+    entryDiv.addEventListener('pointerup', cancelPress);
+    entryDiv.addEventListener('pointercancel', cancelPress);
+    entryDiv.addEventListener('contextmenu', (e) => e.preventDefault());
+
     return entryDiv;
   }
 
