@@ -15,11 +15,18 @@ export class WorkoutLogEditor {
     if (!datalist || !this.workoutLog) return;
 
     datalist.innerHTML = '';
-    const tags = this.workoutLog.getAllUniqueTags();
-    
-    tags.forEach(tag => {
+
+    const allOptions = new Set();
+
+    // Activity types
+    this.workoutLog.entries.forEach(e => allOptions.add(e.shortcutName || e.type));
+
+    // Tag names
+    this.workoutLog.getAllUniqueTags().forEach(tag => allOptions.add(tag));
+
+    Array.from(allOptions).sort().forEach(value => {
       const option = document.createElement('option');
-      option.value = tag;
+      option.value = value;
       datalist.appendChild(option);
     });
   }

@@ -263,15 +263,22 @@ canvas {
 
 .viewer-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
 }
 
-.viewer-header h2 {
-  color: var(--primary-red);
-  font-size: 1.5rem;
+.viewer-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
 }
+
+.add-entry-wrapper {
+  position: relative;
+}
+
 
 .viewer-content {
   background: white;
@@ -337,8 +344,40 @@ canvas {
   font-family: inherit;
   font-size: 0.95rem;
   line-height: 1.5;
+}
+
+.log-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
+.log-entry-tags {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
   white-space: pre-wrap;
   word-wrap: break-word;
+  background: transparent;
+}
+
+.edit-entry-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  filter: grayscale(1);
+  opacity: 0.35;
+  padding: 0 2px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.edit-entry-btn:hover {
+  opacity: 0.8;
 }
 
 .log-entry-text.day-stripe-odd {
@@ -427,17 +466,9 @@ canvas {
   flex-shrink: 0;
 }
 
-.editor-header>div {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex: 1;
-  position: relative;
-}
 
 .search-bar {
   flex: 1;
-  max-width: 300px;
 }
 
 .search-input {
@@ -543,41 +574,6 @@ canvas {
   font-weight: 500;
 }
 
-/* ========== Edit/New Sub-menu ========== */
-.entry-choice-menu {
-  position: fixed;
-  z-index: 1500;
-  background: white;
-  border: 2px solid var(--primary-red);
-  border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  min-width: 180px;
-  overflow: hidden;
-}
-
-.entry-choice-menu button {
-  display: block;
-  width: 100%;
-  padding: var(--spacing-md) var(--spacing-lg);
-  background: white;
-  color: var(--text-dark);
-  border: none;
-  border-bottom: 1px solid var(--medium-gray);
-  text-align: left;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: var(--transition);
-}
-
-.entry-choice-menu button:last-child {
-  border-bottom: none;
-}
-
-.entry-choice-menu button:hover {
-  background-color: var(--pale-orange);
-  color: var(--primary-red);
-  font-weight: 500;
-}
 
 /* ========== Modal Styles ========== */
 .modal-overlay {
@@ -868,15 +864,6 @@ canvas {
     align-items: flex-start;
   }
 
-  .editor-header>div {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .search-bar {
-    width: 100%;
-    max-width: 100%;
-  }
 
   .time-period-selector {
     flex-wrap: wrap;

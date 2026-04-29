@@ -22,6 +22,7 @@ export class WorkoutLogViewer {
     this.workoutLog = workoutLog;
     this.filteredTag = null;
     this.filteredActivityType = null;
+    this.onEditEntry = null;
     this.activityColors = {
       'Run': 'run',
       'Swim': 'swim',
@@ -132,13 +133,17 @@ export class WorkoutLogViewer {
   }
 
   createEntryElement(entry) {
-    const pre = document.createElement('pre');
-    pre.className = 'log-entry-text';
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'log-entry-text';
 
-    // First line: date and type (bold) - type is clickable
+    // Header row: date + type link (left), pencil (right)
+    const header = document.createElement('div');
+    header.className = 'log-entry-header';
+
+    const titleSpan = document.createElement('span');
     const boldSpan = document.createElement('strong');
     boldSpan.textContent = entry.date + ': ';
-    pre.appendChild(boldSpan);
+    titleSpan.appendChild(boldSpan);
 
     const typeLink = document.createElement('a');
     typeLink.href = '#';
@@ -148,12 +153,26 @@ export class WorkoutLogViewer {
       e.preventDefault();
       this.onActivityTypeClick(entry.type);
     });
-    pre.appendChild(typeLink);
-    pre.appendChild(document.createTextNode('\n'));
+    titleSpan.appendChild(typeLink);
+    header.appendChild(titleSpan);
 
-    // Tag lines with clickable tag names
+    const editBtn = document.createElement('button');
+    editBtn.className = 'edit-entry-btn';
+    editBtn.textContent = '✏️';
+    editBtn.title = 'Edit entry';
+    editBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this.onEditEntry) this.onEditEntry(entry);
+    });
+    header.appendChild(editBtn);
+
+    entryDiv.appendChild(header);
+
+    // Tag lines
+    const tagsEl = document.createElement('pre');
+    tagsEl.className = 'log-entry-tags';
+
     entry.getAllTags().forEach((tag, index) => {
-      // Tag name as hyperlink
       const tagLink = document.createElement('a');
       tagLink.href = '#';
       tagLink.className = 'tag-hyperlink';
@@ -162,28 +181,27 @@ export class WorkoutLogViewer {
         e.preventDefault();
         this.onTagClick(tag.tag, entry.type);
       });
+      tagsEl.appendChild(tagLink);
 
-      pre.appendChild(tagLink);
-
-      // Value
       const unit = UNITS[tag.tag] || '';
-      pre.appendChild(document.createTextNode(': ' + tag.value + unit));
+      tagsEl.appendChild(document.createTextNode(': ' + tag.value + unit));
 
-      // Comment if present
       if (tag.comment) {
-        pre.appendChild(document.createTextNode(' -- '));
+        tagsEl.appendChild(document.createTextNode(' -- '));
         const commentSpan = document.createElement('span');
         commentSpan.className = 'comment-text';
         commentSpan.textContent = tag.comment;
-        pre.appendChild(commentSpan);
+        tagsEl.appendChild(commentSpan);
       }
 
       if (index < entry.getAllTags().length - 1) {
-        pre.appendChild(document.createTextNode('\n'));
+        tagsEl.appendChild(document.createTextNode('\n'));
       }
     });
 
-    return pre;
+    entryDiv.appendChild(tagsEl);
+
+    return entryDiv;
   }
 
   renderFilteredTagView(container) {

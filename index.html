@@ -60,8 +60,25 @@
       <section id="viewer" class="view">
         <div class="viewer-container">
           <div class="viewer-header">
-            <h2>Workout Log Viewer</h2>
-            <button id="back-btn" class="back-btn" style="display: none;">← Back</button>
+            <div class="search-bar">
+              <input type="text" id="editor-search" class="search-input" list="tag-suggestions"
+                placeholder="Search or select a tag...">
+              <datalist id="tag-suggestions">
+              </datalist>
+            </div>
+            <div class="viewer-actions">
+              <div class="add-entry-wrapper">
+                <button id="add-entry-btn" class="add-entry-btn" title="Add New Entry">+</button>
+                <div id="add-entry-dropdown" class="add-entry-dropdown">
+                  <button data-entry-type="daily">Daily Log</button>
+                  <button data-entry-type="cardio">Cardio Entry</button>
+                  <button data-entry-type="strength">Strength Entry</button>
+                  <button data-entry-type="nutrition">Nutrition Entry</button>
+                  <button data-entry-type="misc">Miscellaneous Entry</button>
+                </div>
+              </div>
+              <button id="back-btn" class="back-btn" style="display: none;">← Back</button>
+            </div>
           </div>
           <div id="viewer-content" class="viewer-content">
             <!-- Log entries will be rendered here -->
@@ -74,22 +91,6 @@
         <div class="editor-container">
           <div class="editor-header">
             <h2>Edit Workout Log</h2>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-              <button id="add-entry-btn" class="add-entry-btn" title="Add New Entry">+</button>
-              <div id="add-entry-dropdown" class="add-entry-dropdown">
-                <button data-entry-type="daily">Daily Log</button>
-                <button data-entry-type="cardio">Cardio Entry</button>
-                <button data-entry-type="strength">Strength Entry</button>
-                <button data-entry-type="nutrition">Nutrition Entry</button>
-                <button data-entry-type="misc">Miscellaneous Entry</button>
-              </div>
-              <div class="search-bar">
-                <input type="text" id="editor-search" class="search-input" list="tag-suggestions"
-                  placeholder="Search or select a tag...">
-                <datalist id="tag-suggestions">
-                </datalist>
-              </div>
-            </div>
           </div>
           <textarea id="log-textarea" class="log-textarea" placeholder="Workout log will appear here..."></textarea>
           <div class="editor-actions">
