@@ -78,12 +78,6 @@ class App {
 
     this.currentView = viewName;
 
-    // Hamburger is only relevant on the workout-log tab
-    const hamburgerWrapper = document.getElementById('hamburger-wrapper');
-    if (hamburgerWrapper) {
-      hamburgerWrapper.style.display = viewName === 'workout-log' ? '' : 'none';
-    }
-
     // Render appropriate view
     switch (viewName) {
       case 'dashboard':
@@ -158,7 +152,11 @@ class App {
 
     if (hamburgerModeBtn) {
       hamburgerModeBtn.addEventListener('click', () => {
-        if (this.logMode === 'view') {
+        const goToEdit = this.logMode === 'view';
+        if (this.currentView !== 'workout-log') {
+          this.switchView('workout-log');
+        }
+        if (goToEdit) {
           this.enterEditMode();
         } else {
           this.enterViewMode();
@@ -246,24 +244,83 @@ class App {
     }
 
     if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        const value = e.target.value.trim();
+      // Custom dropdown — native datalist is unreliable on iOS
+      const searchDropdown = document.createElement('div');
+      searchDropdown.className = 'search-dropdown';
+      document.body.appendChild(searchDropdown);
+
+      const getTagOptions = () => {
+        const opts = new Set();
+        this.workoutLog.entries.forEach(e => opts.add(e.shortcutName || e.type));
+        this.workoutLog.getAllUniqueTags().forEach(t => opts.add(t));
+        return Array.from(opts).sort();
+      };
+
+      const positionDropdown = () => {
+        const rect = searchInput.getBoundingClientRect();
+        searchDropdown.style.top = (rect.bottom + 2) + 'px';
+        searchDropdown.style.left = rect.left + 'px';
+        searchDropdown.style.width = rect.width + 'px';
+      };
+
+      const applyFilter = (value) => {
         const activityTypes = ['Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga', 'Strength', 'Daily', 'Nutrition'];
         const matchedType = activityTypes.find(t => t.toLowerCase() === value.toLowerCase());
+        const isDate = /^\d{4}(-\d{2}(-\d{2})?)?$/.test(value);
         if (!value) {
+          this.viewer.filteredTag = null;
+          this.viewer.filteredActivityType = null;
+          this.viewer.filteredDate = null;
+        } else if (isDate) {
+          this.viewer.filteredDate = value;
           this.viewer.filteredTag = null;
           this.viewer.filteredActivityType = null;
         } else if (matchedType) {
           this.viewer.filteredActivityType = matchedType;
           this.viewer.filteredTag = null;
+          this.viewer.filteredDate = null;
         } else {
           this.viewer.filteredTag = value;
           this.viewer.filteredActivityType = null;
+          this.viewer.filteredDate = null;
         }
         if (this.currentView === 'workout-log' && this.logMode === 'view') {
           this.viewer.render();
-          this.viewer.showBackButton(this.viewer.filteredTag || this.viewer.filteredActivityType);
+          this.viewer.showBackButton(this.viewer.filteredTag || this.viewer.filteredActivityType || this.viewer.filteredDate);
         }
+      };
+
+      const showSearchDropdown = (filter = '') => {
+        const lower = filter.toLowerCase();
+        const options = getTagOptions();
+        const matches = filter ? options.filter(o => o.toLowerCase().includes(lower)) : options;
+        searchDropdown.innerHTML = '';
+        matches.forEach(text => {
+          const item = document.createElement('div');
+          item.className = 'search-dropdown-item';
+          item.textContent = text;
+          item.addEventListener('pointerdown', e => {
+            e.preventDefault(); // prevent input blur before selection
+            searchInput.value = text;
+            searchDropdown.classList.remove('show');
+            applyFilter(text);
+          });
+          searchDropdown.appendChild(item);
+        });
+        positionDropdown();
+        searchDropdown.classList.toggle('show', matches.length > 0);
+      };
+
+      searchInput.addEventListener('focus', () => showSearchDropdown(searchInput.value.trim()));
+      searchInput.addEventListener('blur', () => searchDropdown.classList.remove('show'));
+      searchInput.addEventListener('input', (e) => {
+        const value = e.target.value.trim();
+        showSearchDropdown(value);
+        applyFilter(value);
+      });
+
+      window.visualViewport?.addEventListener('resize', () => {
+        if (searchDropdown.classList.contains('show')) positionDropdown();
       });
     }
   }

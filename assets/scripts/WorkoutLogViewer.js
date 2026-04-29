@@ -41,6 +41,7 @@ export class WorkoutLogViewer {
     this.workoutLog = workoutLog;
     this.filteredTag = null;
     this.filteredActivityType = null;
+    this.filteredDate = null;
     this.onEditEntry = null;
     this.activityColors = {
       'Run': 'run',
@@ -67,6 +68,11 @@ export class WorkoutLogViewer {
     this.renderFilters(container);
 
     // If filtered, show filtered view
+    if (this.filteredDate) {
+      this.renderFilteredDateView(container);
+      return;
+    }
+
     if (this.filteredTag) {
       this.renderFilteredTagView(container);
       return;
@@ -82,7 +88,7 @@ export class WorkoutLogViewer {
   }
 
   renderFilters(container) {
-    if (!this.filteredTag && !this.filteredActivityType) {
+    if (!this.filteredTag && !this.filteredActivityType && !this.filteredDate) {
       return;
     }
 
@@ -93,6 +99,11 @@ export class WorkoutLogViewer {
     label.className = 'filter-label';
     label.textContent = 'Filters: ';
     filterDiv.appendChild(label);
+
+    if (this.filteredDate) {
+      const pill = this.createFilterPill(this.filteredDate, 'date');
+      filterDiv.appendChild(pill);
+    }
 
     if (this.filteredActivityType) {
       const pill = this.createFilterPill(this.filteredActivityType, 'activity');
@@ -120,13 +131,28 @@ export class WorkoutLogViewer {
         this.filteredActivityType = null;
       } else if (type === 'tag') {
         this.filteredTag = null;
+      } else if (type === 'date') {
+        this.filteredDate = null;
       }
+      this.setSearchInput(this.filteredTag || this.filteredActivityType || this.filteredDate || '');
       this.render();
-      this.showBackButton(this.filteredTag || this.filteredActivityType);
+      this.showBackButton(this.filteredTag || this.filteredActivityType || this.filteredDate);
     });
 
     pill.appendChild(closeBtn);
     return pill;
+  }
+
+  renderFilteredDateView(container) {
+    const entries = this.workoutLog.entries.filter(e => e.date.startsWith(this.filteredDate));
+    if (entries.length === 0) {
+      container.innerHTML = `<p style="text-align: center; color: #999;">No entries found for ${this.filteredDate}.</p>`;
+      return;
+    }
+    entries.forEach(entry => {
+      const entryDiv = this.createEntryElement(entry);
+      container.appendChild(entryDiv);
+    });
   }
 
   renderAllEntries(container) {
@@ -340,20 +366,25 @@ export class WorkoutLogViewer {
     });
   }
 
+  setSearchInput(value) {
+    const el = document.getElementById('editor-search');
+    if (el) el.value = value;
+  }
+
   onTagClick(tagName, entryType) {
-    // If it's an activity type, filter by activity
     if (['Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga', 'Strength'].includes(tagName)) {
       this.filteredActivityType = tagName;
     } else {
       this.filteredTag = tagName;
     }
-
+    this.setSearchInput(tagName);
     this.render();
     this.showBackButton(true);
   }
 
   onActivityTypeClick(type) {
     this.filteredActivityType = type;
+    this.setSearchInput(type);
     this.render();
     this.showBackButton(true);
   }
@@ -361,6 +392,8 @@ export class WorkoutLogViewer {
   goBack() {
     this.filteredTag = null;
     this.filteredActivityType = null;
+    this.filteredDate = null;
+    this.setSearchInput('');
     this.render();
     this.showBackButton(false);
   }

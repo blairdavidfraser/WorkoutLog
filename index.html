@@ -21,7 +21,7 @@
   <div id="app" class="app-container">
     <!-- Navigation -->
     <nav class="app-nav">
-      <div class="hamburger-wrapper" id="hamburger-wrapper" style="display: none;">
+      <div class="hamburger-wrapper" id="hamburger-wrapper">
         <button id="hamburger-btn" class="hamburger-btn">☰</button>
         <div id="hamburger-dropdown" class="hamburger-dropdown">
           <button id="hamburger-mode-btn">Edit Log</button>
@@ -65,12 +65,13 @@
         <div class="viewer-container">
           <div class="viewer-header">
             <div class="search-bar" id="viewer-search-bar">
-              <input type="text" id="editor-search" class="search-input" list="tag-suggestions"
+              <input type="text" id="editor-search" class="search-input"
                 placeholder="Search or select a tag...">
               <datalist id="tag-suggestions">
               </datalist>
             </div>
             <div class="viewer-actions">
+              <button id="back-btn" class="back-btn" style="display: none;">← Back</button>
               <div class="add-entry-wrapper" id="add-entry-wrapper">
                 <button id="add-entry-btn" class="add-entry-btn">Add</button>
                 <div id="add-entry-dropdown" class="add-entry-dropdown">
@@ -81,7 +82,6 @@
                   <button data-entry-type="misc">Miscellaneous Entry</button>
                 </div>
               </div>
-              <button id="back-btn" class="back-btn" style="display: none;">← Back</button>
             </div>
           </div>
           <div id="viewer-content" class="viewer-content">

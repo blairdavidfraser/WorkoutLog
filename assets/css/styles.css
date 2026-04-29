@@ -252,6 +252,8 @@ canvas {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  flex: 1;
+  min-height: 0;
 }
 
 .viewer-header {
@@ -336,7 +338,8 @@ canvas {
   padding: var(--spacing-xs);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow-y: auto;
-  max-height: 70vh;
+  flex: 1;
+  min-height: 0;
 }
 
 .filters-display {
@@ -518,6 +521,12 @@ canvas {
   text-align: left;
 }
 
+.filtered-table th:first-child,
+.filtered-table td:first-child {
+  white-space: nowrap;
+  width: 1%;
+}
+
 .filtered-table tbody tr:hover {
   background-color: var(--pale-orange);
 }
@@ -549,6 +558,38 @@ canvas {
 
 .search-bar {
   flex: 1;
+}
+
+.search-dropdown {
+  display: none;
+  position: fixed;
+  background: white;
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 2000;
+}
+
+.search-dropdown.show {
+  display: block;
+}
+
+.search-dropdown-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.search-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.search-dropdown-item:hover,
+.search-dropdown-item:active {
+  background-color: var(--pale-orange);
 }
 
 .search-input {
@@ -926,10 +967,6 @@ canvas {
 
   .graphs-container {
     grid-template-columns: 1fr;
-  }
-
-  .viewer-content {
-    max-height: 60vh;
   }
 
   .editor-header {
