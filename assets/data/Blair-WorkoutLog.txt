@@ -2984,7 +2984,7 @@ Pain: 1
 Focus: Easy | RPE: 2
 Distance: 5.917 | Duration: 30:00 | Power: 99
 Avg HR: 122
-Pain: 1 —- Could feel asymmetry, slight pain on RHS.
+Pain: 1 -- Could feel asymmetry, slight pain on RHS.
 Notes: Focus on slide control
 
 2026-04-21: Daily
@@ -3005,24 +3005,24 @@ Pain: 1
 Focus: Easy | RPE: 7
 Distance: 24.17 | Duration: 58:38 | Power: 125
 Avg HR: 141
-Pain: 1 -— mild back discomfort
+Pain: 1 -- mild back discomfort
 
 2026-04-23: Daily
 Weight: 189 | Waist: 34.5 
 Sleep: 7:06:00 
 RHR: 58 | HRV: 68
 Energy: 2
-Pain: 2 —- stiffness from cycle
+Pain: 2 -- stiffness from cycle
 
 2026-04-23: Strength
 RPE: 6 | Focus: Upper Body
-Pain: 1 -— back stiffness did not affect these exercises.
+Pain: 1 -- these exercises not aggravating
 Cable Pallof press (each side): 3x10 @ 70 lb
 Assisted pull-ups: 3x8 @ 50 lb
 Bench press: 3x6 @ 165 lb
 Chest supported row: 3x8 @ 75 lb
 Dumbbell overhead press: 3x8 @ 40 lb
-Cable crunch: 0x0 @ 0 lb — skipped for time
+Cable crunch: 0x0 @ 0 lb -- skipped for time
 
 2026-04-24: Daily
 Weight: 188 | Waist: 34.5
@@ -3081,3 +3081,58 @@ Distance: 11.675 | Duration: 54:53
 Avg HR: 137 | Max HR: 175
 Pain: 1
 Notes: Flat water. Focus on controlled slide and early square.
+
+2026-04-28: Daily
+Weight: 188.2 | Waist: 34
+Sleep: 6:41:00
+RHR: 63 | HRV: 74
+Energy: 3
+Pain: 1
+
+2026-04-28: Strength
+RPE: 5 | Focus: Upper Body
+Pain: 1
+Dumbbell overhead press: 3x8 @ 40 lb
+Bench press: 3x7 @ 165 lb
+Chest supported row: 3x8 @ 70 lb
+Assisted pull-ups: 3x10 @ 50 lb
+Cable Pallof press (each side): 3x10 @ 70 lb
+Cable Crunch: 3x10 @ 180 lb
+
+2026-04-29: Daily
+Weight: 188.2 | Waist: 34.5
+Sleep: 7:28:00
+RHR: 58 | HRV: 83
+Energy: 4
+Pain: 1
+
+2026-04-29: Cycle
+Focus: Tempo | RPE: 6
+Distance: 27.99 | Duration: 1:05:09 | Power: 133
+Avg HR: 134 | Max HR: 155
+Pain: 1
+
+2026-04-29: Nutrition
+Breakfast: 2 eggs, banana
+Lunch: Caprese sandwich
+AM Snacks: 1/2 cup nuts/raisins/coconut mix
+PM Snacks: 9 cheese and crackers.  1/3 cup raisins. 1 cookie.
+
+2026-04-30: Daily
+Weight: 188.7 | Waist: 34
+Sleep: 7:28:00
+RHR: 59 | HRV: 61
+Energy: 3
+Pain: 2 -- Back stiffer than usual on awaking.
+
+2026-04-30: Row
+Focus: Technical  | RPE: 5
+Distance: 11.096 | Duration: 57:52
+Avg HR: 116 | Max HR: 116
+Pain: 1
+Notes: ~500m fast finish
+
+2026-04-30: Nutrition
+Breakfast: Banana, 1/2 cup oatmeal/chia, 3/4 cup high protein skyr
+Lunch: Bowl with 1/2 cup zucchini shredded, 1/2 cup sweet potato noodles, two breaded slices of tofu, veggies.
+PM Snacks: 8 cheese/crackers
