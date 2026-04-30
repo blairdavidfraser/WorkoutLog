@@ -330,6 +330,45 @@ canvas {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  flex: 1;
+  min-height: 0;
+}
+
+.editor-header-actions {
+  gap: var(--spacing-xs);
+  align-items: center;
+  flex: 1;
+}
+
+.editor-header-btn {
+  padding: 0.3rem 0.9rem;
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-md);
+  background-color: var(--light-gray);
+  color: var(--text-dark);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  box-sizing: border-box;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.editor-header-btn:hover {
+  background-color: var(--medium-gray);
+  border-color: var(--dark-gray);
+}
+
+.editor-header-btn--primary {
+  background-color: var(--primary-red);
+  color: white;
+  border-color: var(--primary-red);
+}
+
+.editor-header-btn--primary:hover {
+  background-color: var(--dark-red);
+  border-color: var(--dark-red);
 }
 
 .viewer-content {
@@ -626,11 +665,6 @@ canvas {
   box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
 }
 
-.editor-actions {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: flex-end;
-}
 
 /* ========== Add Entry Button ========== */
 .add-entry-btn {
