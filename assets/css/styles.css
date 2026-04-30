@@ -115,7 +115,7 @@ body {
   display: none;
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-xl) var(--spacing-xl) calc(var(--spacing-xl) * 2);
 }
 
 .view.active {
@@ -483,10 +483,6 @@ canvas {
   background-color: var(--light-gray);
 }
 
-.log-entry-text.pressing {
-  background-color: #c8c8c8 !important;
-  transition: background-color 0s;
-}
 
 .copy-toast {
   position: fixed;
