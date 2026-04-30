@@ -1,3 +1,7 @@
+import { TagData } from './Utilities.js';
+import { WorkoutEntry, StrengthWorkoutEntry } from './WorkoutEntry.js';
+import { formatEntry } from './EntryFormatter.js';
+
 /**
  * EntryModal - Handles entry creation modals
  */
@@ -169,63 +173,26 @@ export class EntryModal {
     }
 
     saveDailyEntry(formData, selectedDate, overlay, existingEntry = null) {
-        const lines = [selectedDate + ': Daily'];
+        const tags = [];
+        const field = (label) => ({
+            value:   formData[label].input.value,
+            comment: formData[label].commentBtn?._comment || '',
+        });
 
-        // Weight and Waist on same line if both present and neither has a comment
-        const weight = formData['Weight'].input.value;
-        const waist = formData['Waist'].input.value;
-        const weightComment = formData['Weight'].commentBtn?._comment || '';
-        const waistComment = formData['Waist'].commentBtn?._comment || '';
-        if (weight && waist && !weightComment && !waistComment) {
-            lines.push('Weight: ' + weight + ' | Waist: ' + waist);
-        } else {
-            if (weight) lines.push('Weight: ' + weight + (weightComment ? ' -- ' + weightComment : ''));
-            if (waist) lines.push('Waist: ' + waist + (waistComment ? ' -- ' + waistComment : ''));
-        }
+        const w = field('Weight'); if (w.value) tags.push(new TagData('Weight', w.value, w.comment));
+        const wa = field('Waist'); if (wa.value) tags.push(new TagData('Waist', wa.value, wa.comment));
+        const sl = field('Sleep'); if (sl.value) tags.push(new TagData('Sleep', sl.value, sl.comment));
+        const rh = field('RHR');   if (rh.value) tags.push(new TagData('RHR', rh.value, rh.comment));
+        const hv = field('HRV');   if (hv.value) tags.push(new TagData('HRV', hv.value, hv.comment));
+        const en = field('Energy'); if (en.value) tags.push(new TagData('Energy', en.value, en.comment));
+        const pa = field('Pain');   if (pa.value) tags.push(new TagData('Pain', pa.value, pa.comment));
+        const no = field('Notes');  if (no.value) tags.push(new TagData('Notes', no.value, ''));
 
-        // Sleep
-        const sleep = formData['Sleep'].input.value;
-        const sleepComment = formData['Sleep'].commentBtn?._comment || '';
-        if (sleep) {
-            lines.push('Sleep: ' + sleep + (sleepComment ? ' -- ' + sleepComment : ''));
-        }
-
-        // RHR and HRV on same line if both present and neither has a comment
-        const rhr = formData['RHR'].input.value;
-        const hrv = formData['HRV'].input.value;
-        const rhrComment = formData['RHR'].commentBtn?._comment || '';
-        const hrvComment = formData['HRV'].commentBtn?._comment || '';
-        if (rhr && hrv && !rhrComment && !hrvComment) {
-            lines.push('RHR: ' + rhr + ' | HRV: ' + hrv);
-        } else {
-            if (rhr) lines.push('RHR: ' + rhr + (rhrComment ? ' -- ' + rhrComment : ''));
-            if (hrv) lines.push('HRV: ' + hrv + (hrvComment ? ' -- ' + hrvComment : ''));
-        }
-
-        // Energy
-        const energy = formData['Energy'].input.value;
-        const energyComment = formData['Energy'].commentBtn?._comment || '';
-        if (energy) {
-            lines.push('Energy: ' + energy + (energyComment ? ' -- ' + energyComment : ''));
-        }
-
-        // Pain
-        const pain = formData['Pain'].input.value;
-        const painComment = formData['Pain'].commentBtn?._comment || '';
-        if (pain) {
-            lines.push('Pain: ' + pain + (painComment ? ' -- ' + painComment : ''));
-        }
-
-        // Notes
-        const notes = formData['Notes'].input.value;
-        if (notes) {
-            lines.push('Notes: ' + notes);
-        }
-
+        const content = formatEntry(new WorkoutEntry(selectedDate, 'Daily', tags));
         if (existingEntry) {
-            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+            this.replaceAndSave(existingEntry, content, overlay);
         } else {
-            this.appendAndSave(lines.join('\n'), overlay);
+            this.appendAndSave(content, overlay);
         }
     }
 
@@ -401,78 +368,31 @@ export class EntryModal {
     }
 
     saveCardioEntry(formData, selectedDate, activityType, overlay, existingEntry = null) {
-        const lines = [selectedDate + ': ' + activityType];
+        const tags = [];
+        const field = (label) => ({
+            value:   formData[label].input.value,
+            comment: formData[label].commentBtn?._comment || '',
+        });
 
-        // Type field
         const type = formData['Type'].input.value;
         const typeComment = formData['Type'].commentBtn?._comment || '';
-        if (type && type !== activityType) {
-            lines.push('Type: ' + type + (typeComment ? ' -- ' + typeComment : ''));
-        }
+        if (type && type !== activityType) tags.push(new TagData('Type', type, typeComment));
 
-        // Focus + RPE: same line if neither have comments
-        const focus = formData['Focus'].input.value;
-        const focusComment = formData['Focus'].commentBtn?._comment || '';
-        const rpe = formData['RPE'].input.value;
-        const rpeComment = formData['RPE'].commentBtn?._comment || '';
+        const fo = field('Focus');    if (fo.value) tags.push(new TagData('Focus',    fo.value, fo.comment));
+        const rp = field('RPE');      if (rp.value) tags.push(new TagData('RPE',      rp.value, rp.comment));
+        const di = field('Distance'); if (di.value) tags.push(new TagData('Distance', di.value, di.comment));
+        const du = field('Duration'); if (du.value) tags.push(new TagData('Duration', du.value, du.comment));
+        const po = field('Power');    if (po.value) tags.push(new TagData('Power',    po.value, po.comment));
+        const ah = field('Avg HR');   if (ah.value) tags.push(new TagData('Avg HR',   ah.value, ah.comment));
+        const mh = field('Max HR');   if (mh.value) tags.push(new TagData('Max HR',   mh.value, mh.comment));
+        const pa = field('Pain');     if (pa.value) tags.push(new TagData('Pain',     pa.value, pa.comment));
+        const no = field('Notes');    if (no.value) tags.push(new TagData('Notes',    no.value, ''));
 
-        if (focus && rpe && !focusComment && !rpeComment) {
-            lines.push('Focus: ' + focus + ' | RPE: ' + rpe);
-        } else {
-            if (focus) lines.push('Focus: ' + focus + (focusComment ? ' -- ' + focusComment : ''));
-            if (rpe) lines.push('RPE: ' + rpe + (rpeComment ? ' -- ' + rpeComment : ''));
-        }
-
-        // Distance + Duration + Power: same line if none have comments
-        const distance = formData['Distance'].input.value;
-        const duration = formData['Duration'].input.value;
-        const power = formData['Power'].input.value;
-        const distanceComment = formData['Distance'].commentBtn?._comment || '';
-        const durationComment = formData['Duration'].commentBtn?._comment || '';
-        const powerComment = formData['Power'].commentBtn?._comment || '';
-
-        if ((distance || duration || power) && !distanceComment && !durationComment && !powerComment) {
-            const parts = [];
-            if (distance) parts.push('Distance: ' + distance);
-            if (duration) parts.push('Duration: ' + duration);
-            if (power) parts.push('Power: ' + power);
-            lines.push(parts.join(' | '));
-        } else {
-            if (distance) lines.push('Distance: ' + distance + (distanceComment ? ' -- ' + distanceComment : ''));
-            if (duration) lines.push('Duration: ' + duration + (durationComment ? ' -- ' + durationComment : ''));
-            if (power) lines.push('Power: ' + power + (powerComment ? ' -- ' + powerComment : ''));
-        }
-
-        // Avg HR and Max HR on same line if both present and no comments
-        const avgHR = formData['Avg HR'].input.value;
-        const maxHR = formData['Max HR'].input.value;
-        const avgHRComment = formData['Avg HR'].commentBtn?._comment || '';
-        const maxHRComment = formData['Max HR'].commentBtn?._comment || '';
-
-        if (avgHR && maxHR && !avgHRComment && !maxHRComment) {
-            lines.push('Avg HR: ' + avgHR + ' | Max HR: ' + maxHR);
-        } else {
-            if (avgHR) lines.push('Avg HR: ' + avgHR + (avgHRComment ? ' -- ' + avgHRComment : ''));
-            if (maxHR) lines.push('Max HR: ' + maxHR + (maxHRComment ? ' -- ' + maxHRComment : ''));
-        }
-
-        // Pain
-        const pain = formData['Pain'].input.value;
-        const painComment = formData['Pain'].commentBtn?._comment || '';
-        if (pain) {
-            lines.push('Pain: ' + pain + (painComment ? ' -- ' + painComment : ''));
-        }
-
-        // Notes
-        const notes = formData['Notes'].input.value;
-        if (notes) {
-            lines.push('Notes: ' + notes);
-        }
-
+        const content = formatEntry(new WorkoutEntry(selectedDate, activityType, tags));
         if (existingEntry) {
-            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+            this.replaceAndSave(existingEntry, content, overlay);
         } else {
-            this.appendAndSave(lines.join('\n'), overlay);
+            this.appendAndSave(content, overlay);
         }
     }
 
@@ -709,48 +629,29 @@ export class EntryModal {
     }
 
     saveStrengthEntry(topData, exerciseData, selectedDate, overlay, notesInput, existingEntry = null) {
-        const lines = [selectedDate + ': Strength'];
+        const tags = [];
+        const top = (label) => ({
+            value:   topData[label].input.value,
+            comment: topData[label].commentBtn?._comment || '',
+        });
 
-        // RPE + Focus: same line if neither have comments
-        const rpe = topData['RPE'].input.value;
-        const rpeComment = topData['RPE'].commentBtn?._comment || '';
-        const focus = topData['Focus'].input.value;
-        const focusComment = topData['Focus'].commentBtn?._comment || '';
-        if (rpe && focus && !rpeComment && !focusComment) {
-            lines.push('RPE: ' + rpe + ' | Focus: ' + focus);
-        } else {
-            if (rpe) lines.push('RPE: ' + rpe + (rpeComment ? ' -- ' + rpeComment : ''));
-            if (focus) lines.push('Focus: ' + focus + (focusComment ? ' -- ' + focusComment : ''));
-        }
+        const rp = top('RPE');   if (rp.value) tags.push(new TagData('RPE',   rp.value, rp.comment));
+        const fo = top('Focus'); if (fo.value) tags.push(new TagData('Focus', fo.value, fo.comment));
+        const pa = top('Pain');  if (pa.value) tags.push(new TagData('Pain',  pa.value, pa.comment));
 
-        // Pain
-        const pain = topData['Pain'].input.value;
-        const painComment = topData['Pain'].commentBtn?._comment || '';
-        if (pain) {
-            lines.push('Pain: ' + pain + (painComment ? ' -- ' + painComment : ''));
-        }
-
-        // Exercise rows
         exerciseData.forEach(row => {
-            if (row.exercise.value) {
-                const exercise = row.exercise.value;
-                const value = row.value.value;
-                const comment = row.commentBtn?._comment || '';
-                if (value) {
-                    lines.push(exercise + ': ' + value + (comment ? ' -- ' + comment : ''));
-                }
+            if (row.exercise.value && row.value.value) {
+                tags.push(new TagData(row.exercise.value, row.value.value, row.commentBtn?._comment || ''));
             }
         });
 
-        // Notes
-        if (notesInput?.value) {
-            lines.push('Notes: ' + notesInput.value);
-        }
+        if (notesInput?.value) tags.push(new TagData('Notes', notesInput.value, ''));
 
+        const content = formatEntry(new StrengthWorkoutEntry(selectedDate, tags));
         if (existingEntry) {
-            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+            this.replaceAndSave(existingEntry, content, overlay);
         } else {
-            this.appendAndSave(lines.join('\n'), overlay);
+            this.appendAndSave(content, overlay);
         }
     }
 
@@ -883,22 +784,20 @@ export class EntryModal {
     }
 
     saveNutritionEntry(formData, selectedDate, overlay, existingEntry = null) {
-        const lines = [selectedDate + ': Nutrition'];
+        const tags = [];
         const fieldOrder = ['Breakfast', 'Lunch', 'Dinner', 'AM Snacks', 'PM Snacks', 'Alcohol', 'Notes'];
-
         fieldOrder.forEach(label => {
-            const field = formData[label];
-            if (!field) return;
-            const value = field.input.value.trim();
-            if (!value) return;
-            const comment = field.commentBtn?._comment || '';
-            lines.push(label + ': ' + value + (comment ? ' -- ' + comment : ''));
+            const f = formData[label];
+            if (!f) return;
+            const value = f.input.value.trim();
+            if (value) tags.push(new TagData(label, value, f.commentBtn?._comment || ''));
         });
 
+        const content = formatEntry(new WorkoutEntry(selectedDate, 'Nutrition', tags));
         if (existingEntry) {
-            this.replaceAndSave(existingEntry, lines.join('\n'), overlay);
+            this.replaceAndSave(existingEntry, content, overlay);
         } else {
-            this.appendAndSave(lines.join('\n'), overlay);
+            this.appendAndSave(content, overlay);
         }
     }
 

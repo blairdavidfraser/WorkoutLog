@@ -484,9 +484,13 @@ canvas {
 }
 
 
+.log-entry-text.clicking {
+  background-color: #b8b8b8 !important;
+}
+
 .copy-toast {
   position: fixed;
-  bottom: 2.5rem;
+  top: 5rem; /* fallback; overridden inline to viewer-content top */
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.72);

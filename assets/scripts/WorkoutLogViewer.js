@@ -1,22 +1,22 @@
 import { WorkoutEntry, EnduranceWorkoutEntry, StrengthWorkoutEntry, DailyLogEntry } from './WorkoutEntry.js';
 import { Utilities } from './Utilities.js';
+import { formatEntry } from './EntryFormatter.js';
 
 function copyToClipboard(text) {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).catch(() => {});
-    return;
   }
-  const el = document.createElement('textarea');
-  el.value = text;
-  el.setAttribute('readonly', '');
-  el.style.cssText = 'position:fixed;top:0;left:0;width:2em;height:2em;opacity:0;pointer-events:none;';
-  document.body.appendChild(el);
-  el.focus();
-  el.select();
-  el.setSelectionRange(0, text.length);
-  document.execCommand('copy');
-  document.body.removeChild(el);
-  window.getSelection()?.removeAllRanges();
+}
+
+function showCopyToast() {
+  const viewerEl = document.getElementById('viewer-content');
+  const top = viewerEl ? viewerEl.getBoundingClientRect().top + 12 : 80;
+  const toast = document.createElement('div');
+  toast.className = 'copy-toast';
+  toast.style.top = top + 'px';
+  toast.textContent = 'Copied to clipboard';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 1000);
 }
 
 const UNITS = {
@@ -253,25 +253,40 @@ export class WorkoutLogViewer {
 
     entryDiv.appendChild(tagsEl);
 
-    // Double-tap → copy to clipboard
+    // Double-tap / double-click → copy entry to clipboard
     let lastTap = 0;
 
+    const buildCopyText = () => formatEntry(entry);
+
+    // Press feedback on every tap/click (all pointer types)
+    entryDiv.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
+      entryDiv.classList.add('clicking');
+    });
+    entryDiv.addEventListener('pointerup', (e) => {
+      entryDiv.classList.remove('clicking');
+      // Desktop double-click (touch is handled by touchend below)
+      if (e.pointerType !== 'mouse') return;
+      if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
+      const now = Date.now();
+      if (now - lastTap < 350) {
+        lastTap = 0;
+        copyToClipboard(buildCopyText());
+        showCopyToast();
+      } else {
+        lastTap = now;
+      }
+    });
+    entryDiv.addEventListener('pointercancel', () => entryDiv.classList.remove('clicking'));
+
+    // Touch double-tap (touchend is a reliable user gesture on iOS)
     entryDiv.addEventListener('touchend', (e) => {
       if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
       const now = Date.now();
       if (now - lastTap < 350) {
         lastTap = 0;
-        const lines = [`${entry.date}: ${entry.shortcutName || entry.type}`];
-        entry.getAllTags().forEach(tag => {
-          const comment = tag.comment ? ` -- ${tag.comment}` : '';
-          lines.push(`${tag.tag}: ${tag.value}${comment}`);
-        });
-        copyToClipboard(lines.join('\n'));
-        const toast = document.createElement('div');
-        toast.className = 'copy-toast';
-        toast.textContent = 'Copied to clipboard';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 1000);
+        copyToClipboard(buildCopyText());
+        showCopyToast();
       } else {
         lastTap = now;
       }
