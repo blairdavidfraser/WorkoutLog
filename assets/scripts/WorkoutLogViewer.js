@@ -260,14 +260,82 @@ export class WorkoutLogViewer {
     let startY = 0;
     let pendingCopyText = null;
 
-    const cancelPress = () => {
+    const buildCopyText = () => {
+      const lines = [`${entry.date}: ${entry.shortcutName || entry.type}`];
+      entry.getAllTags().forEach(tag => {
+        const comment = tag.comment ? ` -- ${tag.comment}` : '';
+        lines.push(`${tag.tag}: ${tag.value}${comment}`);
+      });
+      return lines.join('\n');
+    };
+
+    const cancelTimer = () => {
       clearTimeout(pressTimer);
       pressTimer = null;
-      pendingCopyText = null;
       entryDiv.classList.remove('pressing');
     };
 
+    const doCopy = () => {
+      if (!pendingCopyText) return;
+      const text = pendingCopyText;
+      pendingCopyText = null;
+      // Called synchronously inside a user gesture (touchend or pointerup)
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      } else {
+        copyToClipboard(text);
+      }
+      const toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.textContent = 'Copied to clipboard';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 1000);
+    };
+
+    // ── Touch events (iOS/Android) ──────────────────────────────────────────
+    // On iOS, pointercancel fires on long-press (system takes over the gesture),
+    // which would clear pendingCopyText before pointerup ever runs.
+    // touchend always fires when the finger lifts and is a valid user gesture
+    // for clipboard access on iOS.
+    entryDiv.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      pendingCopyText = null;
+      entryDiv.classList.add('pressing');
+      pressTimer = setTimeout(() => {
+        pressTimer = null;
+        entryDiv.classList.remove('pressing');
+        pendingCopyText = buildCopyText();
+      }, 600);
+    }, { passive: true });
+
+    entryDiv.addEventListener('touchmove', (e) => {
+      if (!pressTimer) return;
+      const t = e.touches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (dx * dx + dy * dy > 100) {
+        cancelTimer();
+        pendingCopyText = null;
+      }
+    }, { passive: true });
+
+    entryDiv.addEventListener('touchend', () => {
+      cancelTimer();
+      doCopy();
+    }, { passive: true });
+
+    entryDiv.addEventListener('touchcancel', () => {
+      cancelTimer();
+      pendingCopyText = null;
+    });
+
+    // ── Pointer events (desktop/mouse only) ────────────────────────────────
+    // Guard with pointerType check so touch devices don't double-fire.
     entryDiv.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'touch') return;
       if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
       startX = e.clientX;
       startY = e.clientY;
@@ -276,43 +344,33 @@ export class WorkoutLogViewer {
       pressTimer = setTimeout(() => {
         pressTimer = null;
         entryDiv.classList.remove('pressing');
-
-        const lines = [`${entry.date}: ${entry.shortcutName || entry.type}`];
-        entry.getAllTags().forEach(tag => {
-          const comment = tag.comment ? ` -- ${tag.comment}` : '';
-          lines.push(`${tag.tag}: ${tag.value}${comment}`);
-        });
-        // Store text — actual clipboard write happens in pointerup (user gesture context on iOS)
-        pendingCopyText = lines.join('\n');
+        pendingCopyText = buildCopyText();
       }, 600);
     });
 
     entryDiv.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
       if (!pressTimer) return;
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
-      if (dx * dx + dy * dy > 100) cancelPress(); // 10px radius
+      if (dx * dx + dy * dy > 100) {
+        cancelTimer();
+        pendingCopyText = null;
+      }
     });
 
-    entryDiv.addEventListener('pointerup', () => {
-      const textToCopy = pendingCopyText;
-      cancelPress();
-      if (!textToCopy) return;
-
-      // pointerup is a user gesture event — clipboard API works on iOS here
-      (navigator.clipboard
-        ? navigator.clipboard.writeText(textToCopy)
-        : Promise.reject()
-      ).catch(() => copyToClipboard(textToCopy));
-
-      const toast = document.createElement('div');
-      toast.className = 'copy-toast';
-      toast.textContent = 'Copied to clipboard';
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 1000);
+    entryDiv.addEventListener('pointerup', (e) => {
+      if (e.pointerType === 'touch') return;
+      cancelTimer();
+      doCopy();
     });
 
-    entryDiv.addEventListener('pointercancel', cancelPress);
+    entryDiv.addEventListener('pointercancel', (e) => {
+      if (e.pointerType === 'touch') return;
+      cancelTimer();
+      pendingCopyText = null;
+    });
+
     entryDiv.addEventListener('contextmenu', (e) => e.preventDefault());
 
     return entryDiv;
