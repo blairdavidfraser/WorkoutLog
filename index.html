@@ -47,21 +47,30 @@
           <div class="graphs-container">
             <div class="graph-card" id="weight-card">
               <h3 class="graph-card-title">
-                <button class="graph-collapse-btn" data-target="weight-body">▼</button>
+                <button class="graph-collapse-btn" data-target="weight-body">▶</button>
                 Weight Trend
               </h3>
-              <div class="graph-card-body" id="weight-body">
+              <div class="graph-card-body collapsed" id="weight-body">
                 <canvas id="weight-chart"></canvas>
               </div>
             </div>
             <div class="graph-card" id="waist-card">
               <h3 class="graph-card-title">
-                <button class="graph-collapse-btn" data-target="waist-body">▼</button>
+                <button class="graph-collapse-btn" data-target="waist-body">▶</button>
                 Waist Trend
               </h3>
-              <div class="graph-card-body" id="waist-body">
+              <div class="graph-card-body collapsed" id="waist-body">
                 <canvas id="waist-chart"></canvas>
               </div>
+            </div>
+          </div>
+          <hr class="dashboard-divider">
+          <div class="graph-card" id="plan-card">
+            <h3 class="graph-card-title" id="plan-header">
+              <button id="plan-collapse-btn" class="plan-collapse-btn">▶</button>
+              Planned Workouts
+            </h3>
+            <div class="graph-card-body collapsed" id="plan-body">
             </div>
           </div>
         </div>

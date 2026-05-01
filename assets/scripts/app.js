@@ -5,6 +5,9 @@ import { Dashboard } from './Dashboard.js';
 import { Persistence } from './Persistence.js';
 import { EntryModal } from './EntryModal.js';
 import { GitHub } from './GitHub.js';
+import { PlanWidget } from './PlanWidget.js';
+import { WorkoutEntry } from './WorkoutEntry.js';
+import { TagData } from './Utilities.js';
 
 /**
  * Main Application Controller
@@ -13,6 +16,7 @@ class App {
   constructor() {
     this.persistence = new Persistence();
     this.github = new GitHub();
+    this.planWidget = new PlanWidget();
     this.workoutLog = null;
     this.viewer = null;
     this.editor = null;
@@ -41,6 +45,11 @@ class App {
 
     // Render initial view
     this.renderDashboard();
+    this.planWidget.init();
+    this.planWidget.onDone = (planEntry) => {
+      this.switchView('workout-log');
+      this.openModalForPlanEntry(planEntry);
+    };
 
     // Initialize workout-log to view mode state
     this.enterViewMode(false);
@@ -353,6 +362,16 @@ class App {
         if (searchDropdown.classList.contains('show')) positionDropdown();
       });
     }
+  }
+
+  openModalForPlanEntry(planEntry) {
+    if (!planEntry.type || planEntry.type === 'Rest Day') return;
+    const tags = [];
+    if (planEntry.focus) tags.push(new TagData('Focus', planEntry.focus, ''));
+    if (planEntry.rpe != null) tags.push(new TagData('RPE', String(planEntry.rpe), ''));
+    if (planEntry.notes) tags.push(new TagData('Notes', planEntry.notes, ''));
+    const entry = WorkoutEntry.createSubclass(planEntry.date, planEntry.type, tags);
+    this.openModalForEntry(entry);
   }
 
   openModalForEntry(entry) {
