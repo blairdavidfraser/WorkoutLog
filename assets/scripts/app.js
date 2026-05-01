@@ -4,6 +4,7 @@ import { WorkoutLogEditor } from './WorkoutLogEditor.js';
 import { Dashboard } from './Dashboard.js';
 import { Persistence } from './Persistence.js';
 import { EntryModal } from './EntryModal.js';
+import { GitHub } from './GitHub.js';
 
 /**
  * Main Application Controller
@@ -11,6 +12,7 @@ import { EntryModal } from './EntryModal.js';
 class App {
   constructor() {
     this.persistence = new Persistence();
+    this.github = new GitHub();
     this.workoutLog = null;
     this.viewer = null;
     this.editor = null;
@@ -138,11 +140,37 @@ class App {
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const hamburgerDropdown = document.getElementById('hamburger-dropdown');
     const hamburgerModeBtn = document.getElementById('hamburger-mode-btn');
+    const hamburgerGithubBtn = document.getElementById('hamburger-github-btn');
 
     if (hamburgerBtn) {
       hamburgerBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         hamburgerDropdown.classList.toggle('show');
+      });
+    }
+
+    if (hamburgerGithubBtn) {
+      hamburgerGithubBtn.addEventListener('click', async () => {
+        hamburgerDropdown.classList.remove('show');
+
+        if (!this.github.isConfigured()) {
+          const saved = await this.github.showConfigModal();
+          if (!saved) return;
+        }
+
+        hamburgerGithubBtn.disabled = true;
+        hamburgerGithubBtn.textContent = '⏳ Uploading…';
+        try {
+          const content = await this.persistence.loadWorkoutLog();
+          await this.github.upload(content);
+          this.showToast('Uploaded to GitHub ✓');
+        } catch (err) {
+          const retry = confirm(`GitHub upload failed: ${err.message}\n\nUpdate GitHub settings?`);
+          if (retry) await this.github.showConfigModal();
+        } finally {
+          hamburgerGithubBtn.disabled = false;
+          hamburgerGithubBtn.textContent = '⬆️ GitHub';
+        }
       });
     }
 
@@ -374,6 +402,16 @@ class App {
         this.viewer.goBack();
       });
     }
+  }
+
+  showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'copy-toast';
+    const viewerEl = document.getElementById('viewer-content');
+    toast.style.top = (viewerEl ? viewerEl.getBoundingClientRect().top + 12 : 80) + 'px';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1500);
   }
 }
 
