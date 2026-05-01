@@ -115,7 +115,7 @@ body {
   display: none;
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-xl) var(--spacing-xl) calc(var(--spacing-xl) * 2);
+  padding: var(--spacing-xl);
 }
 
 .view.active {
@@ -247,7 +247,7 @@ canvas {
 /* ========== Viewer ========== */
 .viewer-container {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 auto var(--spacing-xl);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -374,7 +374,7 @@ canvas {
 .viewer-content {
   background: white;
   border-radius: var(--radius-lg);
-  padding: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xl);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow-y: auto;
   flex: 1;
@@ -480,7 +480,7 @@ canvas {
 }
 
 .log-entry-text.day-stripe-even {
-  background-color: var(--light-gray);
+  background-color: #e0e0e0;
 }
 
 
@@ -839,9 +839,6 @@ canvas {
   grid-column: 3 / 5;
 }
 
-.form-table .empty-cell {
-  /* For fields that don't need comments */
-}
 
 .comment-btn-cell {
   display: flex;

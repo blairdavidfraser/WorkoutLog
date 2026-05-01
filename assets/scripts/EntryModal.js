@@ -2,6 +2,17 @@ import { TagData } from './Utilities.js';
 import { WorkoutEntry, StrengthWorkoutEntry } from './WorkoutEntry.js';
 import { formatEntry } from './EntryFormatter.js';
 
+function showToast(message) {
+  const viewerEl = document.getElementById('viewer-content');
+  const top = viewerEl ? viewerEl.getBoundingClientRect().top + 12 : 80;
+  const toast = document.createElement('div');
+  toast.className = 'copy-toast';
+  toast.style.top = top + 'px';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 1500);
+}
+
 /**
  * EntryModal - Handles entry creation modals
  */
@@ -165,11 +176,6 @@ export class EntryModal {
             overlay.remove();
         });
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.remove();
-            }
-        });
     }
 
     saveDailyEntry(formData, selectedDate, overlay, existingEntry = null) {
@@ -360,11 +366,6 @@ export class EntryModal {
             overlay.remove();
         });
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.remove();
-            }
-        });
     }
 
     saveCardioEntry(formData, selectedDate, activityType, overlay, existingEntry = null) {
@@ -621,11 +622,6 @@ export class EntryModal {
             overlay.remove();
         });
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.remove();
-            }
-        });
     }
 
     saveStrengthEntry(topData, exerciseData, selectedDate, overlay, notesInput, existingEntry = null) {
@@ -778,9 +774,6 @@ export class EntryModal {
             overlay.remove();
         });
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) overlay.remove();
-        });
     }
 
     saveNutritionEntry(formData, selectedDate, overlay, existingEntry = null) {
@@ -907,11 +900,6 @@ export class EntryModal {
             overlay.remove();
         });
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.remove();
-            }
-        });
     }
 
     showCommentPopup(btn) {
@@ -1031,7 +1019,7 @@ export class EntryModal {
             this.editor.textarea.setSelectionRange(startPos, startPos + newContent.length);
             this.editor.textarea.scrollTop = this.editor.textarea.scrollHeight;
 
-            alert('Entry updated successfully!');
+            showToast('Saved to Workout Log');
             if (this.onSaved) await this.onSaved();
         } catch (error) {
             console.error('Error updating entry:', error);
@@ -1184,7 +1172,7 @@ export class EntryModal {
             // Scroll textarea to show the new entry
             this.editor.textarea.scrollTop = this.editor.textarea.scrollHeight;
 
-            alert('Entry added successfully!');
+            showToast('Saved to Workout Log');
             if (this.onSaved) await this.onSaved();
         } catch (error) {
             console.error('Error saving entry:', error);
