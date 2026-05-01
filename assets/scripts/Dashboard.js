@@ -14,9 +14,22 @@ export class Dashboard {
     const container = document.querySelector('.dashboard-container');
     if (!container) return;
 
+    this.setupCollapse();
     this.renderWeightChart(this.currentPeriod);
     this.renderWaistChart(this.currentPeriod);
-    this.renderRPEChart(this.currentPeriod);
+  }
+
+  setupCollapse() {
+    document.querySelectorAll('.graph-collapse-btn').forEach(btn => {
+      if (btn.dataset.collapseReady) return;
+      btn.dataset.collapseReady = '1';
+      btn.addEventListener('click', () => {
+        const body = document.getElementById(btn.dataset.target);
+        if (!body) return;
+        const collapsed = body.classList.toggle('collapsed');
+        btn.textContent = collapsed ? '▶' : '▼';
+      });
+    });
   }
 
   renderWeightChart(days) {
@@ -25,7 +38,8 @@ export class Dashboard {
 
     const data = this.workoutLog.getWeightHistory(days);
     if (data.length === 0) {
-      canvas.parentElement.innerHTML = '<p style="text-align: center; color: #999;">No weight data available.</p>';
+      const body = document.getElementById('weight-body');
+      if (body) body.innerHTML = '<p style="text-align: center; color: #999;">No weight data available.</p>';
       return;
     }
 
@@ -48,7 +62,8 @@ export class Dashboard {
 
     const data = this.workoutLog.getWaistHistory(days);
     if (data.length === 0) {
-      canvas.parentElement.innerHTML = '<p style="text-align: center; color: #999;">No waist data available.</p>';
+      const body = document.getElementById('waist-body');
+      if (body) body.innerHTML = '<p style="text-align: center; color: #999;">No waist data available.</p>';
       return;
     }
 
@@ -62,140 +77,6 @@ export class Dashboard {
       `${days}-Day Average: ${average ? average.toFixed(1) : 'N/A'} in`,
       '#ffb74d'
     );
-  }
-
-  renderRPEChart(days) {
-    const canvas = document.getElementById('rpe-chart');
-    if (!canvas) return;
-
-    // Get workouts for the period grouped by date
-    const lastNDays = this.workoutLog.getLastNDays(days);
-    const workouts = lastNDays.filter(e => 
-      e.getRPE && typeof e.getRPE === 'function'
-    );
-
-    if (workouts.length === 0) {
-      canvas.parentElement.innerHTML = '<p style="text-align: center; color: #999;">No workout data available.</p>';
-      return;
-    }
-
-    // Group by date and activity type
-    const byDateActivity = {};
-    workouts.forEach(w => {
-      if (!byDateActivity[w.date]) {
-        byDateActivity[w.date] = {};
-      }
-      if (!byDateActivity[w.date][w.type]) {
-        byDateActivity[w.date][w.type] = [];
-      }
-      const rpe = w.getRPE();
-      if (rpe !== null) {
-        byDateActivity[w.date][w.type].push(rpe);
-      }
-    });
-
-    const dates = Object.keys(byDateActivity).sort();
-    const activityTypes = [...new Set(workouts.map(w => w.type))];
-    const activityColors = {
-      'Run': '#ff9800',
-      'Swim': '#01579b',
-      'Cycle': '#d32f2f',
-      'Row': '#0277bd',
-      'Erg': '#757575',
-      'Strength': '#d32f2f',
-      'Yoga': '#ffb74d'
-    };
-
-    const ctx = canvas.getContext('2d');
-    this.drawRPEChart(ctx, canvas, dates, byDateActivity, activityTypes, activityColors);
-  }
-
-  drawRPEChart(ctx, canvas, dates, byDateActivity, activityTypes, activityColors) {
-    const width = canvas.offsetWidth;
-    const height = canvas.offsetHeight;
-    const padding = { top: 60, right: 40, bottom: 40, left: 50 };
-    const legendHeight = 30;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    ctx.fillStyle = '#fafafa';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw title
-    ctx.font = 'bold 14px sans-serif';
-    ctx.fillStyle = '#d32f2f';
-    ctx.fillText('RPE by Activity', padding.left, 25);
-
-    const chartWidth = canvas.width - padding.left - padding.right;
-    const chartHeight = canvas.height - padding.top - padding.bottom - legendHeight;
-
-    // Draw legend
-    let legendX = padding.left;
-    const legendY = canvas.height - padding.bottom - legendHeight + 5;
-    ctx.font = '11px sans-serif';
-    ctx.fillStyle = '#212121';
-
-    activityTypes.forEach(type => {
-      const color = activityColors[type] || '#999';
-      
-      // Color box
-      ctx.fillStyle = color;
-      ctx.fillRect(legendX, legendY - 10, 12, 12);
-      
-      // Label
-      ctx.fillStyle = '#212121';
-      ctx.textAlign = 'left';
-      ctx.fillText(type, legendX + 18, legendY - 2);
-      
-      legendX += 120;
-    });
-
-    // Draw grid
-    ctx.strokeStyle = '#e0e0e0';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 5; i++) {
-      const y = padding.top + (chartHeight / 5) * i;
-      ctx.beginPath();
-      ctx.moveTo(padding.left, y);
-      ctx.lineTo(canvas.width - padding.right, y);
-      ctx.stroke();
-    }
-
-    // Draw y-axis labels
-    ctx.font = '11px sans-serif';
-    ctx.fillStyle = '#666';
-    ctx.textAlign = 'right';
-    for (let i = 0; i <= 5; i++) {
-      const rpe = 10 - (i * 2);
-      const y = padding.top + (chartHeight / 5) * i;
-      ctx.fillText(rpe, padding.left - 10, y + 4);
-    }
-
-    // Draw bars
-    const barWidth = chartWidth / (dates.length || 1);
-    const barGroupWidth = barWidth * 0.8;
-    const barWidthPerActivity = barGroupWidth / (activityTypes.length || 1);
-
-    dates.forEach((date, dateIndex) => {
-      const activities = byDateActivity[date];
-      let activityIndex = 0;
-
-      activityTypes.forEach(type => {
-        if (activities[type]) {
-          const avgRPE = activities[type].reduce((a, b) => a + b, 0) / activities[type].length;
-          const barHeight = (avgRPE / 10) * chartHeight;
-          const x = padding.left + (dateIndex * barWidth) + (barGroupWidth - barWidthPerActivity * activityTypes.length) / 2 + (activityIndex * barWidthPerActivity);
-          const y = padding.top + chartHeight - barHeight;
-
-          const color = activityColors[type] || '#999';
-          ctx.fillStyle = color;
-          ctx.fillRect(x, y, barWidthPerActivity - 2, barHeight);
-        }
-
-        activityIndex++;
-      });
-    });
   }
 
   drawLineChart(ctx, canvas, values, title, color) {

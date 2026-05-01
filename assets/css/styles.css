@@ -235,8 +235,28 @@ button {
 
 .graph-card h3 {
   color: var(--primary-red);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
   font-size: 1.25rem;
+}
+
+.graph-card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.graph-collapse-btn {
+  background: none;
+  border: none;
+  color: var(--primary-red);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.graph-card-body.collapsed {
+  display: none;
 }
 
 canvas {
