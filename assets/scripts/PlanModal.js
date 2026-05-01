@@ -54,12 +54,14 @@ export class PlanModal {
       focusInput.placeholder = 'Easy aerobic, Tempo…';
       focusInput.value = entry?.focus || '';
 
-      const rpeInput = makeField('Target RPE (1–10)', document.createElement('input'));
-      rpeInput.type = 'number';
-      rpeInput.min = '1';
-      rpeInput.max = '10';
-      rpeInput.placeholder = '6';
-      rpeInput.value = entry?.rpe ?? '';
+      const rpeInput = makeField('Target RPE', document.createElement('select'));
+      ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v || '–';
+        if (String(entry?.rpe ?? '') === v) opt.selected = true;
+        rpeInput.appendChild(opt);
+      });
 
       const notesInput = makeField('Notes', document.createElement('input'));
       notesInput.type = 'text';
@@ -68,11 +70,10 @@ export class PlanModal {
 
       const applyRestDay = (isRest) => {
         if (isRest) {
-          rpeInput.value = 1;
+          rpeInput.value = '1';
           rpeInput.disabled = true;
         } else {
           rpeInput.disabled = false;
-          if (rpeInput.value === '1' && entry?.type !== 'Rest Day') rpeInput.value = '';
         }
       };
 

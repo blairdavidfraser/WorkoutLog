@@ -186,10 +186,13 @@ button {
 .period-btn {
   background-color: var(--light-gray);
   color: var(--text-dark);
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: 0.3rem 0.9rem;
   border-radius: var(--radius-md);
   border: 2px solid var(--medium-gray);
+  font-size: 1rem;
   font-weight: 500;
+  line-height: 1.6;
+  box-sizing: border-box;
 }
 
 .period-btn.active {
@@ -243,32 +246,11 @@ button {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  cursor: pointer;
+}
+
+#plan-header {
+  cursor: default;
   user-select: none;
-}
-
-.graph-collapse-btn {
-  background: none;
-  border: none;
-  color: var(--primary-red);
-  cursor: pointer;
-  font-size: 0.85rem;
-  padding: 0;
-  line-height: 1;
-}
-
-.graph-card-body.collapsed {
-  display: none;
-}
-
-.plan-collapse-btn {
-  background: none;
-  border: none;
-  color: var(--primary-red);
-  cursor: pointer;
-  font-size: 0.85rem;
-  padding: 0;
-  line-height: 1;
 }
 
 .plan-rows {

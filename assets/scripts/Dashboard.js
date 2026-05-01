@@ -14,29 +14,8 @@ export class Dashboard {
     const container = document.querySelector('.dashboard-container');
     if (!container) return;
 
-    this.setupCollapse();
     this.renderWeightChart(this.currentPeriod);
     this.renderWaistChart(this.currentPeriod);
-  }
-
-  setupCollapse() {
-    document.querySelectorAll('.graph-card-title').forEach(title => {
-      if (title.dataset.collapseReady) return;
-      const btn = title.querySelector('.graph-collapse-btn');
-      if (!btn) return; // skip plan-header which uses plan-collapse-btn
-      title.dataset.collapseReady = '1';
-      const targetId = btn.dataset.target;
-      title.addEventListener('click', () => {
-        const body = document.getElementById(targetId);
-        if (!body) return;
-        const collapsed = body.classList.toggle('collapsed');
-        btn.textContent = collapsed ? '▶' : '▼';
-        if (!collapsed) {
-          if (targetId === 'weight-body') this.renderWeightChart(this.currentPeriod);
-          else if (targetId === 'waist-body') this.renderWaistChart(this.currentPeriod);
-        }
-      });
-    });
   }
 
   renderWeightChart(days) {

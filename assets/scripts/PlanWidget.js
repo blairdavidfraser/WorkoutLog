@@ -16,15 +16,6 @@ export class PlanWidget {
     if (!header || header.dataset.ready) return;
     header.dataset.ready = '1';
 
-    const doToggle = () => {
-      const body = document.getElementById('plan-body');
-      const btn = document.getElementById('plan-collapse-btn');
-      if (!body) return;
-      const collapsed = body.classList.toggle('collapsed');
-      if (btn) btn.textContent = collapsed ? '▶' : '▼';
-      if (!collapsed) this.render();
-    };
-
     const doCopy = () => {
       if (!this.entries.length) this.entries = this.planLog.getNextSevenDays();
       const lines = ['# Planned workouts for next 7 days', ''];
@@ -40,33 +31,21 @@ export class PlanWidget {
       this.showToast('Copied to Clipboard');
     };
 
-    // Desktop: single click toggles (delayed to let dblclick fire first)
-    let clickTimer = null;
-    header.addEventListener('click', () => {
-      if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; return; }
-      clickTimer = setTimeout(() => { clickTimer = null; doToggle(); }, 250);
-    });
     header.addEventListener('dblclick', doCopy);
 
-    // Touch: single tap toggles (delayed), double tap copies
     let lastTap = 0;
-    let tapTimer = null;
     header.addEventListener('touchend', () => {
       const now = Date.now();
-      if (now - lastTap < 350) {
-        lastTap = 0;
-        if (tapTimer) { clearTimeout(tapTimer); tapTimer = null; }
-        doCopy();
-      } else {
-        lastTap = now;
-        tapTimer = setTimeout(() => { tapTimer = null; doToggle(); }, 350);
-      }
+      if (now - lastTap < 350) { lastTap = 0; doCopy(); }
+      else { lastTap = now; }
     }, { passive: true });
+
+    this.render();
   }
 
   render() {
     const body = document.getElementById('plan-body');
-    if (!body || body.classList.contains('collapsed')) return;
+    if (!body) return;
 
     this.entries = this.planLog.getNextSevenDays();
     body.innerHTML = '';
@@ -114,7 +93,6 @@ export class PlanWidget {
   }
 
   attachRowEvents(row, entry, index) {
-    let lastTap = 0;
     let touchStartY = 0;
     let isTouchDragging = false;
     let ghost = null;
@@ -129,7 +107,7 @@ export class PlanWidget {
       }
     };
 
-    row.addEventListener('dblclick', openModal);
+    row.addEventListener('click', openModal);
 
     row.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
@@ -186,10 +164,7 @@ export class PlanWidget {
         isTouchDragging = false;
         return;
       }
-      // Double-tap to edit
-      const now = Date.now();
-      if (now - lastTap < 350) { lastTap = 0; openModal(); }
-      else { lastTap = now; }
+      openModal();
     }, { passive: true });
 
     // Desktop drag-and-drop
