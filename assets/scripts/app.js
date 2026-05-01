@@ -47,7 +47,7 @@ class App {
     this.renderDashboard();
     this.planWidget.init();
     this.planWidget.onDone = (planEntry) => {
-      this.switchView('workout-log');
+      this.switchView('history');
       this.openModalForPlanEntry(planEntry);
     };
 
@@ -94,7 +94,10 @@ class App {
       case 'dashboard':
         this.renderDashboard();
         break;
-      case 'workout-log':
+      case 'planning':
+        this.planWidget.render();
+        break;
+      case 'history':
         this.enterViewMode();
         break;
     }
@@ -192,8 +195,8 @@ class App {
     if (hamburgerModeBtn) {
       hamburgerModeBtn.addEventListener('click', () => {
         const goToEdit = this.logMode === 'view';
-        if (this.currentView !== 'workout-log') {
-          this.switchView('workout-log');
+        if (this.currentView !== 'history') {
+          this.switchView('history');
         }
         if (goToEdit) {
           this.enterEditMode();
@@ -216,7 +219,7 @@ class App {
       this.editor.originalText = logText;
       this.editor.textarea.value = logText;
       this.editor.populateTagSuggestions();
-      if (this.currentView === 'workout-log' && this.logMode === 'view') this.viewer.render();
+      if (this.currentView === 'history' && this.logMode === 'view') this.viewer.render();
       if (this.currentView === 'dashboard') this.dashboard.render();
     };
 
@@ -323,7 +326,7 @@ class App {
           this.viewer.filteredActivityType = null;
           this.viewer.filteredDate = null;
         }
-        if (this.currentView === 'workout-log' && this.logMode === 'view') {
+        if (this.currentView === 'history' && this.logMode === 'view') {
           this.viewer.render();
           this.viewer.showBackButton(this.viewer.filteredTag || this.viewer.filteredActivityType || this.viewer.filteredDate);
         }

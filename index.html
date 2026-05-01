@@ -30,7 +30,8 @@
       </div>
       <div class="nav-tabs">
         <button class="nav-tab active" data-view="dashboard">Dashboard</button>
-        <button class="nav-tab" data-view="workout-log">Workout Log</button>
+        <button class="nav-tab" data-view="planning">Planning</button>
+        <button class="nav-tab" data-view="history">History</button>
       </div>
     </nav>
 
@@ -58,17 +59,24 @@
               </div>
             </div>
           </div>
-          <hr class="dashboard-divider">
-          <div class="graph-card" id="plan-card">
-            <h3 class="graph-card-title" id="plan-header">Planned Workouts</h3>
-            <div class="graph-card-body" id="plan-body">
+        </div>
+      </section>
+
+      <!-- Planning View -->
+      <section id="planning" class="view">
+        <div class="viewer-container">
+          <div class="viewer-header">
+            <div class="viewer-actions" style="flex:1">
+              <button id="plan-copy-btn" class="add-entry-btn" style="width:100%">Copy to Clipboard</button>
             </div>
+          </div>
+          <div id="plan-content" class="viewer-content">
           </div>
         </div>
       </section>
 
-      <!-- Workout Log (View + Edit combined) -->
-      <section id="workout-log" class="view">
+      <!-- History (View + Edit combined) -->
+      <section id="history" class="view">
         <div class="viewer-container">
           <div class="viewer-header">
             <div class="search-bar" id="viewer-search-bar">

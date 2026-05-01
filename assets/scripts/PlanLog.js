@@ -17,7 +17,7 @@ export class PlanLog {
     localStorage.setItem(PLAN_KEY, JSON.stringify(entries));
   }
 
-  getNextSevenDays() {
+  getPlannedDays() {
     const stored = this.load();
     const byDate = {};
     stored.forEach(e => { if (e.date) byDate[e.date] = e; });
@@ -26,7 +26,7 @@ export class PlanLog {
     today.setHours(0, 0, 0, 0);
 
     const result = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 14; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
       const ds = toDateString(d);

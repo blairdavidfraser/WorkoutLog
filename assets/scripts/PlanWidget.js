@@ -12,42 +12,32 @@ export class PlanWidget {
   }
 
   init() {
-    const header = document.getElementById('plan-header');
-    if (!header || header.dataset.ready) return;
-    header.dataset.ready = '1';
+    const copyBtn = document.getElementById('plan-copy-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => this.copyToClipboard());
+    }
+  }
 
-    const doCopy = () => {
-      if (!this.entries.length) this.entries = this.planLog.getNextSevenDays();
-      const lines = ['# Planned workouts for next 7 days', ''];
-      this.entries.forEach(e => {
-        if (!e.type) { lines.push(`${e.date}: —`); return; }
-        let line = `${e.date}: ${e.type}`;
-        if (e.focus) line += ` | Focus: ${e.focus}`;
-        if (e.rpe != null) line += ` | RPE: ${e.rpe}`;
-        if (e.notes) line += ` | Notes: ${e.notes}`;
-        lines.push(line);
-      });
-      navigator.clipboard.writeText(lines.join('\n')).catch(() => {});
-      this.showToast('Copied to Clipboard');
-    };
-
-    header.addEventListener('dblclick', doCopy);
-
-    let lastTap = 0;
-    header.addEventListener('touchend', () => {
-      const now = Date.now();
-      if (now - lastTap < 350) { lastTap = 0; doCopy(); }
-      else { lastTap = now; }
-    }, { passive: true });
-
-    this.render();
+  copyToClipboard() {
+    if (!this.entries.length) this.entries = this.planLog.getPlannedDays();
+    const lines = ['# Planned workouts for next 14 days', ''];
+    this.entries.forEach(e => {
+      if (!e.type) { lines.push(`${e.date}: —`); return; }
+      let line = `${e.date}: ${e.type}`;
+      if (e.focus) line += ` | Focus: ${e.focus}`;
+      if (e.rpe != null) line += ` | RPE: ${e.rpe}`;
+      if (e.notes) line += ` | Notes: ${e.notes}`;
+      lines.push(line);
+    });
+    navigator.clipboard.writeText(lines.join('\n')).catch(() => {});
+    this.showToast('Copied to Clipboard');
   }
 
   render() {
-    const body = document.getElementById('plan-body');
+    const body = document.getElementById('plan-content');
     if (!body) return;
 
-    this.entries = this.planLog.getNextSevenDays();
+    this.entries = this.planLog.getPlannedDays();
     body.innerHTML = '';
 
     const rows = document.createElement('div');
