@@ -63,7 +63,7 @@ export class PlanWidget {
     };
 
     row.appendChild(make('plan-date', label));
-    row.appendChild(make('plan-type', entry.type || '–'));
+    row.appendChild(make('plan-type', entry.type || '-----'));
     row.appendChild(make('plan-focus', entry.focus || ''));
     row.appendChild(make('plan-rpe', entry.rpe != null ? `RPE ${entry.rpe}` : ''));
 
@@ -83,7 +83,6 @@ export class PlanWidget {
 
     const handle = document.createElement('span');
     handle.className = 'plan-drag-handle';
-    handle.textContent = '< >';
     handle.addEventListener('click', (e) => e.stopPropagation());
     actionsCell.appendChild(handle);
 
@@ -109,12 +108,17 @@ export class PlanWidget {
       }
     };
 
-    row.addEventListener('click', openModal);
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.plan-date, .plan-type')) openModal();
+    });
+
+    let touchOnClickable = false;
 
     row.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
       isTouchDragging = false;
       touchOnHandle = handle.contains(e.target) || e.target === handle;
+      touchOnClickable = !!e.target.closest('.plan-date, .plan-type');
     }, { passive: true });
 
     row.addEventListener('touchmove', (e) => {
@@ -172,8 +176,9 @@ export class PlanWidget {
         return;
       }
       const wasOnHandle = touchOnHandle;
+      const wasOnClickable = touchOnClickable;
       cleanupTouch();
-      if (!wasOnHandle) openModal();
+      if (!wasOnHandle && wasOnClickable) openModal();
     }, { passive: true });
 
     row.addEventListener('touchcancel', cleanupTouch, { passive: true });

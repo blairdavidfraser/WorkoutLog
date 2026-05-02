@@ -273,29 +273,38 @@ button {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+  align-self: stretch;
 }
 
 .plan-drag-handle {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: grab;
-  color: #666;
-  font-size: 0.75rem;
-  font-weight: 700;
-  width: 28px;
-  height: 28px;
-  background: #e8e8e8;
-  border-radius: var(--radius-sm);
+  color: #999;
+  font-size: 0.55rem;
+  width: 12px;
+  align-self: stretch;
+  background: #e0e0e0;
+  border-radius: 3px;
   user-select: none;
-  transform: rotate(90deg);
-  letter-spacing: -0.15em;
   flex-shrink: 0;
+}
+
+.plan-drag-handle::before {
+  content: '∧';
+  line-height: 1;
+}
+
+.plan-drag-handle::after {
+  content: '∨';
+  line-height: 1;
 }
 
 .plan-drag-handle:active {
   cursor: grabbing;
-  background: #d4d4d4;
+  background: #cacaca;
 }
 
 .plan-done-btn {
