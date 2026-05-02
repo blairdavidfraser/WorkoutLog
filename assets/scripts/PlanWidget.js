@@ -1,5 +1,6 @@
 import { PlanLog } from './PlanLog.js';
 import { PlanModal } from './PlanModal.js';
+import { weatherService, buildWeatherWidget } from './WeatherService.js';
 
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -105,15 +106,18 @@ export class PlanWidget {
 
     row.addEventListener('click', (e) => {
       if (e.target.closest('.plan-type')) openModal();
+      else if (e.target.closest('.plan-date')) this.showWeatherModal(entry.date);
     });
 
     let touchOnClickable = false;
+    let touchOnDate = false;
 
     row.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
       isTouchDragging = false;
       touchOnHandle = handle.contains(e.target) || e.target === handle;
       touchOnClickable = !!e.target.closest('.plan-type');
+      touchOnDate = !!e.target.closest('.plan-date');
     }, { passive: true });
 
     row.addEventListener('touchmove', (e) => {
@@ -172,8 +176,10 @@ export class PlanWidget {
       }
       const wasOnHandle = touchOnHandle;
       const wasOnClickable = touchOnClickable;
+      const wasOnDate = touchOnDate;
       cleanupTouch();
       if (!wasOnHandle && wasOnClickable) openModal();
+      else if (!wasOnHandle && wasOnDate) this.showWeatherModal(entry.date);
     }, { passive: true });
 
     row.addEventListener('touchcancel', cleanupTouch, { passive: true });
@@ -218,6 +224,55 @@ export class PlanWidget {
     this.entries = dates.map((date, i) => ({ date, ...workouts[i] }));
     this.planLog.save(this.entries);
     this.render();
+  }
+
+  async showWeatherModal(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    const label = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.addEventListener('click', () => overlay.remove());
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.cssText = 'max-width:260px;padding:var(--spacing-md);text-align:center';
+    modal.addEventListener('click', e => e.stopPropagation());
+
+    const title = document.createElement('div');
+    title.style.cssText = 'font-weight:600;font-size:0.95rem;margin-bottom:var(--spacing-sm);color:var(--primary-red)';
+    title.textContent = label;
+    modal.appendChild(title);
+
+    const loading = document.createElement('div');
+    loading.className = 'weather-widget weather-widget--loading';
+    loading.textContent = '⛅ Loading…';
+    modal.appendChild(loading);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'btn-secondary';
+    closeBtn.style.cssText = 'margin-top:var(--spacing-sm);padding:0.25rem 0.9rem;font-size:0.9rem;width:100%';
+    closeBtn.textContent = 'Close';
+    closeBtn.addEventListener('click', () => overlay.remove());
+    modal.appendChild(closeBtn);
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    try {
+      const weather = await weatherService.getWeatherForDate(dateStr);
+      modal.replaceChild(
+        weather ? buildWeatherWidget(weather) : (() => {
+          const msg = document.createElement('div');
+          msg.className = 'weather-widget weather-widget--loading';
+          msg.textContent = 'No forecast available.';
+          return msg;
+        })(),
+        loading
+      );
+    } catch {
+      loading.textContent = 'Weather unavailable.';
+    }
   }
 
   showToast(message) {

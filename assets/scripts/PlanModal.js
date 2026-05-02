@@ -1,3 +1,5 @@
+import { weatherService, buildWeatherWidget } from './WeatherService.js';
+
 const ACTIVITY_TYPES = ['Rest Day', 'Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga', 'Strength', 'Daily', 'Nutrition'];
 const UNASSIGNED = '';
 
@@ -19,6 +21,22 @@ export class PlanModal {
       header.style.cssText = 'font-size:1.2rem;margin-bottom:var(--spacing-sm);padding-bottom:var(--spacing-xs)';
       header.textContent = 'Plan Workout';
       modal.appendChild(header);
+
+      const weatherHolder = document.createElement('div');
+      weatherHolder.className = 'weather-widget weather-widget--loading';
+      weatherHolder.textContent = '⛅ …';
+      modal.appendChild(weatherHolder);
+
+      if (entry?.date) {
+        weatherService.getWeatherForDate(entry.date)
+          .then(w => {
+            if (w) modal.replaceChild(buildWeatherWidget(w), weatherHolder);
+            else weatherHolder.remove();
+          })
+          .catch(() => weatherHolder.remove());
+      } else {
+        weatherHolder.remove();
+      }
 
       const currentType = entry?.type || UNASSIGNED;
 
