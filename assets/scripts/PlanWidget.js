@@ -49,7 +49,7 @@ export class PlanWidget {
 
   createRow(entry, index) {
     const row = document.createElement('div');
-    row.className = 'plan-row';
+    row.className = entry.completed ? 'plan-row plan-row--completed' : 'plan-row';
     row.draggable = true;
     row.dataset.index = index;
 
@@ -89,10 +89,12 @@ export class PlanWidget {
     let ghost = null;
 
     const openModal = async () => {
+      if (entry.completed) return;
       const result = await this.modal.show(entry);
       if (result !== null) {
         const { completed, ...data } = result;
         this.entries[index] = { ...this.entries[index], ...data };
+        if (completed) this.entries[index].completed = true;
         const completedEntry = { ...this.entries[index] };
         this.planLog.save(this.entries);
         this.render();
