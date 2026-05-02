@@ -70,17 +70,6 @@ export class PlanWidget {
     const actionsCell = document.createElement('span');
     actionsCell.className = 'plan-cell plan-row-actions';
 
-    if (index === 0 && entry.type && entry.type !== 'Rest Day') {
-      const doneBtn = document.createElement('button');
-      doneBtn.className = 'plan-done-btn';
-      doneBtn.textContent = 'Done';
-      doneBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (this.onDone) this.onDone(entry);
-      });
-      actionsCell.appendChild(doneBtn);
-    }
-
     const handle = document.createElement('span');
     handle.className = 'plan-drag-handle';
     handle.addEventListener('click', (e) => e.stopPropagation());
@@ -101,15 +90,21 @@ export class PlanWidget {
     const openModal = async () => {
       const result = await this.modal.show(entry);
       if (result !== null) {
-        this.entries[index] = { ...this.entries[index], ...result };
+        const { completed, ...data } = result;
+        this.entries[index] = { ...this.entries[index], ...data };
+        const completedEntry = { ...this.entries[index] };
         this.planLog.save(this.entries);
         this.render();
-        this.showToast('Saved to Plan');
+        if (completed && this.onDone) {
+          this.onDone(completedEntry);
+        } else {
+          this.showToast('Saved to Plan');
+        }
       }
     };
 
     row.addEventListener('click', (e) => {
-      if (e.target.closest('.plan-date, .plan-type')) openModal();
+      if (e.target.closest('.plan-type')) openModal();
     });
 
     let touchOnClickable = false;
@@ -118,7 +113,7 @@ export class PlanWidget {
       touchStartY = e.touches[0].clientY;
       isTouchDragging = false;
       touchOnHandle = handle.contains(e.target) || e.target === handle;
-      touchOnClickable = !!e.target.closest('.plan-date, .plan-type');
+      touchOnClickable = !!e.target.closest('.plan-type');
     }, { passive: true });
 
     row.addEventListener('touchmove', (e) => {
