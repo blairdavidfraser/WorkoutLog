@@ -264,9 +264,28 @@ button {
   gap: var(--spacing-sm);
   padding: var(--spacing-sm) var(--spacing-xs);
   border-bottom: 1px solid var(--medium-gray);
-  cursor: grab;
+  cursor: default;
   align-items: center;
   user-select: none;
+}
+
+.plan-row-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.plan-drag-handle {
+  cursor: grab;
+  color: var(--dark-gray);
+  font-size: 1rem;
+  padding: 0 var(--spacing-xs);
+  user-select: none;
+  line-height: 1;
+}
+
+.plan-drag-handle:active {
+  cursor: grabbing;
 }
 
 .plan-done-btn {
@@ -563,11 +582,11 @@ canvas {
 }
 
 .log-entry-text.day-stripe-odd {
-  background-color: #fafafa;
+  background-color: #f0f0f0;
 }
 
 .log-entry-text.day-stripe-even {
-  background-color: #e0e0e0;
+  background-color: #d8d8d8;
 }
 
 

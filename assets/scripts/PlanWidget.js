@@ -20,7 +20,7 @@ export class PlanWidget {
 
   copyToClipboard() {
     if (!this.entries.length) this.entries = this.planLog.getPlannedDays();
-    const lines = ['# Planned workouts for next 14 days', ''];
+    const lines = ['# Planned workouts for next 16 days', ''];
     this.entries.forEach(e => {
       if (!e.type) { lines.push(`${e.date}: —`); return; }
       let line = `${e.date}: ${e.type}`;
@@ -67,6 +67,9 @@ export class PlanWidget {
     row.appendChild(make('plan-focus', entry.focus || ''));
     row.appendChild(make('plan-rpe', entry.rpe != null ? `RPE ${entry.rpe}` : ''));
 
+    const actionsCell = document.createElement('span');
+    actionsCell.className = 'plan-cell plan-row-actions';
+
     if (index === 0 && entry.type && entry.type !== 'Rest Day') {
       const doneBtn = document.createElement('button');
       doneBtn.className = 'plan-done-btn';
@@ -75,16 +78,25 @@ export class PlanWidget {
         e.stopPropagation();
         if (this.onDone) this.onDone(entry);
       });
-      row.appendChild(doneBtn);
+      actionsCell.appendChild(doneBtn);
     }
 
-    this.attachRowEvents(row, entry, index);
+    const handle = document.createElement('span');
+    handle.className = 'plan-drag-handle';
+    handle.textContent = '⇅';
+    handle.addEventListener('click', (e) => e.stopPropagation());
+    actionsCell.appendChild(handle);
+
+    row.appendChild(actionsCell);
+
+    this.attachRowEvents(row, entry, index, handle);
     return row;
   }
 
-  attachRowEvents(row, entry, index) {
+  attachRowEvents(row, entry, index, handle) {
     let touchStartY = 0;
     let isTouchDragging = false;
+    let touchOnHandle = false;
     let ghost = null;
 
     const openModal = async () => {
@@ -102,9 +114,11 @@ export class PlanWidget {
     row.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
       isTouchDragging = false;
+      touchOnHandle = handle.contains(e.target) || e.target === handle;
     }, { passive: true });
 
     row.addEventListener('touchmove', (e) => {
+      if (!touchOnHandle) return;
       const currentY = e.touches[0].clientY;
 
       if (!isTouchDragging) {
@@ -129,14 +143,12 @@ export class PlanWidget {
         row.classList.add('dragging');
       }
 
-      if (isTouchDragging) {
-        e.preventDefault();
-        ghost.style.top = (currentY - 20) + 'px';
-        document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('drag-over'));
-        const els = document.elementsFromPoint(e.touches[0].clientX, currentY);
-        const target = els.find(el => el.classList.contains('plan-row') && el !== row && !el.classList.contains('plan-ghost'));
-        if (target) target.classList.add('drag-over');
-      }
+      e.preventDefault();
+      ghost.style.top = (currentY - 20) + 'px';
+      document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('drag-over'));
+      const els = document.elementsFromPoint(e.touches[0].clientX, currentY);
+      const target = els.find(el => el.classList.contains('plan-row') && el !== row && !el.classList.contains('plan-ghost'));
+      if (target) target.classList.add('drag-over');
     }, { passive: false });
 
     row.addEventListener('touchend', (e) => {
@@ -154,17 +166,24 @@ export class PlanWidget {
         isTouchDragging = false;
         return;
       }
+      if (touchOnHandle) return;
       openModal();
     }, { passive: true });
 
-    // Desktop drag-and-drop
+    // Desktop: drag only from handle
+    row.draggable = false;
+    handle.addEventListener('mousedown', () => { row.draggable = true; });
+
     row.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', String(index));
       e.dataTransfer.effectAllowed = 'move';
       setTimeout(() => row.classList.add('dragging'), 0);
     });
 
-    row.addEventListener('dragend', () => row.classList.remove('dragging'));
+    row.addEventListener('dragend', () => {
+      row.draggable = false;
+      row.classList.remove('dragging');
+    });
 
     row.addEventListener('dragover', (e) => {
       e.preventDefault();
