@@ -2984,7 +2984,7 @@ Pain: 1
 Focus: Easy | RPE: 2
 Distance: 5.917 | Duration: 30:00 | Power: 99
 Avg HR: 122
-Pain: 1 -- Could feel asymmetry, slight pain on RHS.
+Pain: 1 —- Could feel asymmetry, slight pain on RHS.
 Notes: Focus on slide control
 
 2026-04-21: Daily
@@ -3005,7 +3005,7 @@ Pain: 1
 Focus: Easy | RPE: 7
 Distance: 24.17 | Duration: 58:38 | Power: 125
 Avg HR: 141
-Pain: 1 -- mild back discomfort
+Pain: 1 -— mild back discomfort
 
 2026-04-23: Daily
 Weight: 189 | Waist: 34.5 
@@ -3126,13 +3126,42 @@ Energy: 3
 Pain: 2 -- Back stiffer than usual on awaking.
 
 2026-04-30: Row
-Focus: Technical  | RPE: 5
+Focus: Technical | RPE: 5
 Distance: 11.096 | Duration: 57:52
 Avg HR: 116 | Max HR: 116
 Pain: 1
-Notes: ~500m fast finish
+Notes: ~500m fast finish. Boat: Mike List. Floppy set. 
 
 2026-04-30: Nutrition
 Breakfast: Banana, 1/2 cup oatmeal/chia, 3/4 cup high protein skyr
 Lunch: Bowl with 1/2 cup zucchini shredded, 1/2 cup sweet potato noodles, two breaded slices of tofu, veggies.
-PM Snacks: 8 cheese/crackers
+Dinner: 2 eggs, 3/4 cup brown rice, 3/4 cup okra
+PM Snacks: 12 cheese/crackers
+
+2026-05-01: Daily
+Weight: 188 | Waist: 34
+Sleep: 7:22:00
+RHR: 55 | HRV: 33
+Energy: 3
+Pain: 2
+
+2026-05-01: Row
+Focus: Easy | RPE: 4
+Distance: 9.605 | Duration: 53:04
+Avg HR: 113 | Max HR: 152
+Pain: 1
+Notes: Boat: Mike List. Floppy set. 
+
+2026-05-02: Daily
+Weight: 186.2 | Waist: 34
+Sleep: 6:16:00
+RHR: 54 | HRV: 60
+Energy: 3
+Pain: 1
+
+2026-05-02: Row
+Focus: Tempo | RPE: 7
+Distance: 11.113 | Duration: 54:44
+Avg HR: 125 | Max HR: 159
+Pain: 1
+Notes: Very wavy and cold. Time trials cancelled for conditions. A few hard pieces. 
