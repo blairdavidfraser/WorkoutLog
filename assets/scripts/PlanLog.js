@@ -26,7 +26,7 @@ export class PlanLog {
     today.setHours(0, 0, 0, 0);
 
     const result = [];
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 15; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
       const ds = toDateString(d);

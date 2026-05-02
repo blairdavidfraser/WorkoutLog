@@ -262,7 +262,7 @@ button {
   display: grid;
   grid-template-columns: 80px 70px 1fr auto auto;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-xs);
+  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xs);
   border-bottom: 1px solid var(--medium-gray);
   cursor: default;
   align-items: center;
@@ -276,16 +276,26 @@ button {
 }
 
 .plan-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: grab;
-  color: var(--dark-gray);
-  font-size: 1rem;
-  padding: 0 var(--spacing-xs);
+  color: #666;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  background: #e8e8e8;
+  border-radius: var(--radius-sm);
   user-select: none;
-  line-height: 1;
+  transform: rotate(90deg);
+  letter-spacing: -0.15em;
+  flex-shrink: 0;
 }
 
 .plan-drag-handle:active {
   cursor: grabbing;
+  background: #d4d4d4;
 }
 
 .plan-done-btn {

@@ -20,9 +20,9 @@ export class PlanWidget {
 
   copyToClipboard() {
     if (!this.entries.length) this.entries = this.planLog.getPlannedDays();
-    const lines = ['# Planned workouts for next 16 days', ''];
+    const lines = ['# Planned workouts for next 15 days', ''];
     this.entries.forEach(e => {
-      if (!e.type) { lines.push(`${e.date}: —`); return; }
+      if (!e.type) return;
       let line = `${e.date}: ${e.type}`;
       if (e.focus) line += ` | Focus: ${e.focus}`;
       if (e.rpe != null) line += ` | RPE: ${e.rpe}`;
@@ -83,7 +83,7 @@ export class PlanWidget {
 
     const handle = document.createElement('span');
     handle.className = 'plan-drag-handle';
-    handle.textContent = '⇅';
+    handle.textContent = '< >';
     handle.addEventListener('click', (e) => e.stopPropagation());
     actionsCell.appendChild(handle);
 
@@ -119,6 +119,7 @@ export class PlanWidget {
 
     row.addEventListener('touchmove', (e) => {
       if (!touchOnHandle) return;
+      e.preventDefault(); // prevent page scroll when dragging from handle
       const currentY = e.touches[0].clientY;
 
       if (!isTouchDragging) {
@@ -143,7 +144,6 @@ export class PlanWidget {
         row.classList.add('dragging');
       }
 
-      e.preventDefault();
       ghost.style.top = (currentY - 20) + 'px';
       document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('drag-over'));
       const els = document.elementsFromPoint(e.touches[0].clientX, currentY);
@@ -151,24 +151,32 @@ export class PlanWidget {
       if (target) target.classList.add('drag-over');
     }, { passive: false });
 
+    const cleanupTouch = () => {
+      if (ghost) { ghost.remove(); ghost = null; }
+      row.classList.remove('dragging');
+      document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('drag-over'));
+      isTouchDragging = false;
+      touchOnHandle = false;
+    };
+
     row.addEventListener('touchend', (e) => {
       if (isTouchDragging) {
         const touch = e.changedTouches[0];
-        if (ghost) { ghost.remove(); ghost = null; }
-        row.classList.remove('dragging');
-        document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('drag-over'));
         const els = document.elementsFromPoint(touch.clientX, touch.clientY);
         const target = els.find(el => el.classList.contains('plan-row') && el !== row && !el.classList.contains('plan-ghost'));
+        cleanupTouch();
         if (target) {
           const toIndex = parseInt(target.dataset.index, 10);
           if (!isNaN(toIndex) && toIndex !== index) this.reorder(index, toIndex);
         }
-        isTouchDragging = false;
         return;
       }
-      if (touchOnHandle) return;
-      openModal();
+      const wasOnHandle = touchOnHandle;
+      cleanupTouch();
+      if (!wasOnHandle) openModal();
     }, { passive: true });
+
+    row.addEventListener('touchcancel', cleanupTouch, { passive: true });
 
     // Desktop: drag only from handle
     row.draggable = false;
