@@ -1166,12 +1166,11 @@ canvas {
   gap: var(--spacing-md);
   justify-content: flex-end;
   margin-top: var(--spacing-lg);
-  border-top: 1px solid var(--medium-gray);
   padding-top: var(--spacing-lg);
 }
 
 .modal-actions button {
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: 0.3rem 0.9rem;
   border-radius: var(--radius-md);
   font-size: 1rem;
   font-weight: 500;
