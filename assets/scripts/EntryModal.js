@@ -393,6 +393,10 @@ export class EntryModal {
         const de = field('Details');  if (de.value) tags.push(new TagData('Details',  de.value, ''));
 
         const content = formatEntry(new WorkoutEntry(selectedDate, activityType, tags));
+        if (activityType === 'Cycle Commute' && !existingEntry) {
+            this._saveOrMergeCommute(content, selectedDate, overlay);
+            return;
+        }
         if (existingEntry) {
             this.replaceAndSave(existingEntry, content, overlay);
         } else {
@@ -1137,6 +1141,45 @@ export class EntryModal {
         }).catch(err => {
             statusMsg.textContent = 'Error: ' + err.message;
         });
+    }
+
+    _parseDurationSecs(str) {
+        if (!str || str === '–') return 0;
+        const parts = str.split(':').map(Number);
+        if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+        if (parts.length === 2) return parts[0] * 60 + parts[1];
+        return 0;
+    }
+
+    async _saveOrMergeCommute(newContent, date, overlay) {
+        const logText = await this.persistence.loadWorkoutLog();
+        const blocks = logText.split(/\n{2,}/);
+        const existingBlock = blocks.find(b => b.trim().split('\n')[0] === `${date}: Cycle Commute`);
+
+        if (!existingBlock) {
+            this.appendAndSave(newContent, overlay);
+            return;
+        }
+
+        const existing = WorkoutEntry.parse(existingBlock.trim().split('\n'));
+        const incoming = WorkoutEntry.parse(newContent.split('\n'));
+
+        const mergedDist = parseFloat(existing.getTagValue('Distance') || '0')
+                         + parseFloat(incoming.getTagValue('Distance') || '0');
+        const mergedSecs = this._parseDurationSecs(existing.getTagValue('Duration'))
+                         + this._parseDurationSecs(incoming.getTagValue('Duration'));
+
+        const existNotes = existing.getTagValue('Notes') || '';
+        const countMatch = existNotes.match(/^(\d+) commutes?$/i);
+        const count = countMatch ? parseInt(countMatch[1]) + 1 : 2;
+
+        const mergedTags = [new TagData('RPE', '3', '')];
+        if (mergedDist > 0) mergedTags.push(new TagData('Distance', mergedDist.toFixed(2), ''));
+        if (mergedSecs > 0) mergedTags.push(new TagData('Duration', this._stravaFmtSecs(mergedSecs), ''));
+        mergedTags.push(new TagData('Notes', `${count} commutes`, ''));
+
+        const mergedContent = formatEntry(new WorkoutEntry(date, 'Cycle Commute', mergedTags));
+        this.replaceAndSave(existing, mergedContent, overlay);
     }
 
     _stravaFmtSecs(secs) {

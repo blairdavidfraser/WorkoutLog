@@ -296,7 +296,7 @@ export class WorkoutLogViewer {
 
       const dateInput = document.createElement('input');
       dateInput.type = 'date';
-      dateInput.style.cssText = F + 'min-width:110px;';
+      dateInput.style.cssText = F + 'min-width:110px;padding:2px 1px;';
       dateInput.value = date;
       dateInput.addEventListener('change', () => dateInput.blur());
       mkTd().appendChild(dateInput);
