@@ -419,7 +419,7 @@ class App {
       const getTagOptions = () => {
         const opts = new Set();
         this.workoutLog.entries.forEach(e => opts.add(e.shortcutName || e.type));
-        this.workoutLog.getAllUniqueTags().forEach(t => opts.add(t));
+        this.workoutLog.getAllUniqueTags().filter(t => t !== 'Tags' && t !== 'Tentative' && t !== 'Favorite').forEach(t => opts.add(t));
         return Array.from(opts).sort();
       };
 
@@ -434,7 +434,14 @@ class App {
         const activityTypes = ['Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga', 'Strength', 'Daily', 'Nutrition'];
         const matchedType = activityTypes.find(t => t.toLowerCase() === value.toLowerCase());
         const isDate = /^\d{4}(-\d{2}(-\d{2})?)?$/.test(value);
+        const isFavorites = value.toLowerCase() === 'favorites';
         if (!value) {
+          this.viewer.filteredTag = null;
+          this.viewer.filteredActivityType = null;
+          this.viewer.filteredDate = null;
+          this.viewer.filteredFavorite = false;
+        } else if (isFavorites) {
+          this.viewer.filteredFavorite = true;
           this.viewer.filteredTag = null;
           this.viewer.filteredActivityType = null;
           this.viewer.filteredDate = null;
@@ -442,18 +449,22 @@ class App {
           this.viewer.filteredDate = value;
           this.viewer.filteredTag = null;
           this.viewer.filteredActivityType = null;
+          this.viewer.filteredFavorite = false;
         } else if (matchedType) {
           this.viewer.filteredActivityType = matchedType;
           this.viewer.filteredTag = null;
           this.viewer.filteredDate = null;
+          this.viewer.filteredFavorite = false;
         } else {
           this.viewer.filteredTag = value;
           this.viewer.filteredActivityType = null;
           this.viewer.filteredDate = null;
+          this.viewer.filteredFavorite = false;
         }
         if (this.currentView === 'history' && this.logMode === 'view') {
           this.viewer.render();
-          this.viewer.showBackButton(this.viewer.filteredTag || this.viewer.filteredActivityType || this.viewer.filteredDate);
+          const anyFilter = this.viewer.filteredTag || this.viewer.filteredActivityType || this.viewer.filteredDate || this.viewer.filteredFavorite;
+          this.viewer.showBackButton(anyFilter);
         }
       };
 
@@ -461,13 +472,34 @@ class App {
         const lower = filter.toLowerCase();
         const options = getTagOptions();
         const matches = filter ? options.filter(o => o.toLowerCase().includes(lower)) : options;
+        const showFavorites = !filter || 'favorites'.includes(lower);
         searchDropdown.innerHTML = '';
+
+        if (showFavorites) {
+          const favItem = document.createElement('div');
+          favItem.className = 'search-dropdown-item search-dropdown-item--favorites';
+          favItem.textContent = 'Favorites';
+          favItem.addEventListener('pointerdown', e => {
+            e.preventDefault();
+            searchInput.value = 'Favorites';
+            searchDropdown.classList.remove('show');
+            applyFilter('Favorites');
+          });
+          searchDropdown.appendChild(favItem);
+
+          if (matches.length > 0) {
+            const sep = document.createElement('div');
+            sep.className = 'search-dropdown-separator';
+            searchDropdown.appendChild(sep);
+          }
+        }
+
         matches.forEach(text => {
           const item = document.createElement('div');
           item.className = 'search-dropdown-item';
           item.textContent = text;
           item.addEventListener('pointerdown', e => {
-            e.preventDefault(); // prevent input blur before selection
+            e.preventDefault();
             searchInput.value = text;
             searchDropdown.classList.remove('show');
             applyFilter(text);
@@ -475,7 +507,7 @@ class App {
           searchDropdown.appendChild(item);
         });
         positionDropdown();
-        searchDropdown.classList.toggle('show', matches.length > 0);
+        searchDropdown.classList.toggle('show', showFavorites || matches.length > 0);
       };
 
       searchInput.addEventListener('focus', () => showSearchDropdown(searchInput.value.trim()));

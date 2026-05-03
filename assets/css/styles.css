@@ -566,6 +566,13 @@ canvas {
   background: transparent;
 }
 
+.entry-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
 .edit-entry-btn {
   background: none;
   border: none;
@@ -841,6 +848,17 @@ canvas {
 .search-dropdown-item:hover,
 .search-dropdown-item:active {
   background-color: var(--pale-orange);
+}
+
+.search-dropdown-item--favorites {
+  font-weight: 600;
+  color: #b8860b;
+}
+
+.search-dropdown-separator {
+  height: 1px;
+  background-color: var(--medium-gray);
+  margin: 2px 0;
 }
 
 .search-input {

@@ -42,6 +42,7 @@ export class WorkoutLogViewer {
     this.filteredTag = null;
     this.filteredActivityType = null;
     this.filteredDate = null;
+    this.filteredFavorite = false;
     this.onEditEntry = null;
     this.onDeleteEntry = null;
     this.onToggleFavorite = null;
@@ -87,12 +88,17 @@ export class WorkoutLogViewer {
       return;
     }
 
+    if (this.filteredFavorite) {
+      this.renderFavoriteView(container);
+      return;
+    }
+
     // Otherwise, show all entries
     this.renderAllEntries(container);
   }
 
   renderFilters(container) {
-    if (!this.filteredTag && !this.filteredActivityType && !this.filteredDate) {
+    if (!this.filteredTag && !this.filteredActivityType && !this.filteredDate && !this.filteredFavorite) {
       return;
     }
 
@@ -119,6 +125,11 @@ export class WorkoutLogViewer {
       filterDiv.appendChild(pill);
     }
 
+    if (this.filteredFavorite) {
+      const pill = this.createFilterPill('Favorites', 'favorite');
+      filterDiv.appendChild(pill);
+    }
+
     container.appendChild(filterDiv);
   }
 
@@ -137,10 +148,13 @@ export class WorkoutLogViewer {
         this.filteredTag = null;
       } else if (type === 'date') {
         this.filteredDate = null;
+      } else if (type === 'favorite') {
+        this.filteredFavorite = false;
       }
-      this.setSearchInput(this.filteredTag || this.filteredActivityType || this.filteredDate || '');
+      const anyFilter = this.filteredTag || this.filteredActivityType || this.filteredDate || this.filteredFavorite;
+      this.setSearchInput(this.filteredFavorite ? 'Favorites' : (this.filteredTag || this.filteredActivityType || this.filteredDate || ''));
       this.render();
-      this.showBackButton(this.filteredTag || this.filteredActivityType || this.filteredDate);
+      this.showBackButton(anyFilter);
     });
 
     pill.appendChild(closeBtn);
@@ -425,26 +439,6 @@ export class WorkoutLogViewer {
     titleSpan.appendChild(typeLink);
     header.appendChild(titleSpan);
 
-    const editBtn = document.createElement('button');
-    editBtn.className = 'edit-entry-btn';
-    editBtn.textContent = '✏️';
-    editBtn.title = 'Edit entry';
-    editBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (this.onEditEntry) this.onEditEntry(entry);
-    });
-    header.appendChild(editBtn);
-
-    const delBtn = document.createElement('button');
-    delBtn.className = 'delete-entry-btn';
-    delBtn.textContent = '×';
-    delBtn.title = 'Delete entry';
-    delBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (this.onDeleteEntry) this.onDeleteEntry(entry);
-    });
-    header.appendChild(delBtn);
-
     const starBtn = document.createElement('button');
     starBtn.className = 'favorite-btn' + (isFavorite ? ' favorited' : '');
     starBtn.textContent = isFavorite ? '★' : '☆';
@@ -456,7 +450,31 @@ export class WorkoutLogViewer {
       starBtn.textContent = !nowFav ? '★' : '☆';
       if (this.onToggleFavorite) this.onToggleFavorite(entry);
     });
-    header.appendChild(starBtn);
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'edit-entry-btn';
+    editBtn.textContent = '✏️';
+    editBtn.title = 'Edit entry';
+    editBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this.onEditEntry) this.onEditEntry(entry);
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-entry-btn';
+    delBtn.textContent = '×';
+    delBtn.title = 'Delete entry';
+    delBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this.onDeleteEntry) this.onDeleteEntry(entry);
+    });
+
+    const btnGroup = document.createElement('span');
+    btnGroup.className = 'entry-btn-group';
+    btnGroup.appendChild(starBtn);
+    btnGroup.appendChild(editBtn);
+    btnGroup.appendChild(delBtn);
+    header.appendChild(btnGroup);
 
     entryDiv.appendChild(header);
 
@@ -656,6 +674,29 @@ export class WorkoutLogViewer {
     return wrapper;
   }
 
+  renderFavoriteView(container) {
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const entries = this.workoutLog.entries.filter(entry => {
+      const tagsList = (entry.getTagValue('Tags') || '').split(',').map(s => s.trim()).filter(Boolean);
+      return tagsList.includes('Favorite');
+    });
+
+    if (entries.length === 0) {
+      const msg = document.createElement('p');
+      msg.style.cssText = 'text-align:center;color:#999;padding:var(--spacing-md) 0';
+      msg.textContent = 'No favourite entries found.';
+      container.appendChild(msg);
+      return;
+    }
+
+    const sorted = [...entries].sort((a, b) => a.date.localeCompare(b.date));
+    sorted.forEach(entry => {
+      const card = this.createEntryElement(entry, entry.date > today);
+      container.appendChild(this.createSwipeWrapper(card, entry));
+    });
+  }
+
   renderFilteredTagView(container) {
     const entries = this.workoutLog.getEntriesWithTag(this.filteredTag);
 
@@ -744,6 +785,7 @@ export class WorkoutLogViewer {
     this.filteredTag = null;
     this.filteredActivityType = null;
     this.filteredDate = null;
+    this.filteredFavorite = false;
     this.setSearchInput('');
     this.render();
     this.showBackButton(false);

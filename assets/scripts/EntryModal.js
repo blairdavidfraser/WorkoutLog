@@ -93,7 +93,7 @@ export class EntryModal {
                 field.options.forEach(opt => {
                     const option = document.createElement('option');
                     option.value = opt;
-                    option.textContent = opt;
+                    option.textContent = opt || '–';
                     input.appendChild(option);
                 });
             } else if (field.type === 'textarea') {
@@ -240,13 +240,13 @@ export class EntryModal {
         const fields = [
             { label: 'Type', type: 'select', options: ['Run', 'Cycle', 'Erg', 'Swim', 'Row', 'Yoga'], noComment: false },
             { label: 'Focus', type: 'text', noComment: false },
-            { label: 'RPE', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], noComment: false },
+            { label: 'RPE', type: 'select', options: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], noComment: false },
             { label: 'Distance', type: 'text', noComment: false, placeholder: 'km' },
             { label: 'Duration', type: 'text', noComment: false },
             { label: 'Power', type: 'text', noComment: false },
             { label: 'Avg HR', type: 'text', noComment: false, placeholder: 'bpm' },
             { label: 'Max HR', type: 'text', noComment: false, placeholder: 'bpm' },
-            { label: 'Pain', type: 'select', options: ['1', '2', '3', '4', '5'], noComment: false },
+            { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
             { label: 'Notes', type: 'textarea', noComment: true }
         ];
 
@@ -273,7 +273,7 @@ export class EntryModal {
                 field.options.forEach(opt => {
                     const option = document.createElement('option');
                     option.value = opt;
-                    option.textContent = opt;
+                    option.textContent = opt || '–';
                     input.appendChild(option);
                 });
             } else if (field.type === 'textarea') {
@@ -435,7 +435,7 @@ export class EntryModal {
         // Top 3 rows: RPE, Focus, Pain
         const topFields = [
             { label: 'Focus', type: 'text' },
-            { label: 'RPE', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
+            { label: 'RPE', type: 'select', options: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
             { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'] }
         ];
 
@@ -462,7 +462,7 @@ export class EntryModal {
                 field.options.forEach(opt => {
                     const option = document.createElement('option');
                     option.value = opt;
-                    option.textContent = opt;
+                    option.textContent = opt || '–';
                     input.appendChild(option);
                 });
             } else {
