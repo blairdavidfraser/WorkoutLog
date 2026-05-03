@@ -43,6 +43,7 @@ export class WorkoutLogViewer {
     this.filteredActivityType = null;
     this.filteredDate = null;
     this.onEditEntry = null;
+    this.onScheduledSave = null;
     this.activityColors = {
       'Run': 'run',
       'Swim': 'swim',
@@ -156,14 +157,23 @@ export class WorkoutLogViewer {
   }
 
   renderAllEntries(container) {
-    const entries = this.workoutLog.entries;
+    const allEntries = this.workoutLog.entries;
+    // Sort by date to ensure correct divider position regardless of file order
+    const entries = [...allEntries].sort((a, b) => a.date.localeCompare(b.date));
+
+    // Use local date (not UTC) so the divider matches the user's calendar day
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const hasFuture = entries.some(e => e.date > today);
+
     if (entries.length === 0) {
-      container.innerHTML = '<p style="text-align: center; color: #999;">No workout log entries found.</p>';
+      const msg = document.createElement('p');
+      msg.style.cssText = 'text-align:center;color:#999;padding:var(--spacing-md) 0';
+      msg.textContent = 'No workout log entries found.';
+      container.appendChild(msg);
+      container.appendChild(this.createScheduledDivider());
       return;
     }
-
-    const today = new Date().toISOString().slice(0, 10);
-    const futureEntries = entries.filter(e => e.date > today);
 
     let dayIndex = 0;
     let lastDate = null;
@@ -172,7 +182,7 @@ export class WorkoutLogViewer {
     entries.forEach(entry => {
       if (!dividerInserted && entry.date > today) {
         dividerInserted = true;
-        container.appendChild(this.createScheduledDivider(futureEntries));
+        container.appendChild(this.createScheduledDivider());
       }
       if (entry.date !== lastDate) {
         lastDate = entry.date;
@@ -183,41 +193,189 @@ export class WorkoutLogViewer {
       container.appendChild(entryDiv);
     });
 
+    if (!dividerInserted) {
+      container.appendChild(this.createScheduledDivider());
+    }
+
     requestAnimationFrame(() => {
       const divider = container.querySelector('.scheduled-divider');
-      if (divider) {
-        divider.scrollIntoView({ block: 'start', behavior: 'instant' });
+      if (hasFuture && divider) {
+        const divTop = divider.getBoundingClientRect().top;
+        const conTop = container.getBoundingClientRect().top;
+        container.scrollTop += divTop - conTop;
       } else {
         container.scrollTop = container.scrollHeight;
       }
     });
   }
 
-  createScheduledDivider(futureEntries) {
+  createScheduledDivider() {
     const btn = document.createElement('button');
     btn.className = 'scheduled-divider';
     btn.textContent = 'Scheduled Workouts';
+    btn.addEventListener('click', () => this.showScheduledModal());
+    return btn;
+  }
 
-    let lastTap = 0;
-    const copyScheduled = () => {
-      const lines = ['# Scheduled Future Workouts'];
-      futureEntries.forEach(e => lines.push(formatEntry(e)));
-      copyToClipboard(lines.join('\n\n'));
-      showCopyToast();
+  showScheduledModal() {
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const existingFuture = [...this.workoutLog.entries]
+      .filter(e => e.date > today)
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.addEventListener('click', () => overlay.remove());
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.cssText = 'max-width:min(95vw,700px);width:100%;padding:var(--spacing-sm) var(--spacing-md) var(--spacing-md);display:flex;flex-direction:column;max-height:85vh;';
+    modal.addEventListener('click', e => e.stopPropagation());
+
+    const header = document.createElement('div');
+    header.className = 'modal-header';
+    header.style.cssText = 'font-size:1.1rem;margin-bottom:var(--spacing-sm);padding-bottom:var(--spacing-xs)';
+    header.textContent = 'Scheduled Workouts';
+    modal.appendChild(header);
+
+    // Scrollable table area
+    const tableWrap = document.createElement('div');
+    tableWrap.style.cssText = 'overflow:auto;flex:1;min-height:120px;margin-bottom:var(--spacing-sm)';
+
+    const table = document.createElement('table');
+    table.style.cssText = 'width:100%;border-collapse:collapse;font-size:0.87rem;';
+
+    const thead = document.createElement('thead');
+    const hRow = document.createElement('tr');
+    [['Date', ''], ['Activity', ''], ['Focus', ''], ['Notes', ''], ['', 'width:20px']].forEach(([text, sty]) => {
+      const th = document.createElement('th');
+      th.style.cssText = `text-align:left;padding:3px 4px;font-weight:600;font-size:0.78rem;color:var(--dark-gray);border-bottom:1px solid var(--medium-gray);white-space:nowrap;${sty}`;
+      th.textContent = text;
+      hRow.appendChild(th);
+    });
+    thead.appendChild(hRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    tableWrap.appendChild(table);
+
+    const TYPES = ['', 'Daily', 'Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga', 'Strength', 'Nutrition'];
+    const F = 'width:100%;padding:2px 4px;border:1px solid var(--medium-gray);border-radius:var(--radius-sm);font-family:inherit;font-size:0.85rem;box-sizing:border-box;';
+
+    const rows = [];
+
+    const addRow = ({ date = '', type = '', focus = '', notes = '' } = {}) => {
+      const tr = document.createElement('tr');
+      const mkTd = (sty = '') => {
+        const td = document.createElement('td');
+        td.style.cssText = 'padding:2px 2px;' + sty;
+        tr.appendChild(td);
+        return td;
+      };
+
+      const dateInput = document.createElement('input');
+      dateInput.type = 'date';
+      dateInput.style.cssText = F + 'min-width:130px;';
+      dateInput.value = date;
+      mkTd().appendChild(dateInput);
+
+      const typeSelect = document.createElement('select');
+      typeSelect.style.cssText = F + 'min-width:80px;';
+      TYPES.forEach(t => {
+        const o = document.createElement('option');
+        o.value = t; o.textContent = t || '–';
+        if (t === type) o.selected = true;
+        typeSelect.appendChild(o);
+      });
+      mkTd().appendChild(typeSelect);
+
+      const focusInput = document.createElement('input');
+      focusInput.type = 'text'; focusInput.style.cssText = F;
+      focusInput.value = focus; focusInput.placeholder = 'Easy aerobic…';
+      mkTd().appendChild(focusInput);
+
+      const notesInput = document.createElement('input');
+      notesInput.type = 'text'; notesInput.style.cssText = F;
+      notesInput.value = notes;
+      mkTd().appendChild(notesInput);
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button'; delBtn.textContent = '×';
+      delBtn.style.cssText = 'background:none;border:none;color:#bbb;font-size:1.1rem;cursor:pointer;padding:0;width:20px;line-height:1;';
+      delBtn.addEventListener('click', () => { tr.remove(); rows.splice(rows.indexOf(rowRef), 1); });
+      mkTd('width:20px;').appendChild(delBtn);
+
+      tbody.appendChild(tr);
+      const rowRef = { dateInput, typeSelect, focusInput, notesInput };
+      rows.push(rowRef);
     };
 
-    btn.addEventListener('dblclick', copyScheduled);
-    btn.addEventListener('touchend', () => {
-      const now = Date.now();
-      if (now - lastTap < 350) {
-        lastTap = 0;
-        copyScheduled();
-      } else {
-        lastTap = now;
-      }
-    }, { passive: true });
+    existingFuture.forEach(e => addRow({
+      date: e.date, type: e.type,
+      focus: e.getTagValue('Focus') || '',
+      notes: e.getTagValue('Notes') || '',
+    }));
+    for (let i = 0; i < 5; i++) addRow();
 
-    return btn;
+    const addRowBtn = document.createElement('button');
+    addRowBtn.type = 'button'; addRowBtn.textContent = '+ Add row';
+    addRowBtn.style.cssText = 'background:none;border:none;color:var(--primary-red);font-size:0.83rem;cursor:pointer;padding:4px 2px;display:block;';
+    addRowBtn.addEventListener('click', () => addRow());
+    tableWrap.appendChild(addRowBtn);
+    modal.appendChild(tableWrap);
+
+    const divLine = document.createElement('hr');
+    divLine.style.cssText = 'border:none;border-top:1px solid var(--medium-gray);margin:0 0 var(--spacing-sm)';
+    modal.appendChild(divLine);
+
+    const actions = document.createElement('div');
+    actions.className = 'modal-actions';
+    actions.style.cssText = 'padding-top:0;border-top:none;gap:var(--spacing-sm);';
+
+    const getValidRows = () => rows
+      .map(r => ({ date: r.dateInput.value, type: r.typeSelect.value, focus: r.focusInput.value.trim(), notes: r.notesInput.value.trim() }))
+      .filter(r => r.date && r.type);
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'btn-secondary';
+    copyBtn.style.cssText = 'padding:0.3rem 0.9rem;margin-right:auto;';
+    copyBtn.textContent = 'Copy to Clipboard';
+    copyBtn.addEventListener('click', () => {
+      const lines = ['# Scheduled Future Workouts'];
+      [...getValidRows()].sort((a, b) => a.date.localeCompare(b.date)).forEach(r => {
+        const parts = [`${r.date}: ${r.type}`];
+        if (r.focus) parts.push(`Focus: ${r.focus}`);
+        if (r.notes) parts.push(`Notes: ${r.notes}`);
+        lines.push(parts.join('\n'));
+      });
+      copyToClipboard(lines.join('\n\n'));
+      showCopyToast();
+    });
+    actions.appendChild(copyBtn);
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'btn-primary';
+    saveBtn.style.cssText = 'padding:0.3rem 0.9rem;';
+    saveBtn.textContent = 'Save';
+    saveBtn.addEventListener('click', () => {
+      const validRows = getValidRows();
+      overlay.remove();
+      if (this.onScheduledSave) this.onScheduledSave(validRows);
+    });
+    actions.appendChild(saveBtn);
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'btn-secondary';
+    cancelBtn.style.cssText = 'padding:0.3rem 0.9rem;';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.addEventListener('click', () => overlay.remove());
+    actions.appendChild(cancelBtn);
+
+    modal.appendChild(actions);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
   }
 
   createEntryElement(entry, isFuture = false) {

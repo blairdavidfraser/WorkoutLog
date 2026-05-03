@@ -42,6 +42,50 @@ class App {
     // Render initial view
     this.renderDashboard();
 
+    // Handle scheduled workouts save from modal
+    this.viewer.onScheduledSave = async (rows) => {
+      try {
+        const currentText = await this.persistence.loadWorkoutLog();
+        const d = new Date();
+        const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+        // Remove existing future-dated entry blocks
+        const blocks = currentText.split(/\n{2,}/);
+        const pastBlocks = blocks.filter(block => {
+          const m = block.trim().match(/^(\d{4}-\d{2}-\d{2}):/);
+          return !m || m[1] <= today;
+        });
+
+        // Sort rows: by date, then Daily first / Nutrition last within same date
+        const typeOrder = t => t === 'Daily' ? 0 : t === 'Nutrition' ? 2 : 1;
+        const futureBlocks = [...rows]
+          .sort((a, b) => a.date !== b.date ? a.date.localeCompare(b.date) : typeOrder(a.type) - typeOrder(b.type))
+          .map(r => {
+            const lines = [`${r.date}: ${r.type}`];
+            if (r.focus) lines.push(`Focus: ${r.focus}`);
+            if (r.notes) lines.push(`Notes: ${r.notes}`);
+            return lines.join('\n');
+          });
+
+        const newText = [...pastBlocks, ...futureBlocks].filter(b => b.trim()).join('\n\n');
+        await this.persistence.saveWorkoutLog(newText);
+
+        this.workoutLog = WorkoutLog.parse(newText);
+        this.viewer.workoutLog = this.workoutLog;
+        this.viewer.onEditEntry = (entry) => this.openModalForEntry(entry);
+        this.dashboard.workoutLog = this.workoutLog;
+        this.editor.workoutLog = this.workoutLog;
+        this.editor.originalText = newText;
+        this.editor.textarea.value = newText;
+        this.editor.populateTagSuggestions();
+        if (this.currentView === 'history' && this.logMode === 'view') this.viewer.render();
+        if (this.currentView === 'dashboard') this.dashboard.render();
+      } catch (err) {
+        console.error('Error saving scheduled workouts:', err);
+        alert('Error saving scheduled workouts.');
+      }
+    };
+
     // Initialize workout-log to view mode state
     this.enterViewMode(false);
   }

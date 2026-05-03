@@ -268,9 +268,10 @@ button {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   box-sizing: border-box;
-  border-radius: 0;
+  border-radius: var(--radius-md);
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
+  margin-bottom: var(--spacing-sm);
 }
 
 .scheduled-divider:active {
