@@ -88,6 +88,7 @@ class App {
     };
 
     this.viewer.onDeleteEntry = (entry) => this.deleteEntry(entry);
+    this.viewer.onToggleFavorite = (entry) => this.toggleFavorite(entry);
     this.viewer.onEditScheduledEntry = (entry, reopen) => this.editScheduledEntry(entry, reopen);
 
     // Initialize workout-log to view mode state
@@ -123,6 +124,49 @@ class App {
     this.editor.textarea.value = newText;
     this.editor.populateTagSuggestions();
     if (this.currentView === 'history' && this.logMode === 'view') this.viewer.render();
+    if (this.currentView === 'dashboard') this.dashboard.render();
+  }
+
+  async toggleFavorite(entry) {
+    const logText = await this.persistence.loadWorkoutLog();
+    const blocks = logText.split(/\n{2,}/);
+    let modified = false;
+    const newBlocks = blocks.map(block => {
+      if (modified) return block;
+      const firstLine = block.trim().split('\n')[0];
+      const m = firstLine.match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)/);
+      if (!m || m[1] !== entry.date || m[2].trim() !== (entry.shortcutName || entry.type)) return block;
+      modified = true;
+      const lines = block.split('\n');
+      const tagsIdx = lines.findIndex(l => /^Tags:/i.test(l.trim()));
+      if (tagsIdx === -1) {
+        lines.push('Tags: Favorite');
+      } else {
+        const vals = lines[tagsIdx].replace(/^Tags:\s*/i, '').split(',').map(s => s.trim()).filter(Boolean);
+        const fi = vals.findIndex(v => v.toLowerCase() === 'favorite');
+        if (fi === -1) vals.push('Favorite'); else vals.splice(fi, 1);
+        if (vals.length === 0) lines.splice(tagsIdx, 1);
+        else lines[tagsIdx] = `Tags: ${vals.join(', ')}`;
+      }
+      return lines.join('\n');
+    });
+    if (!modified) return;
+    const newText = newBlocks.filter(b => b.trim()).join('\n\n');
+    await this.persistence.saveWorkoutLog(newText);
+    this.workoutLog = WorkoutLog.parse(newText);
+    this.viewer.workoutLog = this.workoutLog;
+    this.viewer.onEditEntry = (e) => this.openModalForEntry(e);
+    this.viewer.onDeleteEntry = (e) => this.deleteEntry(e);
+    this.viewer.onToggleFavorite = (e) => this.toggleFavorite(e);
+    this.dashboard.workoutLog = this.workoutLog;
+    this.editor.workoutLog = this.workoutLog;
+    this.editor.originalText = newText;
+    this.editor.textarea.value = newText;
+    this.editor.populateTagSuggestions();
+    if (this.currentView === 'history' && this.logMode === 'view') {
+      this.viewer._suppressScroll = true;
+      this.viewer.render();
+    }
     if (this.currentView === 'dashboard') this.dashboard.render();
   }
 
@@ -349,6 +393,7 @@ class App {
           this.viewer = new WorkoutLogViewer(this.workoutLog);
           this.viewer.onEditEntry = (entry) => this.openModalForEntry(entry);
           this.viewer.onDeleteEntry = (entry) => this.deleteEntry(entry);
+          this.viewer.onToggleFavorite = (entry) => this.toggleFavorite(entry);
           this.viewer.onEditScheduledEntry = (entry, reopen) => this.editScheduledEntry(entry, reopen);
           this.dashboard = new Dashboard(this.workoutLog);
           this.editor.workoutLog = this.workoutLog;

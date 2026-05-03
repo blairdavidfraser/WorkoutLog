@@ -599,6 +599,26 @@ canvas {
   color: var(--primary-red);
 }
 
+.favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #ccc;
+  padding: 0 2px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.favorite-btn.favorited {
+  color: #f4b942;
+}
+
+.favorite-btn:hover {
+  color: #f4b942;
+}
+
+/* Hide pencil/delete on touch; star always visible */
 /* Swipe-to-reveal wrapper (mobile) */
 .entry-swipe-wrapper {
   position: relative;

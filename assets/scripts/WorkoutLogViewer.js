@@ -44,6 +44,7 @@ export class WorkoutLogViewer {
     this.filteredDate = null;
     this.onEditEntry = null;
     this.onDeleteEntry = null;
+    this.onToggleFavorite = null;
     this.onScheduledSave = null;
     this.onEditScheduledEntry = null;
     this.activityColors = {
@@ -199,16 +200,19 @@ export class WorkoutLogViewer {
       container.appendChild(this.createScheduledDivider());
     }
 
-    requestAnimationFrame(() => {
-      const divider = container.querySelector('.scheduled-divider');
-      if (hasFuture && divider) {
-        const divTop = divider.getBoundingClientRect().top;
-        const conTop = container.getBoundingClientRect().top;
-        container.scrollTop += divTop - conTop;
-      } else {
-        container.scrollTop = container.scrollHeight;
-      }
-    });
+    if (!this._suppressScroll) {
+      requestAnimationFrame(() => {
+        const divider = container.querySelector('.scheduled-divider');
+        if (hasFuture && divider) {
+          const divTop = divider.getBoundingClientRect().top;
+          const conTop = container.getBoundingClientRect().top;
+          container.scrollTop += divTop - conTop;
+        } else {
+          container.scrollTop = container.scrollHeight;
+        }
+      });
+    }
+    this._suppressScroll = false;
   }
 
   createScheduledDivider() {
@@ -394,7 +398,9 @@ export class WorkoutLogViewer {
     const entryDiv = document.createElement('div');
     const now = new Date();
     const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-    const isTentative = entry.hasTag('Tags') && entry.getTagValue('Tags') === 'Tentative';
+    const tagsList = (entry.getTagValue('Tags') || '').split(',').map(s => s.trim()).filter(Boolean);
+    const isTentative = tagsList.includes('Tentative');
+    const isFavorite  = tagsList.includes('Favorite');
     const isTentativePast = isTentative && entry.date <= today;
 
     entryDiv.className = 'log-entry-text' + (isTentativePast ? ' tentative-entry' : '');
@@ -439,13 +445,26 @@ export class WorkoutLogViewer {
     });
     header.appendChild(delBtn);
 
+    const starBtn = document.createElement('button');
+    starBtn.className = 'favorite-btn' + (isFavorite ? ' favorited' : '');
+    starBtn.textContent = isFavorite ? '★' : '☆';
+    starBtn.title = isFavorite ? 'Remove from favorites' : 'Add to favorites';
+    starBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const nowFav = starBtn.classList.contains('favorited');
+      starBtn.classList.toggle('favorited', !nowFav);
+      starBtn.textContent = !nowFav ? '★' : '☆';
+      if (this.onToggleFavorite) this.onToggleFavorite(entry);
+    });
+    header.appendChild(starBtn);
+
     entryDiv.appendChild(header);
 
     // Tag lines
     const tagsEl = document.createElement('pre');
     tagsEl.className = 'log-entry-tags';
 
-    const visibleTags = entry.getAllTags().filter(t => !(t.tag === 'Tags' && t.value === 'Tentative'));
+    const visibleTags = entry.getAllTags().filter(t => t.tag !== 'Tags');
     visibleTags.forEach((tag, index) => {
       const tagLink = document.createElement('a');
       tagLink.href = '#';
@@ -501,7 +520,7 @@ export class WorkoutLogViewer {
 
     const buildCopyText = () => formatEntry(entry);
 
-    const isActionTarget = (e) => e.target.closest('.edit-entry-btn') || e.target.closest('.delete-entry-btn') || e.target.closest('a');
+    const isActionTarget = (e) => e.target.closest('.edit-entry-btn') || e.target.closest('.delete-entry-btn') || e.target.closest('.favorite-btn') || e.target.closest('a');
 
     // Press feedback (all pointer types); desktop double-click copy
     entryDiv.addEventListener('pointerdown', (e) => {
@@ -621,7 +640,7 @@ export class WorkoutLogViewer {
           }
         } else {
           // Not snapped — handle double-tap copy
-          if (e.target.closest('.edit-entry-btn') || e.target.closest('.delete-entry-btn') || e.target.closest('a')) return;
+          if (e.target.closest('.edit-entry-btn') || e.target.closest('.delete-entry-btn') || e.target.closest('.favorite-btn') || e.target.closest('a')) return;
           const now = Date.now();
           if (now - lastTap < 350) {
             lastTap = 0;

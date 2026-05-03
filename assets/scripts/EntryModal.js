@@ -795,78 +795,149 @@ export class EntryModal {
     }
 
     showMiscellaneous() {
-        const modal = this.createModal('Miscellaneous Entry');
+        const modal = this.createModal('Manual Entry');
         const table = document.createElement('table');
         table.className = 'form-table';
 
-        // Create date input
+        // Shortcuts (shown first in dropdown with a separator below)
+        const SHORTCUTS = [
+            { name: 'Cycle Commute', tags: 'RPE: 3\nDuration: 1:00:00' },
+            { name: 'Yoga',          tags: 'RPE: 1' },
+            { name: 'Spin',          tags: '' },
+        ];
+        // Regular types (shown after the separator)
+        const REGULAR = ['Daily', 'Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Strength', 'Nutrition', 'Measurements', 'Data'];
+
+        // --- Date row (matches Cardio layout) ---
         const dateInput = this.createDateInput();
-
-        // Date row
         const dateRow = document.createElement('tr');
-
         const dateLabelCell = document.createElement('td');
         dateLabelCell.className = 'label-cell';
         dateLabelCell.textContent = 'Date';
         dateRow.appendChild(dateLabelCell);
-
         const dateColonCell = document.createElement('td');
         dateColonCell.className = 'separator';
         dateColonCell.textContent = ':';
         dateRow.appendChild(dateColonCell);
-
         const dateInputCell = document.createElement('td');
         dateInputCell.appendChild(dateInput);
         dateRow.appendChild(dateInputCell);
-
-        const dateEmptyCell1 = document.createElement('td');
-        dateEmptyCell1.className = 'empty-cell';
-        dateRow.appendChild(dateEmptyCell1);
-
-        const dateEmptyCell2 = document.createElement('td');
-        dateEmptyCell2.className = 'empty-cell';
-        dateRow.appendChild(dateEmptyCell2);
-
+        const dateEmpty1 = document.createElement('td');
+        dateEmpty1.className = 'empty-cell';
+        dateRow.appendChild(dateEmpty1);
+        const dateEmpty2 = document.createElement('td');
+        dateEmpty2.className = 'empty-cell';
+        dateRow.appendChild(dateEmpty2);
         table.appendChild(dateRow);
+
+        // --- Type row with custom combobox dropdown ---
+        const typeInput = document.createElement('input');
+        typeInput.type = 'text';
+        typeInput.placeholder = 'e.g., Run, Cycle Commute…';
+
+        const typeRow = document.createElement('tr');
+        const typeLabelCell = document.createElement('td');
+        typeLabelCell.className = 'label-cell';
+        typeLabelCell.textContent = 'Type';
+        typeRow.appendChild(typeLabelCell);
+        const typeColonCell = document.createElement('td');
+        typeColonCell.className = 'separator';
+        typeColonCell.textContent = ':';
+        typeRow.appendChild(typeColonCell);
+        const typeInputCell = document.createElement('td');
+        typeInputCell.style.position = 'relative';
+        typeInputCell.appendChild(typeInput);
+        typeRow.appendChild(typeInputCell);
+        const typeEmpty1 = document.createElement('td');
+        typeEmpty1.className = 'empty-cell';
+        typeRow.appendChild(typeEmpty1);
+        const typeEmpty2 = document.createElement('td');
+        typeEmpty2.className = 'empty-cell';
+        typeRow.appendChild(typeEmpty2);
+        table.appendChild(typeRow);
 
         modal.appendChild(table);
 
-        const label = document.createElement('label');
-        label.style.display = 'block';
-        label.style.marginBottom = 'var(--spacing-md)';
-        label.style.marginTop = 'var(--spacing-lg)';
-        label.style.fontWeight = '500';
-        label.textContent = 'Entry Type:';
-        modal.appendChild(label);
-
-        const typeInput = document.createElement('input');
-        typeInput.type = 'text';
-        typeInput.placeholder = 'e.g., Nutrition, Measurements, Data, etc.';
-        typeInput.style.width = '100%';
-        typeInput.style.padding = 'var(--spacing-md) var(--spacing-lg)';
-        typeInput.style.border = '2px solid var(--medium-gray)';
-        typeInput.style.borderRadius = 'var(--radius-md)';
-        typeInput.style.marginBottom = 'var(--spacing-lg)';
-        modal.appendChild(typeInput);
-
-        const contentLabel = document.createElement('label');
-        contentLabel.style.display = 'block';
-        contentLabel.style.marginBottom = 'var(--spacing-md)';
-        contentLabel.style.fontWeight = '500';
-        contentLabel.textContent = 'Content:';
-        modal.appendChild(contentLabel);
-
+        // --- Content textarea ---
         const contentTextarea = document.createElement('textarea');
-        contentTextarea.placeholder = 'Enter entry content (tag: value format)';
-        contentTextarea.style.width = '100%';
-        contentTextarea.style.padding = 'var(--spacing-md) var(--spacing-lg)';
-        contentTextarea.style.border = '2px solid var(--medium-gray)';
-        contentTextarea.style.borderRadius = 'var(--radius-md)';
-        contentTextarea.style.minHeight = '150px';
-        contentTextarea.style.marginBottom = 'var(--spacing-lg)';
-        contentTextarea.style.fontFamily = 'monospace';
+        contentTextarea.placeholder = 'Paste or type tag lines (e.g. RPE: 7, Distance: 10 km)';
+        contentTextarea.style.cssText = 'width:100%;padding:var(--spacing-sm);border:2px solid var(--medium-gray);border-radius:var(--radius-md);min-height:160px;margin-top:var(--spacing-md);font-family:monospace;font-size:0.9rem;box-sizing:border-box;resize:vertical;';
         modal.appendChild(contentTextarea);
 
+        // Custom dropdown — appended to body so it isn't clipped by modal overflow
+        const typeDropdown = document.createElement('div');
+        typeDropdown.className = 'search-dropdown';
+        typeDropdown.style.zIndex = '4000'; // above modal-overlay (2000)
+        document.body.appendChild(typeDropdown);
+
+        const applyShortcut = (name, tags) => {
+            typeInput.value = name;
+            typeDropdown.classList.remove('show');
+            if (tags && !contentTextarea.value.trim()) contentTextarea.value = tags;
+        };
+
+        const positionTypeDropdown = () => {
+            const r = typeInput.getBoundingClientRect();
+            typeDropdown.style.top = (r.bottom + 2) + 'px';
+            typeDropdown.style.left = r.left + 'px';
+            typeDropdown.style.width = r.width + 'px';
+        };
+
+        const buildTypeDropdown = (filter = '') => {
+            const lower = filter.toLowerCase();
+            typeDropdown.innerHTML = '';
+            let hasItems = false;
+
+            const addItem = (name, tags) => {
+                const item = document.createElement('div');
+                item.className = 'search-dropdown-item';
+                item.textContent = name;
+                item.addEventListener('pointerdown', e => {
+                    e.preventDefault();
+                    applyShortcut(name, tags);
+                });
+                typeDropdown.appendChild(item);
+                hasItems = true;
+            };
+
+            const matchingShortcuts = SHORTCUTS.filter(s => !lower || s.name.toLowerCase().includes(lower));
+            const matchingRegular   = REGULAR.filter(r => !lower || r.toLowerCase().includes(lower));
+
+            matchingShortcuts.forEach(s => addItem(s.name, s.tags));
+
+            if (matchingShortcuts.length && matchingRegular.length) {
+                const sep = document.createElement('div');
+                sep.style.cssText = 'border-top:1px solid var(--medium-gray);margin:3px 0;';
+                typeDropdown.appendChild(sep);
+            }
+
+            matchingRegular.forEach(r => addItem(r, ''));
+
+            positionTypeDropdown();
+            typeDropdown.classList.toggle('show', hasItems);
+        };
+
+        typeInput.addEventListener('focus', () => buildTypeDropdown(typeInput.value.trim()));
+        typeInput.addEventListener('blur',  () => setTimeout(() => typeDropdown.classList.remove('show'), 150));
+        typeInput.addEventListener('input', () => buildTypeDropdown(typeInput.value.trim()));
+
+        // Remove dropdown when modal is closed
+        const cleanupDropdown = () => typeDropdown.remove();
+
+        // Parse date + type out of pasted text if first line is "YYYY-MM-DD: Type"
+        contentTextarea.addEventListener('paste', (e) => {
+            const pasted = e.clipboardData.getData('text');
+            const firstLine = pasted.split('\n')[0].trim();
+            const m = firstLine.match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)$/);
+            if (m) {
+                e.preventDefault();
+                dateInput.value = m[1];
+                typeInput.value = m[2].trim();
+                contentTextarea.value = pasted.split('\n').slice(1).join('\n').trimStart();
+            }
+        });
+
+        // --- Actions ---
         const actions = document.createElement('div');
         actions.className = 'modal-actions';
         const saveBtn = document.createElement('button');
@@ -875,7 +946,6 @@ export class EntryModal {
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn-secondary';
         cancelBtn.textContent = 'Cancel';
-
         actions.appendChild(saveBtn);
         actions.appendChild(cancelBtn);
         modal.appendChild(actions);
@@ -886,20 +956,17 @@ export class EntryModal {
         document.body.appendChild(overlay);
 
         saveBtn.addEventListener('click', () => {
-            if (typeInput.value.trim() && contentTextarea.value.trim()) {
-                const lines = [dateInput.value + ': ' + typeInput.value.trim()];
-                const content = contentTextarea.value.trim();
-                lines.push(content);
-                this.appendAndSave(lines.join('\n'), overlay);
-            } else {
-                alert('Please fill in both the entry type and content.');
+            if (!typeInput.value.trim()) {
+                alert('Please fill in the entry type.');
+                return;
             }
+            cleanupDropdown();
+            const lines = [dateInput.value + ': ' + typeInput.value.trim()];
+            if (contentTextarea.value.trim()) lines.push(contentTextarea.value.trim());
+            this.appendAndSave(lines.join('\n'), overlay);
         });
 
-        cancelBtn.addEventListener('click', () => {
-            overlay.remove();
-        });
-
+        cancelBtn.addEventListener('click', () => { cleanupDropdown(); overlay.remove(); });
     }
 
     showCommentPopup(btn) {
@@ -972,15 +1039,15 @@ export class EntryModal {
             const matchDate = existingEntry.date;
             const matchType = existingEntry.shortcutName || existingEntry.type;
 
-            // Auto-manage Tentative tag based on the new date
+            // Auto-manage Tags: preserve Favorite; add/remove Tentative based on date
             const newDateMatch = newContent.match(/^(\d{4}-\d{2}-\d{2}):/);
             if (newDateMatch) {
                 const now = new Date();
                 const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-                if (newDateMatch[1] > today) {
-                    newContent = newContent + '\nTags: Tentative';
-                }
-                // else: date is today or past — Tentative is naturally absent (modals don't generate it)
+                const existingTagsVal = existingEntry.getTagValue('Tags') || '';
+                const preserved = existingTagsVal.split(',').map(s => s.trim()).filter(s => s && s.toLowerCase() !== 'tentative');
+                if (newDateMatch[1] > today) preserved.unshift('Tentative');
+                if (preserved.length > 0) newContent = newContent + '\nTags: ' + preserved.join(', ');
             }
 
             let startLine = -1;
