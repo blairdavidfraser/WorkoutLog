@@ -1181,7 +1181,9 @@ export class EntryModal {
 
         const tags = [];
 
-        if (detail.name) tags.push(new TagData('Focus', detail.name, ''));
+        const isRace = detail.workout_type === 1 || detail.workout_type === 11;
+
+        tags.push(new TagData('Focus', isRace ? 'Race' : (detail.name || ''), ''));
         if (detail.perceived_exertion) tags.push(new TagData('RPE', String(Math.round(detail.perceived_exertion)), ''));
         if (detail.distance) tags.push(new TagData('Distance', (detail.distance / 1000).toFixed(2), ''));
         if (detail.moving_time) tags.push(new TagData('Duration', this._stravaFmtSecs(detail.moving_time), ''));
@@ -1191,6 +1193,7 @@ export class EntryModal {
 
         const detailsStr = this._buildStravaDetails(detail.id, laps, detail.splits_metric);
         if (detailsStr) tags.push(new TagData('Details', detailsStr, ''));
+        if (isRace) tags.push(new TagData('Tags', 'Favorite', ''));
 
         return new WorkoutEntry(date, type, tags);
     }
@@ -1426,7 +1429,14 @@ export class EntryModal {
                 const now = new Date();
                 const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
                 if (newDate > today) {
-                    content = content + '\nTags: Tentative';
+                    const tagsMatch = content.match(/^Tags:(.*)$/m);
+                    if (tagsMatch) {
+                        const vals = tagsMatch[1].split(',').map(s => s.trim()).filter(Boolean);
+                        if (!vals.some(v => v.toLowerCase() === 'tentative')) vals.unshift('Tentative');
+                        content = content.replace(/^Tags:.*$/m, `Tags: ${vals.join(', ')}`);
+                    } else {
+                        content = content + '\nTags: Tentative';
+                    }
                 }
             }
 
