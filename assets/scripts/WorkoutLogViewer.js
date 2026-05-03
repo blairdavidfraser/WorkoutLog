@@ -1,6 +1,7 @@
 import { WorkoutEntry, EnduranceWorkoutEntry, StrengthWorkoutEntry, DailyLogEntry } from './WorkoutEntry.js';
 import { Utilities } from './Utilities.js';
 import { formatEntry } from './EntryFormatter.js';
+import { weatherService, buildWeatherWidget } from './WeatherService.js';
 
 function copyToClipboard(text) {
   if (navigator.clipboard) {
@@ -161,22 +162,65 @@ export class WorkoutLogViewer {
       return;
     }
 
+    const today = new Date().toISOString().slice(0, 10);
+    const futureEntries = entries.filter(e => e.date > today);
+
     let dayIndex = 0;
     let lastDate = null;
+    let dividerInserted = false;
+
     entries.forEach(entry => {
+      if (!dividerInserted && entry.date > today) {
+        dividerInserted = true;
+        container.appendChild(this.createScheduledDivider(futureEntries));
+      }
       if (entry.date !== lastDate) {
         lastDate = entry.date;
         dayIndex++;
       }
-      const entryDiv = this.createEntryElement(entry);
+      const entryDiv = this.createEntryElement(entry, entry.date > today);
       entryDiv.classList.add(dayIndex % 2 === 0 ? 'day-stripe-even' : 'day-stripe-odd');
       container.appendChild(entryDiv);
     });
 
-    requestAnimationFrame(() => { container.scrollTop = container.scrollHeight; });
+    requestAnimationFrame(() => {
+      const divider = container.querySelector('.scheduled-divider');
+      if (divider) {
+        divider.scrollIntoView({ block: 'start', behavior: 'instant' });
+      } else {
+        container.scrollTop = container.scrollHeight;
+      }
+    });
   }
 
-  createEntryElement(entry) {
+  createScheduledDivider(futureEntries) {
+    const btn = document.createElement('button');
+    btn.className = 'scheduled-divider';
+    btn.textContent = 'Scheduled Workouts';
+
+    let lastTap = 0;
+    const copyScheduled = () => {
+      const lines = ['# Scheduled Future Workouts'];
+      futureEntries.forEach(e => lines.push(formatEntry(e)));
+      copyToClipboard(lines.join('\n\n'));
+      showCopyToast();
+    };
+
+    btn.addEventListener('dblclick', copyScheduled);
+    btn.addEventListener('touchend', () => {
+      const now = Date.now();
+      if (now - lastTap < 350) {
+        lastTap = 0;
+        copyScheduled();
+      } else {
+        lastTap = now;
+      }
+    }, { passive: true });
+
+    return btn;
+  }
+
+  createEntryElement(entry, isFuture = false) {
     const entryDiv = document.createElement('div');
     entryDiv.className = 'log-entry-text';
 
@@ -252,6 +296,19 @@ export class WorkoutLogViewer {
     });
 
     entryDiv.appendChild(tagsEl);
+
+    if (isFuture) {
+      const weatherHolder = document.createElement('div');
+      weatherHolder.className = 'weather-widget weather-widget--loading';
+      weatherHolder.textContent = '⛅ …';
+      entryDiv.appendChild(weatherHolder);
+      weatherService.getWeatherForDate(entry.date)
+        .then(w => {
+          if (w) entryDiv.replaceChild(buildWeatherWidget(w), weatherHolder);
+          else weatherHolder.remove();
+        })
+        .catch(() => weatherHolder.remove());
+    }
 
     // Double-tap / double-click → copy entry to clipboard
     let lastTap = 0;

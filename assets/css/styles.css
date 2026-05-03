@@ -253,106 +253,28 @@ button {
   user-select: none;
 }
 
-.plan-rows {
-  display: flex;
-  flex-direction: column;
-}
-
-.plan-row {
-  display: grid;
-  grid-template-columns: 80px 70px 1fr auto auto;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xs);
-  border-bottom: 1px solid var(--medium-gray);
-  cursor: default;
-  align-items: center;
-  user-select: none;
-}
-
-.plan-row-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  align-self: stretch;
-}
-
-.plan-drag-handle {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-  color: #999;
-  font-size: 0.55rem;
-  width: 12px;
-  align-self: stretch;
-  background: #e0e0e0;
-  border-radius: 3px;
-  user-select: none;
+/* ========== Scheduled Workouts Divider ========== */
+.scheduled-divider {
+  display: block;
+  width: 100%;
+  padding: 0.55rem var(--spacing-sm);
+  background: var(--primary-red);
+  color: white;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
 }
 
-.plan-drag-handle::before {
-  content: '∧';
-  line-height: 1;
-}
-
-.plan-drag-handle::after {
-  content: '∨';
-  line-height: 1;
-}
-
-.plan-drag-handle:active {
-  cursor: grabbing;
-  background: #cacaca;
-}
-
-
-.plan-row:last-child {
-  border-bottom: none;
-}
-
-.plan-row.dragging {
-  opacity: 0.4;
-}
-
-.plan-row.drag-over {
-  border-top: 2px solid var(--primary-red);
-}
-
-.plan-row--completed .plan-date,
-.plan-row--completed .plan-type,
-.plan-row--completed .plan-focus,
-.plan-row--completed .plan-rpe {
-  text-decoration: line-through;
-  color: #aaa;
-}
-
-.plan-row--completed .plan-date {
-  cursor: default;
-}
-
-.plan-row--completed .plan-type {
-  cursor: default;
-  text-decoration-color: #aaa;
-}
-
-.plan-date {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--dark-gray);
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.plan-type {
-  font-weight: 600;
-  font-size: 0.88rem;
-  color: var(--primary-red);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-color: color-mix(in srgb, var(--primary-red) 40%, transparent);
+.scheduled-divider:active {
+  background: #b71c1c;
 }
 
 /* ========== Weather Widget ========== */
@@ -411,19 +333,6 @@ button {
   text-decoration: underline;
 }
 
-.plan-focus {
-  font-size: 0.85rem;
-  color: var(--text-dark);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.plan-rpe {
-  font-size: 0.8rem;
-  color: var(--dark-gray);
-  white-space: nowrap;
-}
 
 .dashboard-divider {
   border: none;

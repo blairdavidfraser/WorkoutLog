@@ -1093,63 +1093,77 @@ export class EntryModal {
         try {
             const currentText = await this.persistence.loadWorkoutLog();
 
-            // Extract date from content (format: YYYY-MM-DD: ...)
-            const dateMatch = content.match(/^(\d{4}-\d{2}-\d{2})/);
+            const dateMatch = content.match(/^(\d{4}-\d{2}-\d{2}):\s*(\S+)/);
             const newDate = dateMatch ? dateMatch[1] : null;
+            const newType = dateMatch ? dateMatch[2] : null;
 
             let newText;
             let startPosition;
             let endPosition;
 
             if (!newDate) {
-                // Fallback to appending if date parsing fails
                 newText = currentText + (currentText ? '\n\n' : '') + content;
                 startPosition = currentText.length + (currentText ? 2 : 0);
                 endPosition = newText.length;
             } else {
-                // Find the chronological position to insert
                 const lines = currentText.split('\n');
-                let insertIndex = -1;
-                let emptyLineOffset = 0;
 
-                // Find where this entry should go by date
+                // Build ordered list of entry headers
+                const entryHeaders = [];
                 for (let i = 0; i < lines.length; i++) {
-                    const line = lines[i];
-                    const lineDateMatch = line.match(/^(\d{4}-\d{2}-\d{2})/);
+                    const m = lines[i].match(/^(\d{4}-\d{2}-\d{2}):\s*(\S+)/);
+                    if (m) entryHeaders.push({ line: i, date: m[1], type: m[2] });
+                }
 
-                    if (lineDateMatch) {
-                        const lineDate = lineDateMatch[1];
-                        if (newDate >= lineDate) {
-                            // New entry is newer or same date, keep looking
-                            insertIndex = i;
-                        } else if (newDate < lineDate) {
-                            // New entry is older, insert before this entry
-                            break;
-                        }
-                    }
+                // Last entry header index with date strictly before newDate
+                let lastBeforeIdx = -1;
+                for (let i = entryHeaders.length - 1; i >= 0; i--) {
+                    if (entryHeaders[i].date < newDate) { lastBeforeIdx = i; break; }
+                }
+
+                // Indices of same-date entries
+                const sameDateIdxs = entryHeaders
+                    .map((e, i) => ({ ...e, idx: i }))
+                    .filter(e => e.date === newDate)
+                    .map(e => e.idx);
+
+                // Determine insertion point (index into entryHeaders, -1 = prepend)
+                let insertAfterIdx;
+                if (sameDateIdxs.length === 0) {
+                    // No same-date entries: insert after last earlier entry
+                    insertAfterIdx = lastBeforeIdx;
+                } else if (newType === 'Daily') {
+                    // Daily goes first on the day — before all same-date entries
+                    insertAfterIdx = lastBeforeIdx;
+                } else if (newType === 'Nutrition') {
+                    // Nutrition goes last on the day
+                    insertAfterIdx = sameDateIdxs[sameDateIdxs.length - 1];
+                } else {
+                    // Other workouts: after last non-Nutrition same-date entry
+                    const lastNonNutritionIdx = [...sameDateIdxs]
+                        .reverse()
+                        .find(i => entryHeaders[i].type !== 'Nutrition');
+                    insertAfterIdx = lastNonNutritionIdx !== undefined
+                        ? lastNonNutritionIdx
+                        : lastBeforeIdx; // only Nutrition exists: insert before it
                 }
 
                 let resultText;
-                if (insertIndex === -1) {
-                    // Prepend at the beginning
+                if (insertAfterIdx === undefined || insertAfterIdx === -1) {
+                    // Prepend
                     resultText = content + (currentText ? '\n\n' + currentText : '');
                     startPosition = 0;
                 } else {
-                    // Insert after the entry at insertIndex
-                    // Find the end of that entry (next empty line or entry)
-                    let endOfEntry = insertIndex + 1;
-                    while (endOfEntry < lines.length && lines[endOfEntry].trim() !== '' && !lines[endOfEntry].match(/^\d{4}-\d{2}-\d{2}/)) {
-                        endOfEntry++;
+                    const insertAtLine = entryHeaders[insertAfterIdx].line;
+                    let endLine = insertAtLine + 1;
+                    while (endLine < lines.length && lines[endLine].trim() !== '' && !lines[endLine].match(/^\d{4}-\d{2}-\d{2}/)) {
+                        endLine++;
                     }
-
-                    // Skip empty lines between entries
-                    while (endOfEntry < lines.length && lines[endOfEntry].trim() === '') {
-                        endOfEntry++;
+                    while (endLine < lines.length && lines[endLine].trim() === '') {
+                        endLine++;
                     }
-
-                    const beforeLines = lines.slice(0, endOfEntry);
-                    const afterLines = lines.slice(endOfEntry);
-
+                    const beforeLines = lines.slice(0, endLine);
+                    const afterLines = lines.slice(endLine);
                     resultText = beforeLines.join('\n') + (beforeLines.length > 0 ? '\n\n' : '') + content + (afterLines.length > 0 ? '\n\n' + afterLines.join('\n') : '');
                     startPosition = beforeLines.join('\n').length + (beforeLines.length > 0 ? 2 : 0);
                 }
@@ -1159,17 +1173,12 @@ export class EntryModal {
             }
 
             this.editor.textarea.value = newText;
-
             await this.persistence.saveWorkoutLog(newText);
             this.editor.originalText = newText;
 
             overlay.remove();
-
-            // Highlight the new entry
             this.editor.textarea.focus();
             this.editor.textarea.setSelectionRange(startPosition, endPosition);
-
-            // Scroll textarea to show the new entry
             this.editor.textarea.scrollTop = this.editor.textarea.scrollHeight;
 
             showToast('Saved to Workout Log');
