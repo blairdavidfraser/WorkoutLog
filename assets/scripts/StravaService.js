@@ -23,6 +23,12 @@ export class StravaService {
     localStorage.setItem(CLIENT_SECRET_KEY, clientSecret.trim());
   }
 
+  clearCredentials() {
+    localStorage.removeItem(CLIENT_ID_KEY);
+    localStorage.removeItem(CLIENT_SECRET_KEY);
+    this.disconnect();
+  }
+
   isConnected() {
     return !!this._loadTokens();
   }

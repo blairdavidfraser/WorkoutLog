@@ -997,6 +997,9 @@ export class EntryModal {
 
             const clientIdInput = mkRow('Client ID', 'text');
             const clientSecretInput = mkRow('Client Secret', 'password');
+            const existing = stravaService._creds();
+            if (existing.clientId) clientIdInput.value = existing.clientId;
+            if (existing.clientSecret) clientSecretInput.value = existing.clientSecret;
             modal.appendChild(table);
 
             const actions = document.createElement('div');
@@ -1035,12 +1038,17 @@ export class EntryModal {
             modal.appendChild(msg);
             const actions = document.createElement('div');
             actions.className = 'modal-actions';
+            const resetBtn = document.createElement('button');
+            resetBtn.className = 'btn-secondary';
+            resetBtn.textContent = 'Reset Credentials';
+            resetBtn.style.marginRight = 'auto';
             const connectBtn = document.createElement('button');
             connectBtn.className = 'btn-primary';
             connectBtn.textContent = 'Connect Strava';
             const cancelBtn = document.createElement('button');
             cancelBtn.className = 'btn-secondary';
             cancelBtn.textContent = 'Cancel';
+            actions.appendChild(resetBtn);
             actions.appendChild(connectBtn);
             actions.appendChild(cancelBtn);
             modal.appendChild(actions);
@@ -1048,6 +1056,11 @@ export class EntryModal {
             overlay.className = 'modal-overlay';
             overlay.appendChild(modal);
             document.body.appendChild(overlay);
+            resetBtn.addEventListener('click', () => {
+                stravaService.clearCredentials();
+                overlay.remove();
+                this.showStravaEntry(stravaService);
+            });
             connectBtn.addEventListener('click', () => { overlay.remove(); stravaService.authorize(); });
             cancelBtn.addEventListener('click', () => overlay.remove());
             return;
