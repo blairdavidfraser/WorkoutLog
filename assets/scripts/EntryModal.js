@@ -1038,17 +1038,12 @@ export class EntryModal {
             modal.appendChild(msg);
             const actions = document.createElement('div');
             actions.className = 'modal-actions';
-            const resetBtn = document.createElement('button');
-            resetBtn.className = 'btn-secondary';
-            resetBtn.textContent = 'Reset Credentials';
-            resetBtn.style.marginRight = 'auto';
             const connectBtn = document.createElement('button');
             connectBtn.className = 'btn-primary';
             connectBtn.textContent = 'Connect Strava';
             const cancelBtn = document.createElement('button');
             cancelBtn.className = 'btn-secondary';
             cancelBtn.textContent = 'Cancel';
-            actions.appendChild(resetBtn);
             actions.appendChild(connectBtn);
             actions.appendChild(cancelBtn);
             modal.appendChild(actions);
@@ -1056,12 +1051,11 @@ export class EntryModal {
             overlay.className = 'modal-overlay';
             overlay.appendChild(modal);
             document.body.appendChild(overlay);
-            resetBtn.addEventListener('click', () => {
+            connectBtn.addEventListener('click', () => {
                 stravaService.clearCredentials();
                 overlay.remove();
                 this.showStravaEntry(stravaService);
             });
-            connectBtn.addEventListener('click', () => { overlay.remove(); stravaService.authorize(); });
             cancelBtn.addEventListener('click', () => overlay.remove());
             return;
         }
@@ -1107,6 +1101,13 @@ export class EntryModal {
                 `;
 
                 item.addEventListener('click', async () => {
+                    const BIKE_SPORTS = ['Ride', 'VirtualRide', 'EBikeRide', 'MountainBikeRide', 'GravelRide'];
+                    const sport = activity.sport_type || activity.type || '';
+                    if (activity.commute && BIKE_SPORTS.includes(sport)) {
+                        overlay.remove();
+                        this._saveCommuteEntry(activity);
+                        return;
+                    }
                     list.style.pointerEvents = 'none';
                     const saved = item.innerHTML;
                     item.innerHTML = '<div class="strava-activity-name">Loading…</div>';
@@ -1156,6 +1157,15 @@ export class EntryModal {
         return `${min}:${String(sec).padStart(2, '0')}/km`;
     }
 
+    _saveCommuteEntry(activity) {
+        const date = activity.start_date_local.substring(0, 10);
+        const lines = [`${date}: Cycle Commute`, 'RPE: 3'];
+        if (activity.distance) lines.push(`Distance: ${(activity.distance / 1000).toFixed(2)}`);
+        if (activity.moving_time) lines.push(`Duration: ${this._stravaFmtSecs(activity.moving_time)}`);
+        const fakeOverlay = document.createElement('div');
+        this.appendAndSave(lines.join('\n'), fakeOverlay);
+    }
+
     _buildStravaEntry(detail, laps) {
         const TYPE_MAP = {
             Run: 'Run', VirtualRun: 'Run', TrailRun: 'Run',
@@ -1174,7 +1184,7 @@ export class EntryModal {
 
         if (detail.name) tags.push(new TagData('Focus', detail.name, ''));
         if (detail.perceived_exertion) tags.push(new TagData('RPE', String(Math.round(detail.perceived_exertion)), ''));
-        if (detail.distance) tags.push(new TagData('Distance', (detail.distance / 1000).toFixed(2) + ' km', ''));
+        if (detail.distance) tags.push(new TagData('Distance', (detail.distance / 1000).toFixed(2), ''));
         if (detail.moving_time) tags.push(new TagData('Duration', this._stravaFmtSecs(detail.moving_time), ''));
         if (detail.device_watts && detail.average_watts) tags.push(new TagData('Power', String(Math.round(detail.average_watts)), ''));
         if (detail.average_heartrate) tags.push(new TagData('Avg HR', String(Math.round(detail.average_heartrate)), ''));
