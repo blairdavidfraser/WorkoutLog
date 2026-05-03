@@ -238,7 +238,7 @@ export class EntryModal {
         table.appendChild(dateRow);
 
         const fields = [
-            { label: 'Type', type: 'select', options: ['Run', 'Cycle', 'Erg', 'Swim', 'Row', 'Yoga'], noComment: false },
+            { label: 'Type', type: 'select', options: ['Run', 'Cycle', 'Cycle Commute', 'Erg', 'Swim', 'Row', 'Yoga'], noComment: false },
             { label: 'Focus', type: 'text', noComment: false },
             { label: 'RPE', type: 'select', options: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], noComment: false },
             { label: 'Distance', type: 'text', noComment: false, placeholder: 'km' },
@@ -354,7 +354,7 @@ export class EntryModal {
 
         const getActivityType = () => {
             const type = formData['Type'].input.value;
-            if (['Run', 'Swim', 'Cycle', 'Row', 'Erg', 'Yoga'].includes(type)) {
+            if (['Run', 'Swim', 'Cycle', 'Cycle Commute', 'Row', 'Erg', 'Yoga'].includes(type)) {
                 return type;
             }
             return 'Cardio';
@@ -1105,7 +1105,7 @@ export class EntryModal {
                     const sport = activity.sport_type || activity.type || '';
                     if (activity.commute && BIKE_SPORTS.includes(sport)) {
                         overlay.remove();
-                        this._saveCommuteEntry(activity);
+                        this.showCardio(null, this._buildCommuteEntry(activity));
                         return;
                     }
                     list.style.pointerEvents = 'none';
@@ -1157,13 +1157,12 @@ export class EntryModal {
         return `${min}:${String(sec).padStart(2, '0')}/km`;
     }
 
-    _saveCommuteEntry(activity) {
+    _buildCommuteEntry(activity) {
         const date = activity.start_date_local.substring(0, 10);
-        const lines = [`${date}: Cycle Commute`, 'RPE: 3'];
-        if (activity.distance) lines.push(`Distance: ${(activity.distance / 1000).toFixed(2)}`);
-        if (activity.moving_time) lines.push(`Duration: ${this._stravaFmtSecs(activity.moving_time)}`);
-        const fakeOverlay = document.createElement('div');
-        this.appendAndSave(lines.join('\n'), fakeOverlay);
+        const tags = [new TagData('RPE', '3', '')];
+        if (activity.distance) tags.push(new TagData('Distance', (activity.distance / 1000).toFixed(2), ''));
+        if (activity.moving_time) tags.push(new TagData('Duration', this._stravaFmtSecs(activity.moving_time), ''));
+        return new WorkoutEntry(date, 'Cycle Commute', tags);
     }
 
     _buildStravaEntry(detail, laps) {
