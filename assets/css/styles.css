@@ -631,6 +631,7 @@ canvas {
   left: 0;
   width: 80px;
   background: #1565C0;
+  font-size: 0.72rem;
 }
 
 .entry-swipe-action--delete {
@@ -645,6 +646,13 @@ canvas {
   .delete-entry-btn {
     display: none;
   }
+}
+
+.log-entry-text.tentative-entry,
+.log-entry-text.tentative-entry.day-stripe-odd,
+.log-entry-text.tentative-entry.day-stripe-even {
+  background-color: #fff8c5;
+  border-left-color: #d4a017;
 }
 
 .log-entry-text.day-stripe-odd {

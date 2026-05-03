@@ -45,6 +45,7 @@ export class WorkoutLogViewer {
     this.onEditEntry = null;
     this.onDeleteEntry = null;
     this.onScheduledSave = null;
+    this.onEditScheduledEntry = null;
     this.activityColors = {
       'Run': 'run',
       'Swim': 'swim',
@@ -248,7 +249,7 @@ export class WorkoutLogViewer {
 
     const thead = document.createElement('thead');
     const hRow = document.createElement('tr');
-    [['Date', ''], ['Activity', ''], ['Focus', ''], ['Notes', ''], ['', 'width:20px']].forEach(([text, sty]) => {
+    [['Date', ''], ['Activity', ''], ['Focus', ''], ['', 'width:28px'], ['', 'width:20px']].forEach(([text, sty]) => {
       const th = document.createElement('th');
       th.style.cssText = `text-align:left;padding:3px 4px;font-weight:600;font-size:0.78rem;color:var(--dark-gray);border-bottom:1px solid var(--medium-gray);white-space:nowrap;${sty}`;
       th.textContent = text;
@@ -266,7 +267,7 @@ export class WorkoutLogViewer {
 
     const rows = [];
 
-    const addRow = ({ date = '', type = '', focus = '', notes = '' } = {}) => {
+    const addRow = ({ date = '', type = '', focus = '', notes = '', entry = null } = {}) => {
       const tr = document.createElement('tr');
       const mkTd = (sty = '') => {
         const td = document.createElement('td');
@@ -277,15 +278,13 @@ export class WorkoutLogViewer {
 
       const dateInput = document.createElement('input');
       dateInput.type = 'date';
-      dateInput.style.cssText = F + 'min-width:130px;';
+      dateInput.style.cssText = F + 'min-width:110px;';
       dateInput.value = date;
-      dateInput.addEventListener('input', () => {
-        if (dateInput.value && dateInput.validity.valid) dateInput.blur();
-      });
+      dateInput.addEventListener('change', () => dateInput.blur());
       mkTd().appendChild(dateInput);
 
       const typeSelect = document.createElement('select');
-      typeSelect.style.cssText = F + 'min-width:80px;';
+      typeSelect.style.cssText = F + 'min-width:70px;';
       TYPES.forEach(t => {
         const o = document.createElement('option');
         o.value = t; o.textContent = t || '–';
@@ -299,10 +298,19 @@ export class WorkoutLogViewer {
       focusInput.value = focus; focusInput.placeholder = 'Easy aerobic…';
       mkTd().appendChild(focusInput);
 
-      const notesInput = document.createElement('input');
-      notesInput.type = 'text'; notesInput.style.cssText = F;
-      notesInput.value = notes;
-      mkTd().appendChild(notesInput);
+      // Pencil — opens full entry modal for existing entries
+      const pencilBtn = document.createElement('button');
+      pencilBtn.type = 'button'; pencilBtn.textContent = '✏️';
+      pencilBtn.style.cssText = 'background:none;border:none;font-size:0.95rem;cursor:pointer;padding:0;width:28px;line-height:1;filter:grayscale(1);opacity:' + (entry ? '0.45' : '0.15') + ';';
+      if (entry) {
+        pencilBtn.addEventListener('click', () => {
+          overlay.remove();
+          if (this.onEditScheduledEntry) this.onEditScheduledEntry(entry, () => this.showScheduledModal());
+        });
+      } else {
+        pencilBtn.disabled = true;
+      }
+      mkTd('width:28px;text-align:center;').appendChild(pencilBtn);
 
       const delBtn = document.createElement('button');
       delBtn.type = 'button'; delBtn.textContent = '×';
@@ -311,7 +319,7 @@ export class WorkoutLogViewer {
       mkTd('width:20px;').appendChild(delBtn);
 
       tbody.appendChild(tr);
-      const rowRef = { dateInput, typeSelect, focusInput, notesInput };
+      const rowRef = { dateInput, typeSelect, focusInput, notes };
       rows.push(rowRef);
     };
 
@@ -319,6 +327,7 @@ export class WorkoutLogViewer {
       date: e.date, type: e.type,
       focus: e.getTagValue('Focus') || '',
       notes: e.getTagValue('Notes') || '',
+      entry: e,
     }));
     for (let i = 0; i < 5; i++) addRow();
 
@@ -338,7 +347,7 @@ export class WorkoutLogViewer {
     actions.style.cssText = 'padding-top:0;border-top:none;gap:var(--spacing-sm);';
 
     const getValidRows = () => rows
-      .map(r => ({ date: r.dateInput.value, type: r.typeSelect.value, focus: r.focusInput.value.trim(), notes: r.notesInput.value.trim() }))
+      .map(r => ({ date: r.dateInput.value, type: r.typeSelect.value, focus: r.focusInput.value.trim(), notes: r.notes || '' }))
       .filter(r => r.date && r.type);
 
     const copyBtn = document.createElement('button');
@@ -383,7 +392,12 @@ export class WorkoutLogViewer {
 
   createEntryElement(entry, isFuture = false) {
     const entryDiv = document.createElement('div');
-    entryDiv.className = 'log-entry-text';
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const isTentative = entry.hasTag('Tags') && entry.getTagValue('Tags') === 'Tentative';
+    const isTentativePast = isTentative && entry.date <= today;
+
+    entryDiv.className = 'log-entry-text' + (isTentativePast ? ' tentative-entry' : '');
 
     // Header row: date + type link (left), pencil (right)
     const header = document.createElement('div');
@@ -431,7 +445,8 @@ export class WorkoutLogViewer {
     const tagsEl = document.createElement('pre');
     tagsEl.className = 'log-entry-tags';
 
-    entry.getAllTags().forEach((tag, index) => {
+    const visibleTags = entry.getAllTags().filter(t => !(t.tag === 'Tags' && t.value === 'Tentative'));
+    visibleTags.forEach((tag, index) => {
       const tagLink = document.createElement('a');
       tagLink.href = '#';
       tagLink.className = 'tag-hyperlink';
@@ -461,7 +476,7 @@ export class WorkoutLogViewer {
         tagsEl.appendChild(commentSpan);
       }
 
-      if (index < entry.getAllTags().length - 1) {
+      if (index < visibleTags.length - 1) {
         tagsEl.appendChild(document.createTextNode('\n'));
       }
     });

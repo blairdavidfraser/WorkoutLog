@@ -972,6 +972,17 @@ export class EntryModal {
             const matchDate = existingEntry.date;
             const matchType = existingEntry.shortcutName || existingEntry.type;
 
+            // Auto-manage Tentative tag based on the new date
+            const newDateMatch = newContent.match(/^(\d{4}-\d{2}-\d{2}):/);
+            if (newDateMatch) {
+                const now = new Date();
+                const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+                if (newDateMatch[1] > today) {
+                    newContent = newContent + '\nTags: Tentative';
+                }
+                // else: date is today or past — Tentative is naturally absent (modals don't generate it)
+            }
+
             let startLine = -1;
             for (let i = 0; i < lines.length; i++) {
                 const m = lines[i].match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)$/);
@@ -1096,6 +1107,15 @@ export class EntryModal {
             const dateMatch = content.match(/^(\d{4}-\d{2}-\d{2}):\s*(\S+)/);
             const newDate = dateMatch ? dateMatch[1] : null;
             const newType = dateMatch ? dateMatch[2] : null;
+
+            // Auto-manage Tentative tag: future entries are tentative, past/today are not
+            if (newDate) {
+                const now = new Date();
+                const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+                if (newDate > today) {
+                    content = content + '\nTags: Tentative';
+                }
+            }
 
             let newText;
             let startPosition;

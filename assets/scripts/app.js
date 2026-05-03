@@ -64,6 +64,7 @@ class App {
             const lines = [`${r.date}: ${r.type}`];
             if (r.focus) lines.push(`Focus: ${r.focus}`);
             if (r.notes) lines.push(`Notes: ${r.notes}`);
+            lines.push(`Tags: Tentative`);
             return lines.join('\n');
           });
 
@@ -87,6 +88,7 @@ class App {
     };
 
     this.viewer.onDeleteEntry = (entry) => this.deleteEntry(entry);
+    this.viewer.onEditScheduledEntry = (entry, reopen) => this.editScheduledEntry(entry, reopen);
 
     // Initialize workout-log to view mode state
     this.enterViewMode(false);
@@ -122,6 +124,16 @@ class App {
     this.editor.populateTagSuggestions();
     if (this.currentView === 'history' && this.logMode === 'view') this.viewer.render();
     if (this.currentView === 'dashboard') this.dashboard.render();
+  }
+
+  editScheduledEntry(entry, reopen) {
+    const savedOnSaved = this.entryModal.onSaved;
+    this.entryModal.onSaved = async () => {
+      await savedOnSaved();
+      this.entryModal.onSaved = savedOnSaved;
+      reopen();
+    };
+    this.openModalForEntry(entry);
   }
 
   setupNavigation() {
@@ -337,6 +349,7 @@ class App {
           this.viewer = new WorkoutLogViewer(this.workoutLog);
           this.viewer.onEditEntry = (entry) => this.openModalForEntry(entry);
           this.viewer.onDeleteEntry = (entry) => this.deleteEntry(entry);
+          this.viewer.onEditScheduledEntry = (entry, reopen) => this.editScheduledEntry(entry, reopen);
           this.dashboard = new Dashboard(this.workoutLog);
           this.editor.workoutLog = this.workoutLog;
           this.editor.populateTagSuggestions();
