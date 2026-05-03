@@ -5,6 +5,7 @@ import { Dashboard } from './Dashboard.js';
 import { Persistence } from './Persistence.js';
 import { EntryModal } from './EntryModal.js';
 import { GitHub } from './GitHub.js';
+import { StravaService } from './StravaService.js';
 
 /**
  * Main Application Controller
@@ -13,6 +14,7 @@ class App {
   constructor() {
     this.persistence = new Persistence();
     this.github = new GitHub();
+    this.stravaService = new StravaService();
     this.workoutLog = null;
     this.viewer = null;
     this.editor = null;
@@ -22,6 +24,18 @@ class App {
   }
 
   async init() {
+    // Handle Strava OAuth redirect
+    const urlParams = new URLSearchParams(window.location.search);
+    const stravaCode = urlParams.get('code');
+    if (stravaCode && this.stravaService.isConfigured()) {
+      try {
+        await this.stravaService.handleOAuthCallback(stravaCode);
+        this.showToast('Connected to Strava ✓');
+      } catch (e) {
+        console.error('Strava auth error:', e);
+      }
+    }
+
     // Load data
     const logText = await this.persistence.loadWorkoutLog();
     this.workoutLog = WorkoutLog.parse(logText);
@@ -373,6 +387,7 @@ class App {
           case 'cardio':    this.entryModal.showCardio(); break;
           case 'strength':  this.entryModal.showStrength(); break;
           case 'nutrition': this.entryModal.showNutrition(); break;
+          case 'strava':    this.entryModal.showStravaEntry(this.stravaService); break;
           case 'misc':      this.entryModal.showMiscellaneous(); break;
         }
       });

@@ -202,7 +202,7 @@ export class EntryModal {
         }
     }
 
-    showCardio(existingEntry = null) {
+    showCardio(existingEntry = null, prefill = null) {
         const modal = this.createModal('Cardio Entry');
         const table = document.createElement('table');
         table.className = 'form-table';
@@ -247,7 +247,8 @@ export class EntryModal {
             { label: 'Avg HR', type: 'text', noComment: false, placeholder: 'bpm' },
             { label: 'Max HR', type: 'text', noComment: false, placeholder: 'bpm' },
             { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
-            { label: 'Notes', type: 'textarea', noComment: true }
+            { label: 'Details', type: 'textarea', noComment: true, rows: 3 },
+            { label: 'Notes', type: 'textarea', noComment: true, rows: 3 }
         ];
 
         const formData = {};
@@ -278,10 +279,11 @@ export class EntryModal {
                 });
             } else if (field.type === 'textarea') {
                 input = document.createElement('textarea');
-                if (field.label === 'Notes') {
+                if (field.noComment) {
                     input.className = 'notes-field';
                     inputCell.className = 'notes-cell';
                 }
+                if (field.rows) input.rows = field.rows;
             } else {
                 input = document.createElement('input');
                 input.type = field.type;
@@ -292,8 +294,7 @@ export class EntryModal {
             inputCell.appendChild(input);
             tr.appendChild(inputCell);
 
-            // For Notes field, only create 3 cells; for others, create 4
-            if (field.label !== 'Notes') {
+            if (!field.noComment) {
                 const commentBtnCell = document.createElement('td');
                 commentBtnCell.className = 'comment-btn-cell';
                 const commentBtn = document.createElement('button');
@@ -313,19 +314,20 @@ export class EntryModal {
             table.appendChild(tr);
         });
 
-        // Pre-populate if editing
-        if (existingEntry) {
-            dateInput.value = existingEntry.date;
-            formData['Type'].input.value = existingEntry.type;
-            ['Focus', 'RPE', 'Distance', 'Duration', 'Power', 'Avg HR', 'Max HR', 'Pain', 'Notes'].forEach(label => {
-                const field = formData[label];
-                if (!field) return;
-                const val = existingEntry.getTagValue(label);
-                const comment = existingEntry.getTagComment(label);
-                if (val !== null && val !== undefined) field.input.value = val;
-                if (comment && field.commentBtn) {
-                    field.commentBtn._comment = comment;
-                    field.commentBtn.classList.add('has-comment');
+        // Pre-populate if editing or prefilling from Strava
+        const source = existingEntry || prefill;
+        if (source) {
+            dateInput.value = source.date;
+            formData['Type'].input.value = source.type;
+            ['Focus', 'RPE', 'Distance', 'Duration', 'Power', 'Avg HR', 'Max HR', 'Pain', 'Details', 'Notes'].forEach(label => {
+                const f = formData[label];
+                if (!f) return;
+                const val = source.getTagValue(label);
+                const comment = source.getTagComment(label);
+                if (val !== null && val !== undefined) f.input.value = val;
+                if (comment && f.commentBtn) {
+                    f.commentBtn._comment = comment;
+                    f.commentBtn.classList.add('has-comment');
                 }
             });
         }
@@ -388,6 +390,7 @@ export class EntryModal {
         const mh = field('Max HR');   if (mh.value) tags.push(new TagData('Max HR',   mh.value, mh.comment));
         const pa = field('Pain');     if (pa.value) tags.push(new TagData('Pain',     pa.value, pa.comment));
         const no = field('Notes');    if (no.value) tags.push(new TagData('Notes',    no.value, ''));
+        const de = field('Details');  if (de.value) tags.push(new TagData('Details',  de.value, ''));
 
         const content = formatEntry(new WorkoutEntry(selectedDate, activityType, tags));
         if (existingEntry) {
@@ -967,6 +970,227 @@ export class EntryModal {
         });
 
         cancelBtn.addEventListener('click', () => { cleanupDropdown(); overlay.remove(); });
+    }
+
+    showStravaEntry(stravaService) {
+        const modal = this.createModal('Strava Entry');
+
+        if (!stravaService || !stravaService.isConfigured()) {
+            const instructions = document.createElement('p');
+            instructions.style.cssText = 'color:var(--dark-gray);margin:var(--spacing-md) 0 var(--spacing-sm);font-size:0.9rem;';
+            instructions.innerHTML = 'Create a Strava API app at <a href="https://www.strava.com/settings/api" target="_blank">strava.com/settings/api</a>. Set the Authorization Callback Domain to <code>' + location.hostname + '</code>.';
+            modal.appendChild(instructions);
+
+            const table = document.createElement('table');
+            table.className = 'form-table';
+
+            const mkRow = (label, type) => {
+                const tr = document.createElement('tr');
+                const lc = document.createElement('td'); lc.className = 'label-cell'; lc.textContent = label; tr.appendChild(lc);
+                const sc = document.createElement('td'); sc.className = 'separator'; sc.textContent = ':'; tr.appendChild(sc);
+                const ic = document.createElement('td');
+                const input = document.createElement('input'); input.type = type; input.style.width = '100%';
+                ic.appendChild(input); tr.appendChild(ic);
+                table.appendChild(tr);
+                return input;
+            };
+
+            const clientIdInput = mkRow('Client ID', 'text');
+            const clientSecretInput = mkRow('Client Secret', 'password');
+            modal.appendChild(table);
+
+            const actions = document.createElement('div');
+            actions.className = 'modal-actions';
+            const saveBtn = document.createElement('button');
+            saveBtn.className = 'btn-primary';
+            saveBtn.textContent = 'Save & Connect';
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'btn-secondary';
+            cancelBtn.textContent = 'Cancel';
+            actions.appendChild(saveBtn);
+            actions.appendChild(cancelBtn);
+            modal.appendChild(actions);
+
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            saveBtn.addEventListener('click', () => {
+                const id = clientIdInput.value.trim();
+                const secret = clientSecretInput.value.trim();
+                if (!id || !secret) { showToast('Enter both Client ID and Client Secret'); return; }
+                stravaService.saveCredentials(id, secret);
+                overlay.remove();
+                stravaService.authorize();
+            });
+            cancelBtn.addEventListener('click', () => overlay.remove());
+            return;
+        }
+
+        if (!stravaService.isConnected()) {
+            const msg = document.createElement('p');
+            msg.style.cssText = 'color:var(--dark-gray);margin:var(--spacing-lg) 0;';
+            msg.textContent = 'Connect your Strava account to import workouts.';
+            modal.appendChild(msg);
+            const actions = document.createElement('div');
+            actions.className = 'modal-actions';
+            const connectBtn = document.createElement('button');
+            connectBtn.className = 'btn-primary';
+            connectBtn.textContent = 'Connect Strava';
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'btn-secondary';
+            cancelBtn.textContent = 'Cancel';
+            actions.appendChild(connectBtn);
+            actions.appendChild(cancelBtn);
+            modal.appendChild(actions);
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+            connectBtn.addEventListener('click', () => { overlay.remove(); stravaService.authorize(); });
+            cancelBtn.addEventListener('click', () => overlay.remove());
+            return;
+        }
+
+        const statusMsg = document.createElement('p');
+        statusMsg.className = 'strava-status';
+        statusMsg.textContent = 'Loading recent activities…';
+        modal.appendChild(statusMsg);
+
+        const actions = document.createElement('div');
+        actions.className = 'modal-actions';
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'btn-secondary';
+        cancelBtn.textContent = 'Cancel';
+        actions.appendChild(cancelBtn);
+        modal.appendChild(actions);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        cancelBtn.addEventListener('click', () => overlay.remove());
+
+        stravaService.getRecentActivities(5).then(activities => {
+            statusMsg.remove();
+
+            const list = document.createElement('div');
+            list.className = 'strava-activity-list';
+
+            activities.forEach(activity => {
+                const item = document.createElement('div');
+                item.className = 'strava-activity-item';
+
+                const date = activity.start_date_local.substring(0, 10);
+                const distKm = activity.distance ? (activity.distance / 1000).toFixed(1) + ' km' : '';
+                const dur = this._stravaFmtSecs(activity.moving_time);
+                const sport = activity.sport_type || activity.type || '';
+
+                item.innerHTML = `
+                    <div class="strava-activity-name">${activity.name}</div>
+                    <div class="strava-activity-meta">${date} · ${sport}${distKm ? ' · ' + distKm : ''} · ${dur}</div>
+                `;
+
+                item.addEventListener('click', async () => {
+                    list.style.pointerEvents = 'none';
+                    const saved = item.innerHTML;
+                    item.innerHTML = '<div class="strava-activity-name">Loading…</div>';
+                    try {
+                        const { detail, laps } = await stravaService.getActivityDetail(activity.id);
+                        overlay.remove();
+                        this.showCardio(null, this._buildStravaEntry(detail, laps));
+                    } catch (e) {
+                        item.innerHTML = saved;
+                        list.style.pointerEvents = '';
+                        showToast('Error loading activity');
+                        console.error(e);
+                    }
+                });
+
+                list.appendChild(item);
+            });
+
+            modal.insertBefore(list, actions);
+
+            const disconnectBtn = document.createElement('button');
+            disconnectBtn.className = 'btn-secondary';
+            disconnectBtn.textContent = 'Disconnect';
+            disconnectBtn.style.marginRight = 'auto';
+            disconnectBtn.addEventListener('click', () => { stravaService.disconnect(); overlay.remove(); });
+            actions.insertBefore(disconnectBtn, cancelBtn);
+        }).catch(err => {
+            statusMsg.textContent = 'Error: ' + err.message;
+        });
+    }
+
+    _stravaFmtSecs(secs) {
+        if (!secs) return '–';
+        const h = Math.floor(secs / 3600);
+        const m = Math.floor((secs % 3600) / 60);
+        const s = secs % 60;
+        if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        return `${m}:${String(s).padStart(2, '0')}`;
+    }
+
+    _stravaFmtPace(speedMs) {
+        if (!speedMs) return '–';
+        const paceMinKm = 1000 / (speedMs * 60);
+        const min = Math.floor(paceMinKm);
+        const sec = Math.round((paceMinKm - min) * 60);
+        if (sec === 60) return `${min + 1}:00/km`;
+        return `${min}:${String(sec).padStart(2, '0')}/km`;
+    }
+
+    _buildStravaEntry(detail, laps) {
+        const TYPE_MAP = {
+            Run: 'Run', VirtualRun: 'Run', TrailRun: 'Run',
+            Ride: 'Cycle', VirtualRide: 'Cycle', EBikeRide: 'Cycle',
+            MountainBikeRide: 'Cycle', GravelRide: 'Cycle',
+            Swim: 'Swim',
+            Rowing: 'Row',
+            Yoga: 'Yoga', Pilates: 'Yoga',
+        };
+
+        const sport = detail.sport_type || detail.type || 'Run';
+        const type = TYPE_MAP[sport] || 'Run';
+        const date = detail.start_date_local.substring(0, 10);
+
+        const tags = [];
+
+        if (detail.name) tags.push(new TagData('Focus', detail.name, ''));
+        if (detail.perceived_exertion) tags.push(new TagData('RPE', String(Math.round(detail.perceived_exertion)), ''));
+        if (detail.distance) tags.push(new TagData('Distance', (detail.distance / 1000).toFixed(2) + ' km', ''));
+        if (detail.moving_time) tags.push(new TagData('Duration', this._stravaFmtSecs(detail.moving_time), ''));
+        if (detail.device_watts && detail.average_watts) tags.push(new TagData('Power', String(Math.round(detail.average_watts)), ''));
+        if (detail.average_heartrate) tags.push(new TagData('Avg HR', String(Math.round(detail.average_heartrate)), ''));
+        if (detail.max_heartrate) tags.push(new TagData('Max HR', String(Math.round(detail.max_heartrate)), ''));
+
+        const detailsStr = this._buildStravaDetails(detail.id, laps, detail.splits_metric);
+        if (detailsStr) tags.push(new TagData('Details', detailsStr, ''));
+
+        return new WorkoutEntry(date, type, tags);
+    }
+
+    _buildStravaDetails(activityId, laps, splits) {
+        const useIntervals = Array.isArray(laps) && laps.length > 1;
+        const rows = useIntervals ? laps : (splits || []);
+        if (!rows.length) return '';
+
+        const link = `[From Strava](https://www.strava.com/activities/${activityId})`;
+        const header = '(Interval, Distance, Time, Pace, HR, Power)';
+
+        const tuples = rows.map((r, i) => {
+            const dist = Math.round(r.distance) + ' m';
+            const time = this._stravaFmtSecs(r.moving_time || r.elapsed_time);
+            const pace = this._stravaFmtPace(r.average_speed);
+            const hr = r.average_heartrate ? Math.round(r.average_heartrate) + ' bpm' : '–';
+            const pwr = r.average_watts ? Math.round(r.average_watts) + ' w' : '–';
+            return `(${i + 1}, ${dist}, ${time}, ${pace}, ${hr}, ${pwr})`;
+        }).join(', ');
+
+        return `${link} | ${header} = ${tuples}`;
     }
 
     showCommentPopup(btn) {

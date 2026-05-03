@@ -100,6 +100,9 @@ export function formatCardioEntry(entry) {
   const notes = entry.getTagValue('Notes');
   if (notes) lines.push(`Notes: ${notes}`);
 
+  const details = entry.getTagValue('Details');
+  if (details) lines.push(`Details: ${details}`);
+
   return lines.join('\n');
 }
 
