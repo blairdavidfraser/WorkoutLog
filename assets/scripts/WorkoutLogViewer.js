@@ -43,6 +43,7 @@ export class WorkoutLogViewer {
     this.filteredActivityType = null;
     this.filteredDate = null;
     this.onEditEntry = null;
+    this.onDeleteEntry = null;
     this.onScheduledSave = null;
     this.activityColors = {
       'Run': 'run',
@@ -151,8 +152,8 @@ export class WorkoutLogViewer {
       return;
     }
     entries.forEach(entry => {
-      const entryDiv = this.createEntryElement(entry);
-      container.appendChild(entryDiv);
+      const card = this.createEntryElement(entry);
+      container.appendChild(this.createSwipeWrapper(card, entry));
     });
   }
 
@@ -188,9 +189,9 @@ export class WorkoutLogViewer {
         lastDate = entry.date;
         dayIndex++;
       }
-      const entryDiv = this.createEntryElement(entry, entry.date > today);
-      entryDiv.classList.add(dayIndex % 2 === 0 ? 'day-stripe-even' : 'day-stripe-odd');
-      container.appendChild(entryDiv);
+      const card = this.createEntryElement(entry, entry.date > today);
+      card.classList.add(dayIndex % 2 === 0 ? 'day-stripe-even' : 'day-stripe-odd');
+      container.appendChild(this.createSwipeWrapper(card, entry));
     });
 
     if (!dividerInserted) {
@@ -226,7 +227,6 @@ export class WorkoutLogViewer {
 
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
-    overlay.addEventListener('click', () => overlay.remove());
 
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -279,6 +279,9 @@ export class WorkoutLogViewer {
       dateInput.type = 'date';
       dateInput.style.cssText = F + 'min-width:130px;';
       dateInput.value = date;
+      dateInput.addEventListener('input', () => {
+        if (dateInput.value && dateInput.validity.valid) dateInput.blur();
+      });
       mkTd().appendChild(dateInput);
 
       const typeSelect = document.createElement('select');
@@ -412,6 +415,16 @@ export class WorkoutLogViewer {
     });
     header.appendChild(editBtn);
 
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-entry-btn';
+    delBtn.textContent = '×';
+    delBtn.title = 'Delete entry';
+    delBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this.onDeleteEntry) this.onDeleteEntry(entry);
+    });
+    header.appendChild(delBtn);
+
     entryDiv.appendChild(header);
 
     // Tag lines
@@ -473,16 +486,17 @@ export class WorkoutLogViewer {
 
     const buildCopyText = () => formatEntry(entry);
 
-    // Press feedback on every tap/click (all pointer types)
+    const isActionTarget = (e) => e.target.closest('.edit-entry-btn') || e.target.closest('.delete-entry-btn') || e.target.closest('a');
+
+    // Press feedback (all pointer types); desktop double-click copy
     entryDiv.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
+      if (isActionTarget(e)) return;
       entryDiv.classList.add('clicking');
     });
     entryDiv.addEventListener('pointerup', (e) => {
       entryDiv.classList.remove('clicking');
-      // Desktop double-click (touch is handled by touchend below)
       if (e.pointerType !== 'mouse') return;
-      if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
+      if (isActionTarget(e)) return;
       const now = Date.now();
       if (now - lastTap < 350) {
         lastTap = 0;
@@ -494,20 +508,118 @@ export class WorkoutLogViewer {
     });
     entryDiv.addEventListener('pointercancel', () => entryDiv.classList.remove('clicking'));
 
-    // Touch double-tap (touchend is a reliable user gesture on iOS)
-    entryDiv.addEventListener('touchend', (e) => {
-      if (e.target.closest('.edit-entry-btn') || e.target.closest('a')) return;
-      const now = Date.now();
-      if (now - lastTap < 350) {
-        lastTap = 0;
-        copyToClipboard(buildCopyText());
-        showCopyToast();
-      } else {
-        lastTap = now;
+    return entryDiv;
+  }
+
+  createSwipeWrapper(card, entry) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'entry-swipe-wrapper';
+
+    const editAction = document.createElement('div');
+    editAction.className = 'entry-swipe-action entry-swipe-action--edit';
+    editAction.textContent = 'Edit';
+    wrapper.appendChild(editAction);
+
+    const delAction = document.createElement('div');
+    delAction.className = 'entry-swipe-action entry-swipe-action--delete';
+    delAction.textContent = '×';
+    wrapper.appendChild(delAction);
+
+    wrapper.appendChild(card);
+
+    const EDIT_SNAP = 80;
+    const DEL_SNAP = -70;
+    const THRESHOLD = 40;
+
+    let snapX = 0;    // settled position after last gesture
+    let baseX = 0;    // snapX at touchstart of current gesture
+    let startX = 0, startY = 0;
+    let isTracking = false, isHorizontal = null;
+    let lastTap = 0;
+    const buildCopyText = () => formatEntry(entry);
+
+    const applySnap = (x, animate = true) => {
+      snapX = x;
+      card.style.transition = animate ? 'transform 0.2s ease' : 'none';
+      card.style.transform = x === 0 ? '' : `translateX(${x}px)`;
+    };
+
+    wrapper.addEventListener('touchstart', (e) => {
+      baseX = snapX;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isTracking = true;
+      isHorizontal = null;
+      card.style.transition = 'none';
+    }, { passive: true });
+
+    wrapper.addEventListener('touchmove', (e) => {
+      if (!isTracking) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+
+      if (isHorizontal === null) {
+        if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return;
+        isHorizontal = Math.abs(dx) >= Math.abs(dy);
+      }
+      if (!isHorizontal) return;
+
+      e.preventDefault();
+      const clampedX = Math.max(DEL_SNAP, Math.min(EDIT_SNAP, baseX + dx));
+      card.style.transform = `translateX(${clampedX}px)`;
+    }, { passive: false });
+
+    wrapper.addEventListener('touchend', (e) => {
+      if (!isTracking) return;
+      isTracking = false;
+
+      const dx = e.changedTouches[0].clientX - startX;
+      const wasTap = !isHorizontal && Math.abs(dx) < 10;
+
+      if (isHorizontal) {
+        // Swipe: decide snap destination
+        const proposed = baseX + dx;
+        if (proposed > THRESHOLD) {
+          applySnap(EDIT_SNAP);
+        } else if (proposed < -THRESHOLD) {
+          applySnap(DEL_SNAP);
+        } else {
+          applySnap(0);
+        }
+        return;
+      }
+
+      if (wasTap) {
+        if (snapX !== 0) {
+          // Card is snapped — check if tap landed in the action zone
+          const tapX = e.changedTouches[0].clientX;
+          const wRect = wrapper.getBoundingClientRect();
+          const relX = tapX - wRect.left;
+          if (snapX === EDIT_SNAP && relX < EDIT_SNAP) {
+            applySnap(0);
+            if (this.onEditEntry) this.onEditEntry(entry);
+          } else if (snapX === DEL_SNAP && relX > wRect.width + DEL_SNAP) {
+            applySnap(0);
+            if (this.onDeleteEntry) this.onDeleteEntry(entry);
+          } else {
+            applySnap(0); // tap outside action zone — just close
+          }
+        } else {
+          // Not snapped — handle double-tap copy
+          if (e.target.closest('.edit-entry-btn') || e.target.closest('.delete-entry-btn') || e.target.closest('a')) return;
+          const now = Date.now();
+          if (now - lastTap < 350) {
+            lastTap = 0;
+            copyToClipboard(buildCopyText());
+            showCopyToast();
+          } else {
+            lastTap = now;
+          }
+        }
       }
     }, { passive: true });
 
-    return entryDiv;
+    return wrapper;
   }
 
   renderFilteredTagView(container) {
@@ -566,8 +678,8 @@ export class WorkoutLogViewer {
     }
 
     entries.forEach(entry => {
-      const entryDiv = this.createEntryElement(entry);
-      container.appendChild(entryDiv);
+      const card = this.createEntryElement(entry);
+      container.appendChild(this.createSwipeWrapper(card, entry));
     });
   }
 

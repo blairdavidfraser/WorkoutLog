@@ -582,6 +582,71 @@ canvas {
   opacity: 0.8;
 }
 
+.delete-entry-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #bbb;
+  opacity: 0.5;
+  padding: 0 2px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.delete-entry-btn:hover {
+  opacity: 0.9;
+  color: var(--primary-red);
+}
+
+/* Swipe-to-reveal wrapper (mobile) */
+.entry-swipe-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+}
+
+.entry-swipe-wrapper .log-entry-text {
+  margin-bottom: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.entry-swipe-action {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.entry-swipe-action--edit {
+  left: 0;
+  width: 80px;
+  background: #1565C0;
+}
+
+.entry-swipe-action--delete {
+  right: 0;
+  width: 70px;
+  background: var(--primary-red);
+}
+
+/* Hide desktop action buttons on touch devices */
+@media (pointer: coarse) {
+  .edit-entry-btn,
+  .delete-entry-btn {
+    display: none;
+  }
+}
+
 .log-entry-text.day-stripe-odd {
   background-color: #f0f0f0;
 }

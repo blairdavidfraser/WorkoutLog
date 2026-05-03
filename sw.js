@@ -1,5 +1,5 @@
 // Service Worker for Workout Log PWA
-const CACHE_VERSION = 'v25';
+const CACHE_VERSION = 'v26';
 const CACHE_NAME = `workout-log-${CACHE_VERSION}`;
 
 const ASSETS_TO_CACHE = [
@@ -9,9 +9,12 @@ const ASSETS_TO_CACHE = [
     '/assets/css/styles.css',
     '/assets/scripts/app.js',
     '/assets/scripts/Dashboard.js',
+    '/assets/scripts/EntryFormatter.js',
     '/assets/scripts/EntryModal.js',
+    '/assets/scripts/GitHub.js',
     '/assets/scripts/Persistence.js',
     '/assets/scripts/Utilities.js',
+    '/assets/scripts/WeatherService.js',
     '/assets/scripts/WorkoutEntry.js',
     '/assets/scripts/WorkoutLog.js',
     '/assets/scripts/WorkoutLogEditor.js',

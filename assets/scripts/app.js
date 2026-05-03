@@ -86,8 +86,42 @@ class App {
       }
     };
 
+    this.viewer.onDeleteEntry = (entry) => this.deleteEntry(entry);
+
     // Initialize workout-log to view mode state
     this.enterViewMode(false);
+  }
+
+  async deleteEntry(entry) {
+    if (!confirm(`Delete ${entry.date}: ${entry.shortcutName || entry.type}?`)) return;
+    const logText = await this.persistence.loadWorkoutLog();
+    const blocks = logText.split(/\n{2,}/);
+    // Remove the block whose first line matches this entry's date and type exactly
+    let removed = false;
+    const filtered = blocks.filter(block => {
+      if (removed) return true;
+      const firstLine = block.trim().split('\n')[0];
+      const m = firstLine.match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)/);
+      if (m && m[1] === entry.date && m[2].trim() === (entry.shortcutName || entry.type)) {
+        removed = true;
+        return false;
+      }
+      return true;
+    });
+    if (!removed) return; // safety: entry not found in text
+    const newText = filtered.filter(b => b.trim()).join('\n\n');
+    await this.persistence.saveWorkoutLog(newText);
+    this.workoutLog = WorkoutLog.parse(newText);
+    this.viewer.workoutLog = this.workoutLog;
+    this.viewer.onEditEntry = (e) => this.openModalForEntry(e);
+    this.viewer.onDeleteEntry = (e) => this.deleteEntry(e);
+    this.dashboard.workoutLog = this.workoutLog;
+    this.editor.workoutLog = this.workoutLog;
+    this.editor.originalText = newText;
+    this.editor.textarea.value = newText;
+    this.editor.populateTagSuggestions();
+    if (this.currentView === 'history' && this.logMode === 'view') this.viewer.render();
+    if (this.currentView === 'dashboard') this.dashboard.render();
   }
 
   setupNavigation() {
@@ -302,6 +336,7 @@ class App {
           this.workoutLog = WorkoutLog.parse(logText);
           this.viewer = new WorkoutLogViewer(this.workoutLog);
           this.viewer.onEditEntry = (entry) => this.openModalForEntry(entry);
+          this.viewer.onDeleteEntry = (entry) => this.deleteEntry(entry);
           this.dashboard = new Dashboard(this.workoutLog);
           this.editor.workoutLog = this.workoutLog;
           this.editor.populateTagSuggestions();
