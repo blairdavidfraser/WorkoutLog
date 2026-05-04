@@ -1258,7 +1258,7 @@ export class EntryModal {
             return `(${i + 1}, ${dist}, ${time}, ${pace}, ${hr}, ${pwr})`;
         }).join(', ');
 
-        return `${link} | ${header} = ${tuples}`;
+        return `${link}: ${header} = ${tuples}`;
     }
 
     showCommentPopup(btn) {
