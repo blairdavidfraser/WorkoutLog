@@ -1246,16 +1246,17 @@ export class EntryModal {
         const rows = useIntervals ? laps : (splits || []);
         if (!rows.length) return '';
 
+        const hasPower = rows.some(r => r.average_watts);
         const link = `[From Strava](https://www.strava.com/activities/${activityId})`;
-        const header = '(Interval, Distance, Time, Pace, HR, Power)';
+        const header = hasPower ? '(Interval, Distance, Time, Pace, HR, Power)' : '(Interval, Distance, Time, Pace, HR)';
 
         const tuples = rows.map((r, i) => {
             const dist = Math.round(r.distance) + ' m';
             const time = this._stravaFmtSecs(r.moving_time || r.elapsed_time);
             const pace = this._stravaFmtPace(r.average_speed);
             const hr = r.average_heartrate ? Math.round(r.average_heartrate) + ' bpm' : '–';
-            const pwr = r.average_watts ? Math.round(r.average_watts) + ' w' : '–';
-            return `(${i + 1}, ${dist}, ${time}, ${pace}, ${hr}, ${pwr})`;
+            const core = `${i + 1}, ${dist}, ${time}, ${pace}, ${hr}`;
+            return hasPower ? `(${core}, ${r.average_watts ? Math.round(r.average_watts) + ' w' : '–'})` : `(${core})`;
         }).join(', ');
 
         return `${link}: ${header} = ${tuples}`;

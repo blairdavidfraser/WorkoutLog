@@ -976,10 +976,10 @@ canvas {
 .modal {
   background: white;
   border-radius: var(--radius-lg);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
   max-width: 600px;
   width: 90%;
-  max-height: 80vh;
+  max-height: 92vh;
   overflow-y: auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
@@ -988,9 +988,9 @@ canvas {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary-red);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
   border-bottom: 2px solid var(--primary-red);
-  padding-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-xs);
 }
 
 /* Date picker in modals */
@@ -1165,8 +1165,8 @@ canvas {
   display: flex;
   gap: var(--spacing-md);
   justify-content: flex-end;
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-lg);
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
 }
 
 .modal-actions button {
