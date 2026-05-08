@@ -93,7 +93,6 @@ Weight: 20 |", meaning 3 sets of 5 reps at 20 pounds.
 #  - "2025-11-05: Cycle Commute | Duration: 50:00" is shorthand for a cycle workout of 50:00 at RPE 3.
 #  - "2025-11-04: Yoga | Duration: 30:00" is shorthand for a yoga workout of 30:00 at RPE 1.
 
-
 2025-11-04: Daily
 Weight: 188 | Waist: 35 
 Sleep: 6:08:00 -- Slept well 
@@ -3165,3 +3164,178 @@ Distance: 11.113 | Duration: 54:44
 Avg HR: 125 | Max HR: 159
 Pain: 1
 Notes: Very wavy and cold. Time trials cancelled for conditions. A few hard pieces. 
+
+2026-05-02: Cycle Commute
+RPE: 3
+Distance: 13.35
+Duration: 34:46
+Notes: 2 commutes
+
+2026-05-03: Daily
+Weight: 188.7 | Waist: 34
+Sleep: 7:03:00
+RHR: 58 | HRV: 48
+Energy: 4
+Pain: 1
+
+2026-05-12: Strength
+Focus: Force Production
+Cable Pallof press (each side): 3x10 @ 70
+Chest supported row: 4x5 @ 90
+Back extension: 3x15 @ 0
+Glute bridge machine: 4x5 @ 180
+Hamstring curls: 3x8 @ 12
+Leg extension: 3x8 @ 120
+Cable Crunch: 3x10 @ 180
+Tags: Tentative
+Notes: Modified for ankle
+Tags: Tentative
+
+2026-05-03: Cycle
+RPE: 3
+Distance: 23.48 | Duration: 1:20:19
+Pain: 1
+Notes: To marathon to cheer and back
+
+
+2026-05-03: Strength
+RPE: 5 | Focus: Force Production
+Pain: 1
+Cable Pallof press (each side): 3x10 @ 70
+Chest supported row: 4x5 @ 90
+Back extension: 3x15 @ 0
+Glute bridge machine: 4x5 @ 180
+Hamstring curls: 3x8 @ 12
+Leg extension: 3x8 @ 120
+Cable Crunch: 3x10 @ 180
+Notes: Modified for ankle
+
+2026-05-04: Daily
+Weight: 187.3 | Waist: 34
+RHR: 58 | HRV: 68
+Energy: 3
+Pain: 1
+
+2026-05-04: Row
+Focus: Easy | RPE: 4
+Distance: 7.977 | Duration: 41:49
+Avg HR: 124 | Max HR: 155
+Pain: 1
+
+2026-05-04: Cycle Commute
+RPE: 3
+Distance: 19.38
+Duration: 1:09:04
+Notes: 3 commutes
+
+2026-05-05: Daily
+Weight: 187.3 | Waist: 34.5
+Sleep: 7:27:00
+RHR: 63 | HRV: 68
+Energy: 4
+Pain: 1
+
+2026-05-05: Cycle
+Focus: Easy | RPE: 5
+Distance: 27.94 | Duration: 1:04:31
+Avg HR: 136 | Max HR: 159
+Pain: 1
+
+2026-05-06: Daily
+Weight: 188 | Waist: 34
+Sleep: 6:49:00
+RHR: 60 | HRV: 65
+Energy: 4
+Pain: 1
+
+2026-05-06: Strength
+RPE: 6 | Focus: Upper Body
+Pain: 1
+Cable Pallof press (each side): 3x10 @ 70
+Bench press: 2x5 @ 185 -- New max. 1x7 @ 155 lb finisher
+Chest supported row: 3x8 @ 70
+Assisted pull-ups: 3x10 @ 50
+Dumbbell overhead press: 3x8 @ 35
+Cable Crunch: 3x10 @ 170
+
+2026-05-07: Daily
+Weight: 188.7 | Waist: 34
+Sleep: 6:49:00
+RHR: 60 | HRV: 40
+Energy: 3
+Pain: 1
+
+2026-09-12: Row
+Focus: Race
+Notes: Muskoka Fall Classic
+Tags: Tentative, Favorite
+
+2026-05-07: Row
+Focus: Intervals | RPE: 7
+Distance: 9.434 | Duration: 51:28
+Avg HR: 142 | Max HR: 166
+Pain: 1
+Notes: Not all out, but some pressure
+Details: 4x4:00 pieces
+
+2026-05-07: Cycle Commute
+RPE: 3
+Distance: 17.83
+Duration: 1:02:46
+Notes: 3 commutes
+
+
+2026-05-08: Daily
+Weight: 188.4 | Waist: 34.5
+Sleep: 6:28:00
+RHR: 63 | HRV: 47
+Energy: 3
+Pain: 1
+
+2026-05-08: Row
+Focus: Easy | RPE: 4
+Distance: 11.014 | Duration: 52:19
+Avg HR: 121 | Max HR: 151
+
+2026-05-10: Run
+Focus: Race
+Notes: Sporting Life 10k
+Tags: Tentative, Favorite
+
+2026-05-11: Row
+Focus: Easy
+Tags: Tentative
+
+2026-05-13: Strength
+RPE: 6 | Focus: Upper Body
+Cable Pallof press (each side): 3x10 @ 70
+Bench press: 2x5 @ 185
+Chest supported row: 3x8 @ 70
+Assisted pull-ups: 3x10 @ 50
+Dumbbell overhead press: 3x8 @ 35
+Cable Crunch: 3x10 @ 170
+Tags: Tentative
+Tags: Tentative
+
+2026-07-01: Row
+Focus: Race
+Distance: 1
+Notes: Dominion Day
+Tags: Tentative, Favorite
+
+2026-08-02: Row
+Focus: Race
+Distance: 1
+Notes: Royal Canadian Henley
+Tags: Tentative, Favorite
+
+2026-09-26: Row
+Focus: Race
+Notes: Head of the Welland (Five Bridges)
+Tags: Tentative, Favorite
+
+2026-10-04: Run
+Focus: Race
+Distance: 21.1
+Notes: Quebec Marathon (Half)
+Tags: Tentative, Favorite
