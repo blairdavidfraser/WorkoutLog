@@ -280,7 +280,7 @@ export class StrengthWorkoutEntry extends WorkoutEntry {
 
   getExercises() {
     const exercises = [];
-    const commonTags = ['RPE', 'Focus', 'Duration', 'Pain', 'Notes'];
+    const commonTags = ['RPE', 'Focus', 'Duration', 'Pain', 'Notes', 'Tags'];
     
     const tagNames = this.getTagNames();
     tagNames.forEach(tagName => {

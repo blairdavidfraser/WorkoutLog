@@ -1451,7 +1451,7 @@ export class EntryModal {
         this.workoutLog.entries.forEach(entry => {
             if (entry.type === 'Strength') {
                 entry.getAllTags().forEach(tag => {
-                    if (!['RPE', 'Focus', 'Pain'].includes(tag.tag)) {
+                    if (!['RPE', 'Focus', 'Pain', 'Notes', 'Tags'].includes(tag.tag)) {
                         tags.add(tag.tag);
                     }
                 });
