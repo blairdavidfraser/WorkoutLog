@@ -48,6 +48,14 @@ class App {
     // Populate search datalist on init (viewer search needs it from the start)
     this.editor.populateTagSuggestions();
 
+    // Suppress iOS shake-to-undo when no modal is open
+    document.addEventListener('beforeinput', e => {
+      if ((e.inputType === 'historyUndo' || e.inputType === 'historyRedo') &&
+          !document.querySelector('.modal-overlay')) {
+        e.preventDefault();
+      }
+    });
+
     // Setup event listeners
     this.setupNavigation();
     this.setupEditor();

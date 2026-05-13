@@ -314,6 +314,7 @@ export class WorkoutLogViewer {
       const focusInput = document.createElement('input');
       focusInput.type = 'text'; focusInput.style.cssText = F;
       focusInput.value = focus; focusInput.placeholder = 'Easy aerobic…';
+      focusInput.autocomplete = 'off'; focusInput.autocorrect = 'off'; focusInput.spellcheck = false;
       mkTd().appendChild(focusInput);
 
       // Pencil — opens full entry modal for existing entries
