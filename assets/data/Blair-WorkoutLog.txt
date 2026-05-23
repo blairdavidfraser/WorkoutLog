@@ -3178,36 +3178,22 @@ RHR: 58 | HRV: 48
 Energy: 4
 Pain: 1
 
-2026-05-12: Strength
-Focus: Force Production
-Cable Pallof press (each side): 3x10 @ 70
-Chest supported row: 4x5 @ 90
-Back extension: 3x15 @ 0
-Glute bridge machine: 4x5 @ 180
-Hamstring curls: 3x8 @ 12
-Leg extension: 3x8 @ 120
-Cable Crunch: 3x10 @ 180
-Tags: Tentative
-Notes: Modified for ankle
-Tags: Tentative
-
 2026-05-03: Cycle
 RPE: 3
 Distance: 23.48 | Duration: 1:20:19
 Pain: 1
 Notes: To marathon to cheer and back
 
-
 2026-05-03: Strength
 RPE: 5 | Focus: Force Production
 Pain: 1
-Cable Pallof press (each side): 3x10 @ 70
-Chest supported row: 4x5 @ 90
-Back extension: 3x15 @ 0
-Glute bridge machine: 4x5 @ 180
-Hamstring curls: 3x8 @ 12
-Leg extension: 3x8 @ 120
-Cable Crunch: 3x10 @ 180
+Cable Pallof press (each side): 3x10 @ 70 lb.
+Chest supported row: 4x5 @ 90 lb. 
+Back extension: 3x15 @ 0 lb. 
+Glute bridge machine: 4x5 @ 180 lb. 
+Hamstring curls: 3x8 @ 120 lb. 
+Leg extension: 3x8 @ 120 lb. 
+Cable Crunch: 3x10 @ 180 lb. 
 Notes: Modified for ankle
 
 2026-05-04: Daily
@@ -3251,12 +3237,12 @@ Pain: 1
 2026-05-06: Strength
 RPE: 6 | Focus: Upper Body
 Pain: 1
-Cable Pallof press (each side): 3x10 @ 70
-Bench press: 2x5 @ 185 -- New max. 1x7 @ 155 lb finisher
-Chest supported row: 3x8 @ 70
-Assisted pull-ups: 3x10 @ 50
-Dumbbell overhead press: 3x8 @ 35
-Cable Crunch: 3x10 @ 170
+Cable Pallof press (each side): 3x10 @ 70 lb. 
+Bench press: 2x5 @ 185 lb.  -- New max. 1x7 @ 155 lb finisher
+Chest supported row: 3x8 @ 70 lb. 
+Assisted pull-ups: 3x10 @ 50 lb. 
+Dumbbell overhead press: 3x8 @ 35 lb. 
+Cable Crunch: 3x10 @ 170 lb. 
 
 2026-05-07: Daily
 Weight: 188.7 | Waist: 34
@@ -3264,11 +3250,6 @@ Sleep: 6:49:00
 RHR: 60 | HRV: 40
 Energy: 3
 Pain: 1
-
-2026-09-12: Row
-Focus: Race
-Notes: Muskoka Fall Classic
-Tags: Tentative, Favorite
 
 2026-05-07: Row
 Focus: Intervals | RPE: 7
@@ -3284,7 +3265,6 @@ Distance: 17.83
 Duration: 1:02:46
 Notes: 3 commutes
 
-
 2026-05-08: Daily
 Weight: 188.4 | Waist: 34.5
 Sleep: 6:28:00
@@ -3297,45 +3277,293 @@ Focus: Easy | RPE: 4
 Distance: 11.014 | Duration: 52:19
 Avg HR: 121 | Max HR: 151
 
+2026-05-09: Daily
+Weight: 188.7 | Waist: 34
+Sleep: 6:49:00
+RHR: 51 | HRV: 60
+Energy: 3
+Pain: 1
+
+2026-05-09: Run
+Focus: Shakeout | RPE: 4
+Distance: 4.06 | Duration: 21:50
+Avg HR: 151
+Pain: 2 -- Ankle tender, not sore.
+Notes: Surprised by HR. Little run-specific trining lately. High HR compared to RPE.
+
+2026-05-10: Daily
+Sleep: 7:05:00
+RHR: 52 | HRV: 86
+Energy: 4
+Pain: 1
+
 2026-05-10: Run
-Focus: Race
-Notes: Sporting Life 10k
-Tags: Tentative, Favorite
+Focus: Race | RPE: 8
+Distance: 10.12 | Duration: 44:55
+Avg HR: 171 | Max HR: 180
+Pain: 1
+Notes: Sporting Life 10K race. Started to feel hard at about 8.5, when course flattened. Before that was not all out.
+Details: [From Strava](https://www.strava.com/activities/18451687626): (Interval, Distance, Time, Pace, HR) = (1, 1005 m, 4:39, 4:38/km, 165 bpm), (2, 997 m, 4:24, 4:25/km, 165 bpm), (3, 1000 m, 4:24, 4:24/km, 168 bpm), (4, 1001 m, 4:24, 4:24/km, 173 bpm), (5, 1000 m, 4:13, 4:13/km, 170 bpm), (6, 999 m, 4:32, 4:32/km, 176 bpm), (7, 999 m, 4:23, 4:23/km, 174 bpm), (8, 1002 m, 4:24, 4:24/km, 172 bpm), (9, 999 m, 4:33, 4:33/km, 171 bpm), (10, 1001 m, 4:31, 4:31/km, 171 bpm), (11, 108 m, 0:25, 4:30/km, 178 bpm)
+
+2026-05-11: Daily
+Weight: 190.2 | Waist: 34.5
+Sleep: 7:21:00
+RHR: 55 | HRV: 42
+Energy: 4
+Pain: 1
 
 2026-05-11: Row
+Focus: Easy | RPE: 4
+Distance: 11.764 | Duration: 1:01:18
+Avg HR: 133 | Max HR: 158
+Pain: 1
+Notes: Little more RPE than I wanted due to crew I was with, but don’t feel exhausted today either. 
+
+2026-05-12: Daily
+Weight: 190.2 | Waist: 34
+Sleep: 7:40:00
+RHR: 55 | HRV: 46
+Energy: 3
+Pain: 1
+Notes: Lots of DOMS in legs
+
+2026-05-12: Strength
+Focus: Force Production
+Cable Pallof press (each side): 3x10 @ 70 lb.
+Cable row: 4x5 @ 140 lb.
+Back extension: 3x15 @ 0 lb.
+Glute bridge machine: 4x5 @ 180 lb.
+Hamstring curls: 3x8 @ 90 lb.
+Cable Crunch: 3x10 @ 180 lb.
+Notes: Easy. DOMS post race. Could have done non-ankle-modified, but machine busy.
+
+2026-05-13: Daily
+Weight: 188.7 | Waist: 34
+Sleep: 7:08:00
+RHR: 54 | HRV: 59
+Energy: 3
+Pain: 2
+Notes: Still DOMS in ankles and hip flexors. 
+
+2026-05-13: Strength
+RPE: 5 | Focus: Upper Body
+Pain: 1
+Cable Pallof press (each side): 3x10 @ 70 lb.
+Bench press: 3x8 @ 165 lb.
+Chest fly machine: 3x10 @ 130 lb.
+Assisted pull-ups: 3x10 @ 50 lb.
+Dumbbell overhead press: 3x10 @ 40 lb.
+Notes: Felt drained. Bench at much less than max felt hard. 
+
+2026-05-14: Daily
+Weight: 188.7 | Waist: 34.5
+Sleep: 7:31:00
+RHR: 59 | HRV: 71
+Energy: 4
+Pain: 1
+
+2026-05-14: Run
+Focus: Intervals | RPE: 7
+Distance: 7.91 | Duration: 41:14
+Avg HR: 158 | Max HR: 180
+Pain: 1
+Notes: 4x Negative Split 1000s. Followed by 3x15 body weight calf raises. 
+Details: [From Strava](https://www.strava.com/activities/18502384901): (Interval, Distance, Time, Pace, HR) = (1, 2077 m, 11:49, 5:41/km, 147 bpm), (2, 509 m, 2:01, 3:58/km, 161 bpm), (3, 498 m, 2:03, 4:07/km, 176 bpm), (4, 119 m, 2:29, 20:50/km, 145 bpm), (5, 503 m, 2:20, 4:39/km, 159 bpm), (6, 505 m, 2:03, 4:03/km, 173 bpm), (7, 140 m, 2:29, 17:44/km, 150 bpm), (8, 494 m, 2:11, 4:25/km, 161 bpm), (9, 493 m, 2:04, 4:12/km, 174 bpm), (10, 130 m, 2:29, 19:09/km, 165 bpm), (11, 495 m, 2:16, 4:35/km, 161 bpm), (12, 499 m, 2:08, 4:16/km, 174 bpm), (13, 265 m, 2:29, 9:22/km, 154 bpm), (14, 1181 m, 5:49, 4:56/km, 157 bpm)
+
+2026-05-15: Daily
+Weight: 188.7 | Waist: 34.5
+Sleep: 5:26:00
+RHR: 70 | HRV: 69
+Energy: 2
+Pain: 1
+Notes: Very bad sleep. 
+
+2026-05-15: Row
+Focus: Moderate | RPE: 6
+Distance: 12.680 | Duration: 1:01:52
+Avg HR: 139 | Max HR: 172
+Pain: 1
+
+2026-05-16: Daily
+Weight: 188 | Waist: 34.5
+Sleep: 6:40:00
+RHR: 66 | HRV: 24
+Energy: 2
+Pain: 1
+
+2026-05-16: Row
+Focus: Time Trial | RPE: 8
+Distance: 14.242 | Duration: 1:13:41
+Avg HR: 143 | Max HR: 173
+Pain: 1
+Notes: Stopped to avoid a flipped single. Time not relevant.
+Details: 2000m
+
+2026-05-17: Daily
+Weight: 190 | Waist: 34.5
+Sleep: 7:20:00
+RHR: 66 | HRV: 46
+Energy: 3
+Pain: 1
+
+2026-05-17: Cycle
+Focus: Long | RPE: 3
+Distance: 44.25 | Duration: 2:22:30 | Power: 74
+Avg HR: 103 | Max HR: 140
+Pain: 1
+
+2026-05-18: Daily
+Weight: 190 | Waist: 34.5
+Sleep: 5:21:00
+RHR: 66 | HRV: 53
+Energy: 4
+Pain: 1
+
+2026-05-18: Cycle
+Focus: Long | RPE: 3
+Distance: 52.82 | Duration: 2:41:53 | Power: 79
+Avg HR: 107 | Max HR: 141
+Pain: 1
+
+2026-05-19: Daily
+Weight: 191 | Waist: 34
+Sleep: 7:16:00
+RHR: 60 | HRV: 65
+Energy: 3
+Pain: 2
+Notes: Back stiff. 
+
+2026-05-19: Row
+Focus: Survival | RPE: 3
+Distance: 7.593 | Duration: 42:36
+Avg HR: 102 | Max HR: 127
+Pain: 1
+Notes: Terrible wavy water today. 
+
+2026-05-20: Daily
+Weight: 187.6 | Waist: 34
+Sleep: 7:45:00
+RHR: 58 | HRV: 65
+Energy: 4
+Pain: 2 -- Back stiff. Maybe from bike.
+
+2026-05-20: Run
+Focus: 5x Negative Split 1000s
+Distance: 7.27 | Duration: 44:52
+Avg HR: 159 | Max HR: 183
+Details: [From Strava](https://www.strava.com/activities/18579680355): (Interval, Distance, Time, Pace, HR) = (1, 1540 m, 9:45, 6:20/km, 144 bpm), (2, 502 m, 2:14, 4:27/km, 149 bpm), (3, 503 m, 1:59, 3:56/km, 165 bpm), (4, 63 m, 2:29, 39:41/km, 163 bpm), (5, 506 m, 2:16, 4:29/km, 155 bpm), (6, 503 m, 2:02, 4:03/km, 176 bpm), (7, 100 m, 2:29, 24:53/km, 162 bpm), (8, 504 m, 2:14, 4:26/km, 159 bpm), (9, 493 m, 2:01, 4:06/km, 177 bpm), (10, 95 m, 2:29, 26:03/km, 158 bpm), (11, 504 m, 2:15, 4:28/km, 157 bpm), (12, 504 m, 2:04, 4:06/km, 174 bpm), (13, 63 m, 2:29, 39:41/km, 151 bpm), (14, 505 m, 2:14, 4:25/km, 161 bpm), (15, 495 m, 2:06, 4:14/km, 177 bpm), (16, 82 m, 1:34, 18:56/km, 172 bpm), (17, 0 m, 0:03, –, –), (18, 10 m, 0:05, 8:18/km, 144 bpm), (19, 287 m, 1:55, 6:40/km, 154 bpm)
+
+
+2026-05-21: Daily
+Weight: 189.3 | Waist: 34
+Sleep: 5:59:00
+RHR: 66 | HRV: 40
+Energy: 4
+Pain: 1
+
+2026-05-21: Row
+Focus: Technical | RPE: 4
+Distance: 11.464 | Duration: 1:11:59
+Avg HR: 127 | Max HR: 153
+Pain: 1
+
+2026-05-22: Daily
+Weight: 190 | Waist: 34
+Sleep: 6:52:00
+RHR: 57 | HRV: 51
+Energy: 4
+Pain: 1
+
+2026-05-22: Run
+Focus: Easy | RPE: 3
+Distance: 7.22 | Duration: 42:50
+Avg HR: 135 | Max HR: 153
+Pain: 1
+
+
+2026-05-23: Daily
+Weight: 191.8 | Waist: 34.25
+Sleep: 5:41:00
+RHR: 53 | HRV: 59
+Energy: 4
+Pain: 1
+
+2026-05-23: Erg
+Focus: Time Trial | RPE: 8
+Distance: 5.145 | Duration: 20:00 | Power: 221
+Pain: 1
+Notes: Felt well paced. No HR monitor. Push in las 2:00 was hard but available. 
+Details: 26 spm rate cap. 
+
+2026-05-24: Cycle
 Focus: Easy
 Tags: Tentative
 
-2026-05-13: Strength
-RPE: 6 | Focus: Upper Body
-Cable Pallof press (each side): 3x10 @ 70
-Bench press: 2x5 @ 185
-Chest supported row: 3x8 @ 70
-Assisted pull-ups: 3x10 @ 50
-Dumbbell overhead press: 3x8 @ 35
-Cable Crunch: 3x10 @ 170
+2026-05-25: Row
+Focus: Easy
 Tags: Tentative
+
+2026-05-26: Strength
+Focus: Force Production
+Tags: Tentative
+
+2026-05-27: Run
+Focus: 6x1000
+Tags: Tentative
+
+2026-06-13: Cycle
+Focus: Easy
+Distance: 160
+Notes: Ride to conquer cancer. Not a race.
+Tags: Tentative
+
+2026-06-14: Cycle
+Focus: Easy
+Distance: 100
+Notes: Ride to conquer cancer. Not a race.
+Tags: Tentative
+
+2026-06-24: Run
+Focus: Time Trial
+Distance: 5
 Tags: Tentative
 
 2026-07-01: Row
 Focus: Race
 Distance: 1
 Notes: Dominion Day
-Tags: Tentative, Favorite
+Tags: Tentative
+
+2026-07-12: Row
+Focus: Race
+Distance: 1
+Notes: RowOn Masters
+Tags: Tentative
 
 2026-08-02: Row
 Focus: Race
 Distance: 1
 Notes: Royal Canadian Henley
-Tags: Tentative, Favorite
+Tags: Tentative
+
+2026-09-12: Row
+Focus: Race
+Notes: Muskoka Fall Classic
+Tags: Tentative
 
 2026-09-26: Row
 Focus: Race
 Notes: Head of the Welland (Five Bridges)
-Tags: Tentative, Favorite
+Tags: Tentative
 
 2026-10-04: Run
 Focus: Race
 Distance: 21.1
 Notes: Quebec Marathon (Half)
-Tags: Tentative, Favorite
+Tags: Tentative
+
+2026-10-17: Run
+Focus: Race
+Distance: 5
+Notes: Waterfront
+Tags: Tentative
