@@ -932,13 +932,13 @@ Tricep cable extension: 3x10 @ 100 lb
 Chest supported row: 3x10 @ 55 lb
 Notes: Light weight on shoulder press still - shoulder ok.  Tricep extension needs to increase.
 
-2025-12-21: Mesurements
-Biceps (L/R): 14”/13.75”
-Neck: 16”
-Chest: 42”
-Waist: 34.5”
-Thighs (L/R): 23”/22.5”
-Calves (L/R): 15”/14.75”
+2025-12-21: Measurements
+Biceps (L/R): 14/13.75
+Neck: 16
+Chest: 42
+Waist: 34.5
+Thighs (L/R): 23/22.5
+Calves (L/R): 15/14.75
 
 2025-12-22: Daily
 Weight: 186.5 | Waist: 34.5 
@@ -2050,6 +2050,15 @@ Sleep: 6:26:00
 RHR: 56 | HRV: 58
 Energy: 2
 Pain: 2 -- Back stiffness.
+
+2026-02-15: Measurements
+Biceps (L/R): 14.125/13.825
+Neck: 15.75
+Chest: 42
+Waist: 34
+Thighs (L/R): 23/23
+Calves (L/R): 15/15
+Notes: Biceps slightly up.  Thighs and calves just up on left, now matching with right. Neck down.
 
 2026-02-15: Strength
 RPE: 7 | Focus: Force Production
@@ -3453,7 +3462,6 @@ Distance: 7.27 | Duration: 44:52
 Avg HR: 159 | Max HR: 183
 Details: [From Strava](https://www.strava.com/activities/18579680355): (Interval, Distance, Time, Pace, HR) = (1, 1540 m, 9:45, 6:20/km, 144 bpm), (2, 502 m, 2:14, 4:27/km, 149 bpm), (3, 503 m, 1:59, 3:56/km, 165 bpm), (4, 63 m, 2:29, 39:41/km, 163 bpm), (5, 506 m, 2:16, 4:29/km, 155 bpm), (6, 503 m, 2:02, 4:03/km, 176 bpm), (7, 100 m, 2:29, 24:53/km, 162 bpm), (8, 504 m, 2:14, 4:26/km, 159 bpm), (9, 493 m, 2:01, 4:06/km, 177 bpm), (10, 95 m, 2:29, 26:03/km, 158 bpm), (11, 504 m, 2:15, 4:28/km, 157 bpm), (12, 504 m, 2:04, 4:06/km, 174 bpm), (13, 63 m, 2:29, 39:41/km, 151 bpm), (14, 505 m, 2:14, 4:25/km, 161 bpm), (15, 495 m, 2:06, 4:14/km, 177 bpm), (16, 82 m, 1:34, 18:56/km, 172 bpm), (17, 0 m, 0:03, –, –), (18, 10 m, 0:05, 8:18/km, 144 bpm), (19, 287 m, 1:55, 6:40/km, 154 bpm)
 
-
 2026-05-21: Daily
 Weight: 189.3 | Waist: 34
 Sleep: 5:59:00
@@ -3480,7 +3488,6 @@ Distance: 7.22 | Duration: 42:50
 Avg HR: 135 | Max HR: 153
 Pain: 1
 
-
 2026-05-23: Daily
 Weight: 191.8 | Waist: 34.25
 Sleep: 5:41:00
@@ -3488,11 +3495,20 @@ RHR: 53 | HRV: 59
 Energy: 4
 Pain: 1
 
+2026-05-23: Measurements
+Biceps (L/R): 14.125/14
+Neck: 15.75
+Chest: 42
+Waist: 34.25
+Thighs (L/R): 23.5/23.5
+Calves (L/R): 15.125/15.125
+Notes: Thighs and calves up considerably.
+
 2026-05-23: Erg
 Focus: Time Trial | RPE: 8
 Distance: 5.145 | Duration: 20:00 | Power: 221
 Pain: 1
-Notes: Felt well paced. No HR monitor. Push in las 2:00 was hard but available. 
+Notes: Felt well paced. No HR monitor. Push in last 2:00 was hard but available. 
 Details: 26 spm rate cap. 
 
 2026-05-24: Cycle
