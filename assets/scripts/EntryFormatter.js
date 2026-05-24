@@ -146,17 +146,28 @@ export function formatNutritionEntry(entry) {
   return lines.join('\n');
 }
 
+export function formatMeasurementsEntry(entry) {
+  const lines = [`${entry.date}: Measurements`];
+  const fieldOrder = ['Biceps (L/R)', 'Neck', 'Chest', 'Waist', 'Thighs (L/R)', 'Calves (L/R)', 'Notes'];
+  fieldOrder.forEach(label => {
+    const value = entry.getTagValue(label);
+    if (value) lines.push(tagLine(label, value, entry.getTagComment(label) || ''));
+  });
+  return lines.join('\n');
+}
+
 export function formatEntry(entry) {
   switch (entry.type) {
-    case 'Daily':     return formatDailyEntry(entry);
+    case 'Daily':        return formatDailyEntry(entry);
     case 'Run':
     case 'Swim':
     case 'Cycle':
     case 'Row':
     case 'Erg':
-    case 'Yoga':      return formatCardioEntry(entry);
-    case 'Strength':  return formatStrengthEntry(entry);
-    case 'Nutrition': return formatNutritionEntry(entry);
+    case 'Yoga':         return formatCardioEntry(entry);
+    case 'Strength':     return formatStrengthEntry(entry);
+    case 'Nutrition':    return formatNutritionEntry(entry);
+    case 'Measurements': return formatMeasurementsEntry(entry);
     default: {
       const lines = [`${entry.date}: ${entry.shortcutName || entry.type}`];
       entry.getAllTags().forEach(tag => {

@@ -801,6 +801,162 @@ export class EntryModal {
         }
     }
 
+    showMeasurements(existingEntry = null) {
+        const modal = this.createModal('Measurements');
+        const table = document.createElement('table');
+        table.className = 'form-table';
+
+        const dateInput = this.createDateInput();
+        const dateRow = document.createElement('tr');
+        const dateLabelCell = document.createElement('td');
+        dateLabelCell.className = 'label-cell';
+        dateLabelCell.textContent = 'Date';
+        dateRow.appendChild(dateLabelCell);
+        const dateColonCell = document.createElement('td');
+        dateColonCell.className = 'separator';
+        dateColonCell.textContent = ':';
+        dateRow.appendChild(dateColonCell);
+        const dateInputCell = document.createElement('td');
+        dateInputCell.appendChild(dateInput);
+        dateRow.appendChild(dateInputCell);
+        dateRow.appendChild(document.createElement('td'));
+        table.appendChild(dateRow);
+
+        const FIELDS = [
+            { label: 'Biceps (L/R)', lr: true },
+            { label: 'Neck' },
+            { label: 'Chest' },
+            { label: 'Waist' },
+            { label: 'Thighs (L/R)', lr: true },
+            { label: 'Calves (L/R)', lr: true },
+            { label: 'Notes', textarea: true },
+        ];
+
+        const formData = {};
+
+        FIELDS.forEach(field => {
+            const tr = document.createElement('tr');
+
+            const labelCell = document.createElement('td');
+            labelCell.className = 'label-cell';
+            labelCell.textContent = field.label;
+            tr.appendChild(labelCell);
+
+            const colonCell = document.createElement('td');
+            colonCell.className = 'separator';
+            colonCell.textContent = ':';
+            tr.appendChild(colonCell);
+
+            const inputCell = document.createElement('td');
+            inputCell.className = 'notes-cell';
+
+            if (field.lr) {
+                inputCell.style.display = 'flex';
+                inputCell.style.alignItems = 'center';
+                inputCell.style.gap = '0.3rem';
+
+                const mkSpan = t => {
+                    const s = document.createElement('span');
+                    s.textContent = t;
+                    s.style.cssText = 'font-size:0.8rem;color:var(--dark-gray);flex-shrink:0;';
+                    return s;
+                };
+                const mkInp = () => {
+                    const i = document.createElement('input');
+                    i.type = 'text';
+                    i.inputMode = 'decimal';
+                    i.style.flex = '1';
+                    i.style.minWidth = '0';
+                    return i;
+                };
+                const leftInput = mkInp();
+                const rightInput = mkInp();
+                inputCell.appendChild(mkSpan('L'));
+                inputCell.appendChild(leftInput);
+                inputCell.appendChild(mkSpan('/'));
+                inputCell.appendChild(mkSpan('R'));
+                inputCell.appendChild(rightInput);
+                formData[field.label] = { leftInput, rightInput, lr: true };
+            } else if (field.textarea) {
+                const input = document.createElement('textarea');
+                input.className = 'notes-field';
+                input.rows = 2;
+                inputCell.appendChild(input);
+                formData[field.label] = { input };
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.inputMode = 'decimal';
+                inputCell.appendChild(input);
+                formData[field.label] = { input };
+            }
+
+            tr.appendChild(inputCell);
+            table.appendChild(tr);
+        });
+
+        if (existingEntry) {
+            dateInput.value = existingEntry.date;
+            Object.keys(formData).forEach(label => {
+                const fd = formData[label];
+                const val = existingEntry.getTagValue(label);
+                if (!val) return;
+                if (fd.lr) {
+                    const parts = val.split('/');
+                    fd.leftInput.value = parts[0] || '';
+                    fd.rightInput.value = parts[1] || '';
+                } else {
+                    fd.input.value = val;
+                }
+            });
+        }
+
+        modal.appendChild(table);
+
+        const actions = document.createElement('div');
+        actions.className = 'modal-actions';
+        const saveBtn = document.createElement('button');
+        saveBtn.className = 'btn-primary';
+        saveBtn.textContent = existingEntry ? 'Update' : 'Save';
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'btn-secondary';
+        cancelBtn.textContent = 'Cancel';
+        actions.appendChild(saveBtn);
+        actions.appendChild(cancelBtn);
+        modal.appendChild(actions);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        saveBtn.addEventListener('click', () => this.saveMeasurementsEntry(formData, dateInput.value, overlay, existingEntry));
+        cancelBtn.addEventListener('click', () => overlay.remove());
+    }
+
+    saveMeasurementsEntry(formData, selectedDate, overlay, existingEntry = null) {
+        const tags = [];
+        const fieldOrder = ['Biceps (L/R)', 'Neck', 'Chest', 'Waist', 'Thighs (L/R)', 'Calves (L/R)', 'Notes'];
+        fieldOrder.forEach(label => {
+            const fd = formData[label];
+            if (!fd) return;
+            if (fd.lr) {
+                const l = fd.leftInput.value.trim();
+                const r = fd.rightInput.value.trim();
+                if (l || r) tags.push(new TagData(label, `${l || '?'}/${r || '?'}`, ''));
+            } else {
+                const v = fd.input.value.trim();
+                if (v) tags.push(new TagData(label, v, ''));
+            }
+        });
+        const content = formatEntry(new WorkoutEntry(selectedDate, 'Measurements', tags));
+        if (existingEntry) {
+            this.replaceAndSave(existingEntry, content, overlay);
+        } else {
+            this.appendAndSave(content, overlay);
+        }
+    }
+
     showMiscellaneous() {
         const modal = this.createModal('Manual Entry');
         const table = document.createElement('table');
@@ -1522,11 +1678,17 @@ export class EntryModal {
                 } else if (newType === 'Daily') {
                     // Daily goes first on the day — before all same-date entries
                     insertAfterIdx = lastBeforeIdx;
+                } else if (newType === 'Measurements') {
+                    // Measurements goes after Daily, before workouts/nutrition
+                    const lastDailyIdx = [...sameDateIdxs]
+                        .reverse()
+                        .find(i => entryHeaders[i].type === 'Daily');
+                    insertAfterIdx = lastDailyIdx !== undefined ? lastDailyIdx : lastBeforeIdx;
                 } else if (newType === 'Nutrition') {
                     // Nutrition goes last on the day
                     insertAfterIdx = sameDateIdxs[sameDateIdxs.length - 1];
                 } else {
-                    // Other workouts: after last non-Nutrition same-date entry
+                    // Workouts: after last non-Nutrition same-date entry (includes Measurements)
                     const lastNonNutritionIdx = [...sameDateIdxs]
                         .reverse()
                         .find(i => entryHeaders[i].type !== 'Nutrition');

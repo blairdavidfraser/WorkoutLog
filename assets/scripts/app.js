@@ -391,12 +391,13 @@ class App {
         this.entryModal.editor = this.editor;
         this.entryModal.persistence = this.persistence;
         switch (entryType) {
-          case 'daily':     this.entryModal.showDaily(); break;
-          case 'cardio':    this.entryModal.showCardio(); break;
-          case 'strength':  this.entryModal.showStrength(); break;
-          case 'nutrition': this.entryModal.showNutrition(); break;
-          case 'strava':    this.entryModal.showStravaEntry(this.stravaService); break;
-          case 'misc':      this.entryModal.showMiscellaneous(); break;
+          case 'daily':        this.entryModal.showDaily(); break;
+          case 'cardio':       this.entryModal.showCardio(); break;
+          case 'strength':     this.entryModal.showStrength(); break;
+          case 'nutrition':    this.entryModal.showNutrition(); break;
+          case 'measurements': this.entryModal.showMeasurements(); break;
+          case 'strava':       this.entryModal.showStravaEntry(this.stravaService); break;
+          case 'misc':         this.entryModal.showMiscellaneous(); break;
         }
       });
     });
@@ -552,16 +553,17 @@ class App {
     this.entryModal.editor = this.editor;
     this.entryModal.persistence = this.persistence;
     switch (entry.type) {
-      case 'Daily':    this.entryModal.showDaily(entry); break;
+      case 'Daily':        this.entryModal.showDaily(entry); break;
       case 'Run':
       case 'Swim':
       case 'Cycle':
       case 'Row':
       case 'Erg':
-      case 'Yoga':     this.entryModal.showCardio(entry); break;
-      case 'Strength': this.entryModal.showStrength(entry); break;
-      case 'Nutrition': this.entryModal.showNutrition(entry); break;
-      default:         this.entryModal.showMiscellaneous(); break;
+      case 'Yoga':         this.entryModal.showCardio(entry); break;
+      case 'Strength':     this.entryModal.showStrength(entry); break;
+      case 'Nutrition':    this.entryModal.showNutrition(entry); break;
+      case 'Measurements': this.entryModal.showMeasurements(entry); break;
+      default:             this.entryModal.showMiscellaneous(); break;
     }
   }
 
