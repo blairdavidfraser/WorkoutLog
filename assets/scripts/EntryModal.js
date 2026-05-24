@@ -62,7 +62,7 @@ export class EntryModal {
         const fields = [
             { label: 'Weight', type: 'text', noComment: true, placeholder: 'lb.', inputMode: 'decimal' },
             { label: 'Waist', type: 'text', noComment: true, placeholder: '"', inputMode: 'decimal' },
-            { label: 'Sleep', type: 'time', noComment: false },
+            { label: 'Sleep', type: 'duration', noComment: false },
             { label: 'RHR', type: 'text', noComment: true, placeholder: 'bpm', inputMode: 'numeric' },
             { label: 'HRV', type: 'text', noComment: true, placeholder: 'ms', inputMode: 'numeric' },
             { label: 'Energy', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
@@ -88,7 +88,46 @@ export class EntryModal {
             const inputCell = document.createElement('td');
             let input;
 
-            if (field.type === 'select') {
+            if (field.type === 'duration') {
+                // HH h MM m — two small numeric inputs
+                inputCell.style.cssText = 'display:flex;align-items:center;gap:4px;';
+                const mkNum = (placeholder) => {
+                    const i = document.createElement('input');
+                    i.type = 'text';
+                    i.inputMode = 'numeric';
+                    i.pattern = '[0-9]*';
+                    i.placeholder = placeholder;
+                    i.style.cssText = 'width:40px;text-align:center;';
+                    return i;
+                };
+                const mkLbl = t => {
+                    const s = document.createElement('span');
+                    s.textContent = t;
+                    s.style.cssText = 'font-size:0.85rem;color:var(--dark-gray);';
+                    return s;
+                };
+                const hoursInput   = mkNum('0');
+                const minutesInput = mkNum('00');
+                inputCell.appendChild(hoursInput);
+                inputCell.appendChild(mkLbl('h'));
+                inputCell.appendChild(minutesInput);
+                inputCell.appendChild(mkLbl('m'));
+                tr.appendChild(inputCell);
+                const commentBtnCell = document.createElement('td');
+                commentBtnCell.className = 'comment-btn-cell';
+                const commentBtn = document.createElement('button');
+                commentBtn.type = 'button';
+                commentBtn.className = 'comment-btn';
+                commentBtn.textContent = '+';
+                commentBtn.title = 'Add comment';
+                commentBtn._comment = '';
+                commentBtn.addEventListener('click', () => this.showCommentPopup(commentBtn));
+                commentBtnCell.appendChild(commentBtn);
+                tr.appendChild(commentBtnCell);
+                formData[field.label] = { hoursInput, minutesInput, commentBtn };
+                table.appendChild(tr);
+                return;
+            } else if (field.type === 'select') {
                 input = document.createElement('select');
                 field.options.forEach(opt => {
                     const option = document.createElement('option');
@@ -138,20 +177,21 @@ export class EntryModal {
         if (existingEntry) {
             dateInput.value = existingEntry.date;
             Object.keys(formData).forEach(label => {
-                const { input, commentBtn } = formData[label];
+                const fd = formData[label];
                 const val = existingEntry.getTagValue(label);
                 const comment = existingEntry.getTagComment(label);
                 if (val !== null && val !== undefined) {
-                    if (label === 'Sleep' && input.type === 'time') {
+                    if (fd.hoursInput) {
                         const p = val.split(':');
-                        input.value = `${p[0].padStart(2, '0')}:${(p[1] || '00').padStart(2, '0')}`;
+                        fd.hoursInput.value = parseInt(p[0] || '0', 10);
+                        fd.minutesInput.value = (p[1] || '0').padStart(2, '0');
                     } else {
-                        input.value = val;
+                        fd.input.value = val;
                     }
                 }
-                if (comment && commentBtn) {
-                    commentBtn._comment = comment;
-                    commentBtn.classList.add('has-comment');
+                if (comment && fd.commentBtn) {
+                    fd.commentBtn._comment = comment;
+                    fd.commentBtn.classList.add('has-comment');
                 }
             });
         }
@@ -195,11 +235,11 @@ export class EntryModal {
 
         const w = field('Weight'); if (w.value) tags.push(new TagData('Weight', w.value, w.comment));
         const wa = field('Waist'); if (wa.value) tags.push(new TagData('Waist', wa.value, wa.comment));
-        const sl = field('Sleep');
-        if (sl.value) {
-            const p = sl.value.split(':');
-            const sleepVal = p.length === 2 ? `${parseInt(p[0], 10)}:${p[1]}:00` : sl.value;
-            tags.push(new TagData('Sleep', sleepVal, sl.comment));
+        const slFd = formData['Sleep'];
+        const slH = parseInt(slFd.hoursInput.value || '0', 10);
+        const slM = parseInt(slFd.minutesInput.value || '0', 10);
+        if (slH > 0 || slM > 0) {
+            tags.push(new TagData('Sleep', `${slH}:${slM.toString().padStart(2, '0')}:00`, slFd.commentBtn?._comment || ''));
         }
         const rh = field('RHR');   if (rh.value) tags.push(new TagData('RHR', rh.value, rh.comment));
         const hv = field('HRV');   if (hv.value) tags.push(new TagData('HRV', hv.value, hv.comment));
