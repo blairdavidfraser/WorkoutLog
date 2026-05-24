@@ -60,13 +60,13 @@ export class EntryModal {
         table.appendChild(dateRow);
 
         const fields = [
-            { label: 'Weight', type: 'text', noComment: true, placeholder: 'lb.' },
-            { label: 'Waist', type: 'text', noComment: true, placeholder: '"' },
-            { label: 'Sleep', type: 'text', noComment: false },
-            { label: 'RHR', type: 'text', noComment: true, placeholder: 'bpm' },
-            { label: 'HRV', type: 'text', noComment: true, placeholder: 'ms' },
+            { label: 'Weight', type: 'text', noComment: true, placeholder: 'lb.', inputMode: 'decimal' },
+            { label: 'Waist', type: 'text', noComment: true, placeholder: '"', inputMode: 'decimal' },
+            { label: 'Sleep', type: 'time', noComment: false },
+            { label: 'RHR', type: 'text', noComment: true, placeholder: 'bpm', inputMode: 'numeric' },
+            { label: 'HRV', type: 'text', noComment: true, placeholder: 'ms', inputMode: 'numeric' },
             { label: 'Energy', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
-            { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
+            { label: 'Pain', type: 'select', options: ['', '0', '1', '2', '3', '4', '5'], noComment: false },
             { label: 'Notes', type: 'textarea', noComment: true }
         ];
 
@@ -106,6 +106,7 @@ export class EntryModal {
                 input = document.createElement('input');
                 input.type = field.type;
                 if (field.placeholder) input.placeholder = field.placeholder;
+                if (field.inputMode) input.inputMode = field.inputMode;
             }
 
             input.name = field.label;
@@ -140,7 +141,14 @@ export class EntryModal {
                 const { input, commentBtn } = formData[label];
                 const val = existingEntry.getTagValue(label);
                 const comment = existingEntry.getTagComment(label);
-                if (val !== null && val !== undefined) input.value = val;
+                if (val !== null && val !== undefined) {
+                    if (label === 'Sleep' && input.type === 'time') {
+                        const p = val.split(':');
+                        input.value = `${p[0].padStart(2, '0')}:${(p[1] || '00').padStart(2, '0')}`;
+                    } else {
+                        input.value = val;
+                    }
+                }
                 if (comment && commentBtn) {
                     commentBtn._comment = comment;
                     commentBtn.classList.add('has-comment');
@@ -187,7 +195,12 @@ export class EntryModal {
 
         const w = field('Weight'); if (w.value) tags.push(new TagData('Weight', w.value, w.comment));
         const wa = field('Waist'); if (wa.value) tags.push(new TagData('Waist', wa.value, wa.comment));
-        const sl = field('Sleep'); if (sl.value) tags.push(new TagData('Sleep', sl.value, sl.comment));
+        const sl = field('Sleep');
+        if (sl.value) {
+            const p = sl.value.split(':');
+            const sleepVal = p.length === 2 ? `${parseInt(p[0], 10)}:${p[1]}:00` : sl.value;
+            tags.push(new TagData('Sleep', sleepVal, sl.comment));
+        }
         const rh = field('RHR');   if (rh.value) tags.push(new TagData('RHR', rh.value, rh.comment));
         const hv = field('HRV');   if (hv.value) tags.push(new TagData('HRV', hv.value, hv.comment));
         const en = field('Energy'); if (en.value) tags.push(new TagData('Energy', en.value, en.comment));
@@ -241,12 +254,12 @@ export class EntryModal {
             { label: 'Type', type: 'select', options: ['Run', 'Cycle', 'Cycle Commute', 'Erg', 'Swim', 'Row', 'Yoga'], noComment: false },
             { label: 'Focus', type: 'text', noComment: false },
             { label: 'RPE', type: 'select', options: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], noComment: false },
-            { label: 'Distance', type: 'text', noComment: false, placeholder: 'km' },
+            { label: 'Distance', type: 'text', noComment: false, placeholder: 'km', inputMode: 'decimal' },
             { label: 'Duration', type: 'text', noComment: false },
-            { label: 'Power', type: 'text', noComment: false },
-            { label: 'Avg HR', type: 'text', noComment: false, placeholder: 'bpm' },
-            { label: 'Max HR', type: 'text', noComment: false, placeholder: 'bpm' },
-            { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'], noComment: false },
+            { label: 'Power', type: 'text', noComment: false, inputMode: 'numeric' },
+            { label: 'Avg HR', type: 'text', noComment: false, placeholder: 'bpm', inputMode: 'numeric' },
+            { label: 'Max HR', type: 'text', noComment: false, placeholder: 'bpm', inputMode: 'numeric' },
+            { label: 'Pain', type: 'select', options: ['', '0', '1', '2', '3', '4', '5'], noComment: false },
             { label: 'Details', type: 'textarea', noComment: true, rows: 3 },
             { label: 'Notes', type: 'textarea', noComment: true, rows: 3 }
         ];
@@ -288,6 +301,7 @@ export class EntryModal {
                 input = document.createElement('input');
                 input.type = field.type;
                 if (field.placeholder) input.placeholder = field.placeholder;
+                if (field.inputMode) input.inputMode = field.inputMode;
             }
 
             input.name = field.label;
@@ -443,7 +457,7 @@ export class EntryModal {
         const topFields = [
             { label: 'Focus', type: 'text' },
             { label: 'RPE', type: 'select', options: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
-            { label: 'Pain', type: 'select', options: ['', '1', '2', '3', '4', '5'] }
+            { label: 'Pain', type: 'select', options: ['', '0', '1', '2', '3', '4', '5'] }
         ];
 
         const topData = {};
@@ -530,6 +544,7 @@ export class EntryModal {
             const valCell = document.createElement('td');
             const valueInput = document.createElement('input');
             valueInput.type = 'text';
+            valueInput.inputMode = 'decimal';
             valueInput.name = 'exercise_value_' + i;
             valCell.appendChild(valueInput);
             tr.appendChild(valCell);
