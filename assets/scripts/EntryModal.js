@@ -89,7 +89,7 @@ export class EntryModal {
             let input;
 
             if (field.type === 'duration') {
-                // HH h MM m — two small numeric inputs
+                // [hh] : [mm]  (hh:mm)
                 inputCell.style.cssText = 'display:flex;align-items:center;gap:4px;';
                 const mkNum = (placeholder) => {
                     const i = document.createElement('input');
@@ -106,12 +106,12 @@ export class EntryModal {
                     s.style.cssText = 'font-size:0.85rem;color:var(--dark-gray);';
                     return s;
                 };
-                const hoursInput   = mkNum('0');
-                const minutesInput = mkNum('00');
+                const hoursInput   = mkNum('hh');
+                const minutesInput = mkNum('mm');
                 inputCell.appendChild(hoursInput);
-                inputCell.appendChild(mkLbl('h'));
+                inputCell.appendChild(mkLbl(':'));
                 inputCell.appendChild(minutesInput);
-                inputCell.appendChild(mkLbl('m'));
+                inputCell.appendChild(mkLbl('(hh:mm)'));
                 tr.appendChild(inputCell);
                 const commentBtnCell = document.createElement('td');
                 commentBtnCell.className = 'comment-btn-cell';
