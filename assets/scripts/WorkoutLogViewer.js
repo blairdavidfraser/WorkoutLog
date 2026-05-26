@@ -596,6 +596,19 @@ export class WorkoutLogViewer {
       card.style.transform = x === 0 ? '' : `translateX(${x}px)`;
     };
 
+    const closeCard = () => {
+      applySnap(0);
+      if (this._openCardClose === closeCard) this._openCardClose = null;
+    };
+
+    const openCard = (x) => {
+      if (this._openCardClose && this._openCardClose !== closeCard) {
+        this._openCardClose();
+      }
+      applySnap(x);
+      this._openCardClose = closeCard;
+    };
+
     wrapper.addEventListener('touchstart', (e) => {
       baseX = snapX;
       startX = e.touches[0].clientX;
@@ -632,11 +645,11 @@ export class WorkoutLogViewer {
         // Swipe: decide snap destination
         const proposed = baseX + dx;
         if (proposed > THRESHOLD) {
-          applySnap(EDIT_SNAP);
+          openCard(EDIT_SNAP);
         } else if (proposed < -THRESHOLD) {
-          applySnap(DEL_SNAP);
+          openCard(DEL_SNAP);
         } else {
-          applySnap(0);
+          closeCard();
         }
         return;
       }
@@ -648,13 +661,13 @@ export class WorkoutLogViewer {
           const wRect = wrapper.getBoundingClientRect();
           const relX = tapX - wRect.left;
           if (snapX === EDIT_SNAP && relX < EDIT_SNAP) {
-            applySnap(0);
+            closeCard();
             if (this.onEditEntry) this.onEditEntry(entry);
           } else if (snapX === DEL_SNAP && relX > wRect.width + DEL_SNAP) {
-            applySnap(0);
+            closeCard();
             if (this.onDeleteEntry) this.onDeleteEntry(entry);
           } else {
-            applySnap(0); // tap outside action zone — just close
+            closeCard(); // tap outside action zone — just close
           }
         } else {
           // Not snapped — handle double-tap copy

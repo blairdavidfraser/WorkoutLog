@@ -1,5 +1,5 @@
 // Service Worker for Workout Log PWA
-const CACHE_VERSION = 'v48';
+const CACHE_VERSION = 'v49';
 const CACHE_NAME = `workout-log-${CACHE_VERSION}`;
 
 const ASSETS_TO_CACHE = [
