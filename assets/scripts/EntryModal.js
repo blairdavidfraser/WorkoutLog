@@ -295,7 +295,7 @@ export class EntryModal {
             { label: 'Focus', type: 'text', noComment: false },
             { label: 'RPE', type: 'select', options: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], noComment: false },
             { label: 'Distance', type: 'text', noComment: false, placeholder: 'km', inputMode: 'decimal' },
-            { label: 'Duration', type: 'text', noComment: false },
+            { label: 'Duration', type: 'duration', noComment: false },
             { label: 'Power', type: 'text', noComment: false, inputMode: 'numeric' },
             { label: 'Avg HR', type: 'text', noComment: false, placeholder: 'bpm', inputMode: 'numeric' },
             { label: 'Max HR', type: 'text', noComment: false, placeholder: 'bpm', inputMode: 'numeric' },
@@ -322,7 +322,39 @@ export class EntryModal {
             const inputCell = document.createElement('td');
             let input;
 
-            if (field.type === 'select') {
+            if (field.type === 'duration') {
+                inputCell.style.cssText = 'display:flex;align-items:center;gap:4px;';
+                const mkDurNum = (ph) => {
+                    const i = document.createElement('input');
+                    i.type = 'text'; i.inputMode = 'numeric'; i.pattern = '[0-9]*';
+                    i.placeholder = ph; i.style.cssText = 'width:40px;text-align:center;';
+                    return i;
+                };
+                const mkDurLbl = t => {
+                    const s = document.createElement('span');
+                    s.textContent = t; s.style.cssText = 'font-size:0.85rem;color:var(--dark-gray);';
+                    return s;
+                };
+                const hoursInput = mkDurNum('hh');
+                const minutesInput = mkDurNum('mm');
+                inputCell.appendChild(hoursInput);
+                inputCell.appendChild(mkDurLbl(':'));
+                inputCell.appendChild(minutesInput);
+                inputCell.appendChild(mkDurLbl('(hh:mm)'));
+                tr.appendChild(inputCell);
+                const durCommentBtnCell = document.createElement('td');
+                durCommentBtnCell.className = 'comment-btn-cell';
+                const durCommentBtn = document.createElement('button');
+                durCommentBtn.type = 'button'; durCommentBtn.className = 'comment-btn';
+                durCommentBtn.textContent = '+'; durCommentBtn.title = 'Add comment';
+                durCommentBtn._comment = '';
+                durCommentBtn.addEventListener('click', () => this.showCommentPopup(durCommentBtn));
+                durCommentBtnCell.appendChild(durCommentBtn);
+                tr.appendChild(durCommentBtnCell);
+                formData[field.label] = { hoursInput, minutesInput, commentBtn: durCommentBtn };
+                table.appendChild(tr);
+                return;
+            } else if (field.type === 'select') {
                 input = document.createElement('select');
                 field.options.forEach(opt => {
                     const option = document.createElement('option');
@@ -378,7 +410,15 @@ export class EntryModal {
                 if (!f) return;
                 const val = source.getTagValue(label);
                 const comment = source.getTagComment(label);
-                if (val !== null && val !== undefined) f.input.value = val;
+                if (val !== null && val !== undefined) {
+                    if (f.hoursInput) {
+                        const p = val.split(':');
+                        f.hoursInput.value = parseInt(p[0] || '0', 10);
+                        f.minutesInput.value = (p[1] || '0').padStart(2, '0');
+                    } else {
+                        f.input.value = val;
+                    }
+                }
                 if (comment && f.commentBtn) {
                     f.commentBtn._comment = comment;
                     f.commentBtn.classList.add('has-comment');
@@ -438,7 +478,10 @@ export class EntryModal {
         const fo = field('Focus');    if (fo.value) tags.push(new TagData('Focus',    fo.value, fo.comment));
         const rp = field('RPE');      if (rp.value) tags.push(new TagData('RPE',      rp.value, rp.comment));
         const di = field('Distance'); if (di.value) tags.push(new TagData('Distance', di.value, di.comment));
-        const du = field('Duration'); if (du.value) tags.push(new TagData('Duration', du.value, du.comment));
+        const duFd = formData['Duration'];
+        const duH = parseInt(duFd.hoursInput.value || '0', 10);
+        const duM = parseInt(duFd.minutesInput.value || '0', 10);
+        if (duH > 0 || duM > 0) tags.push(new TagData('Duration', `${duH}:${duM.toString().padStart(2, '0')}:00`, duFd.commentBtn?._comment || ''));
         const po = field('Power');    if (po.value) tags.push(new TagData('Power',    po.value, po.comment));
         const ah = field('Avg HR');   if (ah.value) tags.push(new TagData('Avg HR',   ah.value, ah.comment));
         const mh = field('Max HR');   if (mh.value) tags.push(new TagData('Max HR',   mh.value, mh.comment));
@@ -584,7 +627,6 @@ export class EntryModal {
             const valCell = document.createElement('td');
             const valueInput = document.createElement('input');
             valueInput.type = 'text';
-            valueInput.inputMode = 'decimal';
             valueInput.name = 'exercise_value_' + i;
             valCell.appendChild(valueInput);
             tr.appendChild(valCell);
@@ -878,12 +920,12 @@ export class EntryModal {
         table.appendChild(dateRow);
 
         const FIELDS = [
-            { label: 'Biceps (L/R)', lr: true },
+            { label: 'Biceps (L/R)', displayLabel: 'Biceps', lr: true },
             { label: 'Neck' },
             { label: 'Chest' },
             { label: 'Waist' },
-            { label: 'Thighs (L/R)', lr: true },
-            { label: 'Calves (L/R)', lr: true },
+            { label: 'Thighs (L/R)', displayLabel: 'Thighs', lr: true },
+            { label: 'Calves (L/R)', displayLabel: 'Calves', lr: true },
             { label: 'Notes', textarea: true },
         ];
 
@@ -894,7 +936,7 @@ export class EntryModal {
 
             const labelCell = document.createElement('td');
             labelCell.className = 'label-cell';
-            labelCell.textContent = field.label;
+            labelCell.textContent = field.displayLabel || field.label;
             tr.appendChild(labelCell);
 
             const colonCell = document.createElement('td');
@@ -908,28 +950,20 @@ export class EntryModal {
             if (field.lr) {
                 inputCell.style.display = 'flex';
                 inputCell.style.alignItems = 'center';
-                inputCell.style.gap = '0.3rem';
+                inputCell.style.gap = '0.5rem';
 
-                const mkSpan = t => {
-                    const s = document.createElement('span');
-                    s.textContent = t;
-                    s.style.cssText = 'font-size:0.8rem;color:var(--dark-gray);flex-shrink:0;';
-                    return s;
-                };
-                const mkInp = () => {
+                const mkInp = (ph) => {
                     const i = document.createElement('input');
                     i.type = 'text';
                     i.inputMode = 'decimal';
+                    i.placeholder = ph;
                     i.style.flex = '1';
                     i.style.minWidth = '0';
                     return i;
                 };
-                const leftInput = mkInp();
-                const rightInput = mkInp();
-                inputCell.appendChild(mkSpan('L'));
+                const leftInput = mkInp('Left');
+                const rightInput = mkInp('Right');
                 inputCell.appendChild(leftInput);
-                inputCell.appendChild(mkSpan('/'));
-                inputCell.appendChild(mkSpan('R'));
                 inputCell.appendChild(rightInput);
                 formData[field.label] = { leftInput, rightInput, lr: true };
             } else if (field.textarea) {
