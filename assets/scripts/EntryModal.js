@@ -337,10 +337,12 @@ export class EntryModal {
                 };
                 const hoursInput = mkDurNum('hh');
                 const minutesInput = mkDurNum('mm');
+                const secondsInput = mkDurNum('ss');
                 inputCell.appendChild(hoursInput);
                 inputCell.appendChild(mkDurLbl(':'));
                 inputCell.appendChild(minutesInput);
-                inputCell.appendChild(mkDurLbl('(hh:mm)'));
+                inputCell.appendChild(mkDurLbl(':'));
+                inputCell.appendChild(secondsInput);
                 tr.appendChild(inputCell);
                 const durCommentBtnCell = document.createElement('td');
                 durCommentBtnCell.className = 'comment-btn-cell';
@@ -351,7 +353,7 @@ export class EntryModal {
                 durCommentBtn.addEventListener('click', () => this.showCommentPopup(durCommentBtn));
                 durCommentBtnCell.appendChild(durCommentBtn);
                 tr.appendChild(durCommentBtnCell);
-                formData[field.label] = { hoursInput, minutesInput, commentBtn: durCommentBtn };
+                formData[field.label] = { hoursInput, minutesInput, secondsInput, commentBtn: durCommentBtn };
                 table.appendChild(tr);
                 return;
             } else if (field.type === 'select') {
@@ -415,6 +417,7 @@ export class EntryModal {
                         const p = val.split(':');
                         f.hoursInput.value = parseInt(p[0] || '0', 10);
                         f.minutesInput.value = (p[1] || '0').padStart(2, '0');
+                        if (f.secondsInput) f.secondsInput.value = (p[2] || '0').padStart(2, '0');
                     } else {
                         f.input.value = val;
                     }
@@ -481,7 +484,8 @@ export class EntryModal {
         const duFd = formData['Duration'];
         const duH = parseInt(duFd.hoursInput.value || '0', 10);
         const duM = parseInt(duFd.minutesInput.value || '0', 10);
-        if (duH > 0 || duM > 0) tags.push(new TagData('Duration', `${duH}:${duM.toString().padStart(2, '0')}:00`, duFd.commentBtn?._comment || ''));
+        const duS = parseInt(duFd.secondsInput.value || '0', 10);
+        if (duH > 0 || duM > 0 || duS > 0) tags.push(new TagData('Duration', `${duH}:${duM.toString().padStart(2, '0')}:${duS.toString().padStart(2, '0')}`, duFd.commentBtn?._comment || ''));
         const po = field('Power');    if (po.value) tags.push(new TagData('Power',    po.value, po.comment));
         const ah = field('Avg HR');   if (ah.value) tags.push(new TagData('Avg HR',   ah.value, ah.comment));
         const mh = field('Max HR');   if (mh.value) tags.push(new TagData('Max HR',   mh.value, mh.comment));
