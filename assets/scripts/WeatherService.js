@@ -48,6 +48,9 @@ function precipIntensity(totalMm) {
   return 'heavy';
 }
 
+const LOC_KEY = 'workout_weather_location';
+const LOC_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days
+
 export class WeatherService {
   constructor() {
     this._cache = null;
@@ -58,12 +61,24 @@ export class WeatherService {
 
   async getLocation() {
     if (this._location) return this._location;
+
+    try {
+      const cached = JSON.parse(localStorage.getItem(LOC_KEY));
+      if (cached && Date.now() - cached.ts < LOC_MAX_AGE) {
+        this._location = { lat: cached.lat, lon: cached.lon };
+        return this._location;
+      }
+    } catch {}
+
     if (this._locPromise) return this._locPromise;
     this._locPromise = new Promise((resolve, reject) => {
       if (!navigator.geolocation) { reject(new Error('Geolocation not supported')); return; }
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           this._location = { lat: coords.latitude, lon: coords.longitude };
+          try {
+            localStorage.setItem(LOC_KEY, JSON.stringify({ lat: this._location.lat, lon: this._location.lon, ts: Date.now() }));
+          } catch {}
           resolve(this._location);
         },
         reject,
