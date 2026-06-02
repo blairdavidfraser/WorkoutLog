@@ -505,7 +505,7 @@ export class EntryModal {
         }
     }
 
-    showStrength(existingEntry = null) {
+    showStrength(existingEntry = null, prefill = null) {
         const modal = this.createModal('Strength Entry');
         const table = document.createElement('table');
         table.className = 'form-table';
@@ -674,23 +674,30 @@ export class EntryModal {
         notesRow.appendChild(notesInputCell);
         table.appendChild(notesRow);
 
-        // Pre-populate if editing
-        if (existingEntry) {
-            dateInput.value = existingEntry.date;
+        // Pre-populate if editing or prefilling from Strava
+        const source = existingEntry || prefill;
+        if (source) {
+            dateInput.value = source.date;
             Object.keys(topData).forEach(label => {
                 const { input, commentBtn } = topData[label];
-                const val = existingEntry.getTagValue(label);
-                const comment = existingEntry.getTagComment(label);
+                const val = source.getTagValue(label);
+                const comment = source.getTagComment(label);
                 if (val !== null && val !== undefined) input.value = val;
                 if (comment && commentBtn) {
                     commentBtn._comment = comment;
                     commentBtn.classList.add('has-comment');
                 }
             });
-            const exercises = existingEntry.getExercises();
+            const exercises = source.getExercises();
             exercises.forEach((ex, i) => {
                 if (i < exerciseData.length) {
-                    exerciseData[i].exercise.value = ex.name;
+                    const sel = exerciseData[i].exercise;
+                    if (![...sel.options].some(o => o.value === ex.name)) {
+                        const opt = document.createElement('option');
+                        opt.value = ex.name; opt.textContent = ex.name;
+                        sel.appendChild(opt);
+                    }
+                    sel.value = ex.name;
                     exerciseData[i].value.value = ex.value;
                     if (ex.comment) {
                         exerciseData[i].commentBtn._comment = ex.comment;
@@ -698,7 +705,7 @@ export class EntryModal {
                     }
                 }
             });
-            const existingNotes = existingEntry.getTagValue('Notes');
+            const existingNotes = source.getTagValue('Notes');
             if (existingNotes) notesInput.value = existingNotes;
         }
 
@@ -1355,6 +1362,7 @@ export class EntryModal {
 
                 item.addEventListener('click', async () => {
                     const BIKE_SPORTS = ['Ride', 'VirtualRide', 'EBikeRide', 'MountainBikeRide', 'GravelRide'];
+                    const STRENGTH_SPORTS = ['WeightTraining'];
                     const sport = activity.sport_type || activity.type || '';
                     if (activity.commute && BIKE_SPORTS.includes(sport)) {
                         overlay.remove();
@@ -1365,9 +1373,18 @@ export class EntryModal {
                     const saved = item.innerHTML;
                     item.innerHTML = '<div class="strava-activity-name">Loading…</div>';
                     try {
-                        const { detail, laps } = await stravaService.getActivityDetail(activity.id);
-                        overlay.remove();
-                        this.showCardio(null, this._buildStravaEntry(detail, laps));
+                        if (STRENGTH_SPORTS.includes(sport)) {
+                            const [{ detail }, exerciseSets] = await Promise.all([
+                                stravaService.getActivityDetail(activity.id),
+                                stravaService.getExerciseSets(activity.id),
+                            ]);
+                            overlay.remove();
+                            this.showStrength(null, this._buildStravaStrengthEntry(detail, exerciseSets));
+                        } else {
+                            const { detail, laps } = await stravaService.getActivityDetail(activity.id);
+                            overlay.remove();
+                            this.showCardio(null, this._buildStravaEntry(detail, laps));
+                        }
                     } catch (e) {
                         item.innerHTML = saved;
                         list.style.pointerEvents = '';
@@ -1509,6 +1526,57 @@ export class EntryModal {
         }).join(', ');
 
         return `${link}: ${header} = ${tuples}`;
+    }
+
+    _buildStravaStrengthEntry(detail, exerciseSets) {
+        const date = detail.start_date_local.substring(0, 10);
+        const tags = [];
+
+        tags.push(new TagData('Focus', detail.name || '', ''));
+        if (detail.perceived_exertion) tags.push(new TagData('RPE', String(Math.round(detail.perceived_exertion)), ''));
+
+        if (Array.isArray(exerciseSets)) {
+            exerciseSets.forEach(exercise => {
+                const name = this._stravaExerciseName(exercise.exercise_name || '');
+                if (!name) return;
+                const sets = exercise.sets || [];
+                if (!sets.length) return;
+                const value = this._stravaFormatSets(sets);
+                if (value) tags.push(new TagData(name, value, ''));
+            });
+        }
+
+        return new StrengthWorkoutEntry(date, tags);
+    }
+
+    _stravaExerciseName(raw) {
+        if (!raw) return '';
+        if (/^[A-Z0-9_]+$/.test(raw)) {
+            return raw.split('_').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
+        }
+        return raw;
+    }
+
+    _stravaFormatSets(sets) {
+        const parts = [];
+        let i = 0;
+        while (i < sets.length) {
+            const s = sets[i];
+            let run = 1;
+            while (i + run < sets.length &&
+                   sets[i + run].reps === s.reps &&
+                   sets[i + run].weight_kg === s.weight_kg) run++;
+            const reps = s.reps;
+            const kg = s.weight_kg;
+            const prefix = run > 1 ? `${run} × ` : '';
+            if (reps != null && kg != null && kg > 0) {
+                parts.push(`${prefix}${reps} @ ${kg} kg`);
+            } else if (reps != null) {
+                parts.push(`${prefix}${reps}`);
+            }
+            i += run;
+        }
+        return parts.join(', ');
     }
 
     showCommentPopup(btn) {

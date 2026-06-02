@@ -125,4 +125,14 @@ export class StravaService {
     ]);
     return { detail, laps };
   }
+
+  async getExerciseSets(id) {
+    const token = await this._validToken();
+    const res = await fetch(`${API_BASE}/activities/${id}/exercise_sets`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  }
 }
